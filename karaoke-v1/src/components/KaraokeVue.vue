@@ -3,7 +3,7 @@
 // import '../index'
 import { onMounted, ref } from 'vue';
 import { CDGPlayer, CDGControls } from '/node_modules/cdgplayer/dist/cdgplayer.js';
-
+const karaokes = ref([])
 defineProps({
   msg: {
     type: String,
@@ -11,6 +11,7 @@ defineProps({
   }
 })
 onMounted(()=>{
+  karaokes.value = logFiles();
   // let playbtn = document.getElementById('play-karaoke')
   let divPlayer = document.getElementById('cdg_wrapper')
   let screen = document.getElementById('full-screen')
@@ -125,8 +126,10 @@ async function logKaraoke() {
 
 
 async function logFiles() {
+let baseUrl = "http://localhost:8000"
 const response = await fetch(baseUrl);
-const files = await response.arrayBuffer()
+const files = await response.json()
+karaokes.value = files
 console.log(files)
 };
 
@@ -143,7 +146,14 @@ console.log(files)
         <button id="full-screen">Screen+/-</button>
       </div>
   </div>
-    <h1 class="green">{{ msg }}</h1>
+  <p>Here is where the kar goes</p>
+    <ul>
+      <li v-for="karaoke in karaokes[0]" :key="karaoke.title">
+        {{karaoke.title}}
+        {{ karaoke.slug }}
+        {{ karaoke.artist }}
+      </li>
+    </ul>
   </div>
 </template>
 
