@@ -12,9 +12,9 @@ onMounted(async ()=>{
 })
 async function playPlayer(track){
 
-  const cdgControls = document.getElementById('cdg-controls')
-  const cdgWrapper = document.getElementById('cdg-wrapper')
- 
+  // const cdgControls = document.getElementById('cdg-controls')
+  // const cdgWrapper = document.getElementById('cdg-wrapper')
+  let playerContainer = document.querySelector('cdg_wrapper[id="player-container"]')
   // if(cdgControls.length > 0){
   //   cdgControls.array.forEach(element => {
   //     element.remove()
@@ -26,11 +26,12 @@ async function playPlayer(track){
   //     element.remove()
   //   })
   // }
-  if(cdgControls){
-    cdgControls.remove()
-    cdgWrapper.remove()
- 
-  }
+  
+    // cdgControls.remove()
+    // cdgWrapper.remove()
+    console.log(playerContainer)
+ playerContainer.remove()
+  
 
   console.log(cdgControls)
 
@@ -69,9 +70,9 @@ defineProps({
                   <img :src="karaoke.img" alt="karaoke">              
            </div>
            <div class="card-footer">
-               <button :value="karaoke.name" @click="pauseKar"  class="btn btn-warning m-1 play">Pause</button>
-               <button :value="karaoke.name" @click="playKar"  class="btn btn-warning m-1 play">Play</button>
-               <button @click="playPlayer(karaoke.track)" class="btn btn-outline-success m-1">Play</button>
+               <button :value="karaoke.name" @click="pauseKar"  className="btn btn-warning m-1 play">Pause</button>
+               <button :value="karaoke.name" @click="playKar"  className="btn btn-warning m-1 play">Play</button>
+               <button @click="playPlayer(karaoke.track)" className="btn btn-outline-success m-1">Play</button>
            </div>
        </div>
       
