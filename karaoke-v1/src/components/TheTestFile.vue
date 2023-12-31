@@ -1,12 +1,9 @@
 <script setup>
 // import logFiles from '../index'
 // import '../index'
-import { onMounted, ref, reactive, watch } from 'vue';
+import { onMounted, ref, reactive } from 'vue';
 import { CDGPlayer, CDGControls } from '/node_modules/cdgplayer/dist/cdgplayer.js';
 const karaokes = ref([])
-const currentKaraoke = ref('')
-const reproductionList = ref([])
-
 defineProps({
   msg: {
     type: String,
@@ -30,7 +27,6 @@ onMounted(()=>{
   })
 
 });
-watch(reproductionList.value, (newValue, oldValue) => console.log(newValue, oldValue))
 
 function loadPlayer(filename) {
     //!! CODE TO DESTROY PLAYER
@@ -114,40 +110,30 @@ setTimeout(() => {
 }
 
 
-async function getKaraoke() {
-  const response = await fetch(currentKaraoke.value);
+async function getKaraoke(link, event) {
+  // let baseUrl = "http://localhost:8000/media/music/"; 
+  // const response = await fetch(baseUrl+"Alejandro Montaner/0353_Dimelo_Pop.zip");
+  const response = await fetch(link);
   const karaoke = await response.arrayBuffer()
 // setState('loading')
 console.log('***********')
-// console.log(event.target)  
+console.log(event.target)  
 console.log('***********')
-
   loadPlayer(karaoke)
+
+  
+  // const files = karaoke;
+  // try {
+  //   karaoke[0];
+  //   setState('cdg');
+  // } catch (error) {
+  //   alert(error);
+  // }
 
 };
 
-function deleteElement(index){
-  reproductionList.value.splice(index,1)
-}
 
-function clickPlay(e, event){
-  const btnPlay = document.getElementById('play-karaoke')
-  btnPlay.click(e,event);
-  console.log(event)
 
-}
-function setCurrentPlay(track){
-  const btnPlay = document.getElementById('play-karaoke')  
-  currentKaraoke.value = track
-  btnPlay.click()
-  
-}
-const addToReproductionList = (index) => {
-  reproductionList.value.push(karaokes.value[index]);
-  if(currentKaraoke.value == ''){
-    currentKaraoke.value = reproductionList.value[0].track
-  }
-}
 async function logFiles() {
 let baseUrl = "http://localhost:8000"
 const response = await fetch(baseUrl);
@@ -159,51 +145,26 @@ console.log(files)
 </script>
 
 <template>
-<div class="container-fluid d-flex">
-
-  <div className="greetings" id="player-container" style="background: gray; width: 100%;">
-    <div className="cdg-player" style="visiblility: visible">
+  <div class="greetings" id="player-container" style="background: Red; width: 800px; height: 500px">
+  <div class="cdg-player" style="visiblility: visible">
       <div id="img-cover"></div>
       <div id="cdg_controls"></div>
       <div id="cdg_wrapper"></div>
-      <div className="buttons-ctlr d-grid text-center">
-        <div class="d-flex justify-content-between">
-          <button className="btn btn-success m-2 folat-left"  id="next-karaoke">Next</button>
-          <button className="btn btn-success m-2" @click="getKaraoke()" id="play-karaoke">Play</button>
-          <button className="btn btn-success m-2"  id="prev-karaoke">previous</button>
-        </div>
-        <button className="btn btn-info d-grid" id="full-screen">Screen+/-</button>
-        
+      <div class="buttons-ctlr">
+        <button @click="getKaraoke" id="play-karaoke">Play</button>
+        <button id="full-screen">Screen+/-</button>
       </div>
-    </div>
   </div>
-  <div class="play-list">
-
-    <h1>PLAY LIST</h1>
-    <ul >
-      <li className="container d-grid" v-for="(karaoke, index ) in reproductionList" :key="index">
+  <p>Here is where the kar goes</p>
+    <ul>
+      <li v-for="karaoke in karaokes" :key="karaoke.slug">
         {{karaoke.title}}
-        <button :id="karaoke.slug" className="btn btn-outline-danger" @click="deleteElement(index)">Delete</button>
-        {{ karaoke.track }}
+         <button :id="karaoke.slug" className="btn btn-info" @click="getKaraoke(karaoke.track, $event)">Play</button>
+         {{ karaoke.track }}
         {{ karaoke.artist }}
       </li>
     </ul>
   </div>
-  <div class="all-songs">
-
-    <h2 className="d-4">All Songs</h2>
-    <ul >
-      <li className="d-block" v-for="(karaoke, index) in karaokes" :key="index">
-        {{karaoke.title}}
-        {{ karaoke.track }}
-        {{ karaoke.artist }}
-        {{ index }}
-        <button :id="karaoke.slug" className="btn btn-outline-success" @click="addToReproductionList(index)">Add</button>
-      </li>
-    </ul>
-  </div>
-</div>
-
 </template>
 
 
