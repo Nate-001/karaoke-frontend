@@ -6,6 +6,7 @@ import { CDGPlayer, CDGControls } from '/node_modules/cdgplayer/dist/cdgplayer.j
 const karaokes = ref([])
 const currentKaraoke = ref('')
 const reproductionList = ref([])
+const hideClass = ref(false)
 
 defineProps({
   msg: {
@@ -30,11 +31,15 @@ onMounted(()=>{
   })
 
 });
-watch(reproductionList.value, (newValue, oldValue) => console.log(newValue, oldValue))
+watch(reproductionList.value, (newValue, oldValue) => {
+  hideClass.value =true
+  console.log(newValue, oldValue)})
+
 
 function loadPlayer(filename) {
     //!! CODE TO DESTROY PLAYER
   const btn = document.getElementById('play-karaoke')
+
   try {
    let clearWrapper = document.getElementById('cdg_wrapper');
     let clearControls = document.getElementById('cdg_controls')
@@ -105,9 +110,7 @@ setTimeout(() => {
   },10000
   
   )
-
-
-
+  
   player.load(filename);
   console.log('this are the props')
   console.log(player.props)
@@ -146,6 +149,7 @@ const addToReproductionList = (index) => {
   reproductionList.value.push(karaokes.value[index]);
   if(currentKaraoke.value == ''){
     currentKaraoke.value = reproductionList.value[0].track
+    getKaraoke()
   }
 }
 async function logFiles() {
@@ -159,48 +163,65 @@ console.log(files)
 </script>
 
 <template>
-<div class="container-fluid d-flex">
+<div class="main-player">
 
-  <div className="greetings" id="player-container" style="background: gray; width: 100%;">
+  <div className="greetings" id="player-container">
     <div className="cdg-player" style="visiblility: visible">
-      <div id="img-cover"></div>
+      <div :class="{'hide': hideClass}" id="img-cover"></div>
       <div id="cdg_controls"></div>
       <div id="cdg_wrapper"></div>
-      <div className="buttons-ctlr d-grid text-center">
-        <div class="d-flex justify-content-between">
-          <button className="btn btn-success m-2 folat-left"  id="next-karaoke">Next</button>
-          <button className="btn btn-success m-2" @click="getKaraoke()" id="play-karaoke">Play</button>
-          <button className="btn btn-success m-2"  id="prev-karaoke">previous</button>
+      <div className="buttons-controls">
+        <div className="btn-inside-controls">
+          <button className="btn btn-outline-info"  id="next-karaoke">Next</button>
+          <button className="btn btn-outline-success" @click="getKaraoke()" id="play-karaoke">Play</button>
+          <button className="btn btn-outline-info"  id="prev-karaoke">previous</button>
         </div>
-        <button className="btn btn-info d-grid" id="full-screen">Screen+/-</button>
+        <button className="btn btn-outline-warning" id="full-screen">Full Screen</button>
         
       </div>
     </div>
-  </div>
-  <div class="play-list">
-
-    <h1>PLAY LIST</h1>
-    <ul >
-      <li className="container d-grid" v-for="(karaoke, index ) in reproductionList" :key="index">
-        {{karaoke.title}}
-        <button :id="karaoke.slug" className="btn btn-outline-danger" @click="deleteElement(index)">Delete</button>
-        {{ karaoke.track }}
-        {{ karaoke.artist }}
-      </li>
-    </ul>
+    <div class="play-list">
+  
+      <h1 className="display-4 text-center">PLAY LIST</h1>
+     
+      <table calssName="d-grid">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Artist</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr @click="deleteElement(index)" v-for="(karaoke, index) in reproductionList" :key="index">
+            <td>{{karaoke.title}}</td>
+            <td>{{karaoke.artist}}</td>
+            <td className="d-grid"><button @click="deleteElement(index)" className="btn btn-outline-danger m-1">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <div class="all-songs">
 
-    <h2 className="d-4">All Songs</h2>
-    <ul >
-      <li className="d-block" v-for="(karaoke, index) in karaokes" :key="index">
-        {{karaoke.title}}
-        {{ karaoke.track }}
-        {{ karaoke.artist }}
-        {{ index }}
-        <button :id="karaoke.slug" className="btn btn-outline-success" @click="addToReproductionList(index)">Add</button>
-      </li>
-    </ul>
+    <h2 className="text-center display-4">All Songs</h2>
+   
+    <table calssName="d-grid">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Artist</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr @click="addToReproductionList(index)" v-for="(karaoke, index) in karaokes" :key="index">
+          <td>{{karaoke.title}}</td>
+          <td>{{karaoke.artist}}</td>
+          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
