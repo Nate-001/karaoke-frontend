@@ -12,10 +12,10 @@ import KaraokeVue from './components/KaraokeVue.vue';
     <div class="wrapper">
       <!-- <media-player /> -->
       <!-- <HelloWorld msg="You did it!" /> -->
-      <nav>
+      <!-- <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-      </nav>
+      </nav> -->
       <karaoke-vue />
     </div>
   </header>

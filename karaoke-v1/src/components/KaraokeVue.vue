@@ -4,7 +4,7 @@
 import { onMounted, ref, reactive, watch } from 'vue';
 import { CDGPlayer, CDGControls } from '/node_modules/cdgplayer/dist/cdgplayer.js';
 const karaokes = ref([])
-const currentKaraoke = ref('')
+const currentKaraoke = ref([])
 const reproductionList = ref([])
 const hideClass = ref(false)
 
@@ -17,17 +17,18 @@ defineProps({
 onMounted(()=>{
   karaokes.value = logFiles();
   // let playbtn = document.getElementById('play-karaoke')
-  let divPlayer = document.getElementById('cdg_wrapper')
+  let divPlayer = document.getElementById('cdg_wrapper').getElementsByTagName("canvas")
   let screen = document.getElementById('full-screen')
   //! FULL SCREEN
   screen.addEventListener('click', () =>{
     if (divPlayer.requestFullscreen) {
-      divPlayer.requestFullscreen();
-    } else if (divPlayer.webkitRequestFullscreen) { /* Safari */
-    divPlayer.webkitRequestFullscreen();
+      divPlayer[0].requestFullscreen();
+    } else if (divPlayer[0].webkitRequestFullscreen) { /* Safari */
+    divPlayer[0].webkitRequestFullscreen();
     } else if (screen.msRequestFullscreen) { /* IE11 */
-    divPlayer.msRequestFullscreen();
+    divPlayer[0].msRequestFullscreen();
     }
+
   })
 
 });
@@ -70,8 +71,17 @@ function loadPlayer(filename) {
 const statusChanged = player.props.on('status', (val) => {
   console.log('Status: ', val);
   if (val === 'File Loaded') {
+
+    let pause = document.getElementById('pause-karaoke');
     player.start();
-    
+    // let divPlayer = document.getElementById('cdg_wrapper').getElementsByTagName("canvas")
+    // // divPlayer[0].style.width = "250px";
+    // divPlayer[0].style.height = "25rem";
+    // pause.addEventListener(click, (e)=>{
+    //   console.log('si entra pero no hay reaccion')
+    //   player.pause()
+    // });
+
   }
 });
 const onLoadingChange = player.props.on('loading', (val, prev) => {
@@ -80,6 +90,7 @@ const onLoadingChange = player.props.on('loading', (val, prev) => {
         // loading changed, so now do something
         // player.props.off(onLoadingChange);
         // player.destroy();
+        
         console.log(val, prev)
         console.log('current value: ' + val, 'previus value: ' + prev)
     }
@@ -118,7 +129,13 @@ setTimeout(() => {
 
 
 async function getKaraoke() {
-  const response = await fetch(currentKaraoke.value);
+  console.log("reproduction length: "+reproductionList.value.length)
+  console.log("***********")
+  console.log(currentKaraoke.value["data"].track)
+  console.log("***********")
+  
+  const response = await fetch(currentKaraoke.value["data"].track);
+  console.log(currentKaraoke, "si este es")
   const karaoke = await response.arrayBuffer()
 // setState('loading')
 console.log('***********')
@@ -139,16 +156,18 @@ function clickPlay(e, event){
   console.log(event)
 
 }
-function setCurrentPlay(track){
-  const btnPlay = document.getElementById('play-karaoke')  
-  currentKaraoke.value = track
-  btnPlay.click()
+// function setCurrentPlay(track){
+//   console.log('esta es el track: '+ track)
+//   const btnPlay = document.getElementById('play-karaoke')  
+//   currentKaraoke.value = track
+//   btnPlay.click()
   
-}
+// }
 const addToReproductionList = (index) => {
   reproductionList.value.push(karaokes.value[index]);
-  if(currentKaraoke.value == ''){
-    currentKaraoke.value = reproductionList.value[0].track
+  let i = reproductionList.value.length-1
+  if(currentKaraoke.value.length < 1){
+    currentKaraoke.value = {"index":i, "data":reproductionList.value[0]}
     getKaraoke()
   }
 }
@@ -160,6 +179,45 @@ karaokes.value = files.results
 console.log(files)
 };
 
+function prevKaraoke() {
+  let prev = currentKaraoke.value["index"] -1
+  console.log("Prev: "-prev)
+  console.log("Reproduction Length: ",reproductionList.value.length-1)
+  if(reproductionList.value.length-1 > 1 && prev > reproductionList.value.length-1){
+    
+    currentKaraoke.value={"index": prev, "data":reproductionList.value[prev]}
+    console.log('--------------')
+    console.log(currentKaraoke)
+    console.log('--------------')
+    
+  }
+  else {
+    currentKaraoke.value={"index": reproductionList.value.length-1, "data":reproductionList.value[reproductionList.value.length-1]}
+    
+  }
+  clickPlay()
+}
+
+function nextKaraoke () {
+  let next = currentKaraoke.value["index"] +1
+  console.log("next: "+next)
+  console.log("reproduction length: ",reproductionList.value.length-1)
+  if(reproductionList.value.length-1 > 0 && next <= reproductionList.value.length-1){
+    
+    currentKaraoke.value={"index": next, "data":reproductionList.value[next]}
+    console.log('--------------')
+    console.log(currentKaraoke)
+    console.log('--------------')
+    
+  }
+  else {
+    currentKaraoke.value={"index": 0, "data":reproductionList.value[0]}
+    
+  }
+  clickPlay()
+
+}
+
 </script>
 
 <template>
@@ -170,19 +228,20 @@ console.log(files)
       <div :class="{'hide': hideClass}" id="img-cover"></div>
       <div id="cdg_controls"></div>
       <div id="cdg_wrapper"></div>
-      <div className="buttons-controls">
-        <div className="btn-inside-controls">
-          <button className="btn btn-outline-info"  id="next-karaoke">Next</button>
-          <button className="btn btn-outline-success" @click="getKaraoke()" id="play-karaoke">Play</button>
-          <button className="btn btn-outline-info"  id="prev-karaoke">previous</button>
-        </div>
-        <button className="btn btn-outline-warning" id="full-screen">Full Screen</button>
-        
+    </div>  
+    <div className="buttons-controls">
+      <div className="btn-inside-controls">
+        <button className="btn btn-outline-info" @click="prevKaraoke()" id="prev-karaoke">&lt; &lt;</button>
+        <button className="btn btn-outline-success" @click="getKaraoke()" id="play-karaoke">Play</button>
+        <button className="btn btn-outline-info" @click="nextKaraoke()" id="next-karaoke">&gt;  &gt;</button>
+        <button className="btn btn-outline-info"  id="pause-karaoke">Pause</button>
       </div>
+      <button className="btn btn-outline-warning" id="full-screen">Full Screen</button>
+      
     </div>
     <div class="play-list">
-  
       <h1 className="display-4 text-center">PLAY LIST</h1>
+  
      
       <table calssName="d-grid">
         <thead>
@@ -195,7 +254,7 @@ console.log(files)
         <tbody>
           <tr @click="deleteElement(index)" v-for="(karaoke, index) in reproductionList" :key="index">
             <td>{{karaoke.title}}</td>
-            <td>{{karaoke.artist}}</td>
+            <td>{{karaoke.artist}} <svg style="color:white;" xmlns="http://www.w3.org/2000/svg" height="22" width="24" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm64 192c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm64-64c0-17.7 14.3-32 32-32s32 14.3 32 32V352c0 17.7-14.3 32-32 32s-32-14.3-32-32V160zM320 288c17.7 0 32 14.3 32 32v32c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32z"/></svg></td>
             <td className="d-grid"><button @click="deleteElement(index)" className="btn btn-outline-danger m-1">Delete</button></td>
           </tr>
         </tbody>
@@ -203,8 +262,12 @@ console.log(files)
     </div>
   </div>
   <div class="all-songs">
+    <div class="m-auto">
 
-    <h2 className="text-center display-4">All Songs</h2>
+      <input class="display-6 ml-5" type="text" name="searchy" id="search">
+      <label class="display-6" for="search"> Search</label>
+    </div>
+      <h2 className="text-center display-4">All Songs</h2>
    
     <table calssName="d-grid">
       <thead>
