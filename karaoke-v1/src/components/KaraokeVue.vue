@@ -224,6 +224,15 @@ function pausePlay(){
 function updateSearch(e){
   console.log(e)
 }
+
+function moveToLeft(){
+  // let x = document.getElementById('card');
+  // let y = document.getElementsByClassName('card')
+  // for(let i=0; i< y.length; i++){
+  //   console.log(window.scrollX + document.querySelector('#card').getBoundingClientRect().left + -10 + "px") 
+    
+  // }
+}
 </script>
 
 <template>
@@ -281,29 +290,86 @@ function updateSearch(e){
     </div>
     <!-- CARD FOR FOLDERS -->
     <div class="card-folders">
-      <div class="card">
-        <img src="../assets/logo.png" alt="Avatar" style="width:50%">
+      <button @click="moveToLeft()">&lt;</button>
+      <div id="card" class="card">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
         <div class="containers">
           <h4><b>John Doe</b></h4>
           <p>Architect & Engineer</p>
         </div>
       </div>
       <div class="card">
-        <img src="../assets/logo.png" alt="Avatar" style="width:50%">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
         <div class="containers">
           <h4><b>John Doe</b></h4>
           <p>Architect & Engineer</p>
         </div>
       </div>
       <div class="card">
-        <img src="../assets/logo.png" alt="Avatar" style="width:50%">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
         <div class="containers">
           <h4><b>John Doe</b></h4>
           <p>Architect & Engineer</p>
         </div>
       </div>
       <div class="card">
-        <img src="../assets/logo.png" alt="Avatar" style="width:50%">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
         <div class="containers">
           <h4><b>John Doe</b></h4>
           <p>Architect & Engineer</p>

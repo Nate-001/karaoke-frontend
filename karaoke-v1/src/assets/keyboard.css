@@ -5,26 +5,27 @@
     height: max-heigth(3rem, 1.5rem);
 }
 .search-string{
-    height: 2rem;
+    height: 1.5rem;
     font-size: 1.5rem;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    padding: .2rem;
+    padding: .1rem;
 }
 
 .card-folders{
     display: flex;
-    width: 50rem;
-    height: 10rem;
+    max-width: 40rem;
+    max-height: 10rem;
     gap: 1rem;
     margin-bottom: 2.5rem;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     margin:0 auto;
 }
 
 .card{
+    /* overflow: hidden; */
+    min-width: 10rem;
     background-color: black;
     border-radius: 5%;
     border: 1px solid white;
-
     align-items: center;
 }
