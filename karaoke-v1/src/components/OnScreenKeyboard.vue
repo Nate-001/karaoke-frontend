@@ -33,12 +33,12 @@ const zButtons = [
         {btnClass:'btn ',btnLabel:"N"},
         {btnClass:'btn ',btnLabel:"M"}]
 //#endregion BUTTONS 
-// const emit = defineEmits([sendString, sendBackSpace])
+const emit = defineEmits(['sendString', 'sendBackSpace'])
 
 function setInput(e){
     console.log(e.btnLabel)
     searchString.value += e.btnLabel
-    // emit("sendString", searchString.value)
+    emit('sendString', searchString.value)
 }
 function backSpace(value){
     if(value == 'erase'){
@@ -48,7 +48,7 @@ function backSpace(value){
         searchString.value = searchString.value.slice(0,-1)
     }
 
-    // emit("sendBackSpace", searchString.value)
+    emit('sendBackSpace', searchString.value)
     console.log(value)
     
 }
@@ -58,9 +58,7 @@ function backSpace(value){
 
 <template>
     <div class="main-keyboard">
-        <div class="search-string">
-            {{ searchString }}
-        </div>
+
             
         <div class="first-row text-center">
             <button class="btn btn-outline-success number-button m-1" 

@@ -15,7 +15,8 @@ defineProps({
   msg: {
     type: String,
     required: false
-  }
+  },
+
 })
 
 // #region ON MOUNTED
@@ -230,7 +231,9 @@ function pausePlay(){
 }
 
 // #endregion FUNCTIONS
-
+function updateSearch(e){
+  console.log(e)
+}
 </script>
 
 <template>
@@ -252,6 +255,7 @@ function pausePlay(){
       <button className="btn btn-outline-warning" id="full-screen">Full Screen</button>
       
     </div>
+    <!-- PLAY LIST  -->
     <div class="play-list">
       <h1 className="display-4 text-center">PLAY LIST</h1>
   
@@ -276,10 +280,17 @@ function pausePlay(){
   </div>
   <div class="all-songs">
     <div class="search">
-      {{ searchString }}
-      <OnScreenKeyboard />  
+      <div class="search-string">
+        {{ searchString }}
+    </div>
+      <!-- ON SCREEN KEYBOARD -->
+      <OnScreenKeyboard 
+        @sendString="(value) => searchString = value" 
+        @sendBackSpace="(value) => searchString = value"
+        />  
    
     </div>
+    <!-- ALL SONGS -->
       <h2 className="text-center display-4">All Songs</h2>
    
     <table calssName="d-grid">
