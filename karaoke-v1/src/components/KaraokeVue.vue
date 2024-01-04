@@ -7,6 +7,7 @@ import OnScreenKeyboard from './OnScreenKeyboard.vue';
 
 const karaokes = ref([])
 const currentKaraoke = ref([])
+const folderList = ref([])
 const reproductionList = ref([])
 const hideClass = ref(false)
 const searchString = ref('')
@@ -290,91 +291,38 @@ function moveToLeft(){
     </div>
     <!-- CARD FOR FOLDERS -->
     <div class="card-folders">
-      <button @click="moveToLeft()">&lt;</button>
-      <div id="card" class="card">
+      <button class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&lt;</button>
+      <div id="card-1" class="card">
         <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
         <div class="containers">
           <h4><b>John Doe</b></h4>
           <p>Architect & Engineer</p>
         </div>
       </div>
-      <div class="card">
+      <div id="card-2" class="card">
         <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
         <div class="containers">
           <h4><b>John Doe</b></h4>
           <p>Architect & Engineer</p>
         </div>
       </div>
-      <div class="card">
+      <div id="card-3" class="card">
         <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
         <div class="containers">
           <h4><b>John Doe</b></h4>
           <p>Architect & Engineer</p>
         </div>
       </div>
-      <div class="card">
+      <div id="card-4" class="card">
         <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
         <div class="containers">
           <h4><b>John Doe</b></h4>
           <p>Architect & Engineer</p>
         </div>
       </div>
-      <div class="card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
-        <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
-        <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
-        <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
-        <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
-        <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
-        <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
-        <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
-        <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
+ 
+   
+      <button class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&gt;</button>
     </div>
     <!-- ALL SONGS -->
       <h2 className="text-center display-4">All Songs</h2>
