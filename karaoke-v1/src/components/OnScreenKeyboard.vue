@@ -1,6 +1,6 @@
 <script setup> 
 import MyButton from './MyButton.vue';
-import {ref} from 'vue'
+import {defineEmits,ref} from 'vue'
 const searchString = ref('')
 //#region BUTTONS
 const qButtons = [
@@ -33,20 +33,27 @@ const zButtons = [
         {btnClass:'btn ',btnLabel:"N"},
         {btnClass:'btn ',btnLabel:"M"}]
 //#endregion BUTTONS 
+// const emit = defineEmits([sendString, sendBackSpace])
 
 function setInput(e){
     console.log(e.btnLabel)
     searchString.value += e.btnLabel
+    // emit("sendString", searchString.value)
 }
 function backSpace(value){
     if(value == 'erase'){
         searchString.value = ''
+
     }else{
         searchString.value = searchString.value.slice(0,-1)
     }
+
+    // emit("sendBackSpace", searchString.value)
     console.log(value)
     
 }
+
+
 </script>
 
 <template>

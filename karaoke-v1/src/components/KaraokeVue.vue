@@ -9,6 +9,7 @@ const karaokes = ref([])
 const currentKaraoke = ref([])
 const reproductionList = ref([])
 const hideClass = ref(false)
+const searchString = ref('A')
 
 defineProps({
   msg: {
@@ -275,6 +276,7 @@ function pausePlay(){
   </div>
   <div class="all-songs">
     <div class="search">
+      {{ searchString }}
       <OnScreenKeyboard />  
    
     </div>
