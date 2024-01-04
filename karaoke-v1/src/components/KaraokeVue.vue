@@ -9,7 +9,7 @@ const karaokes = ref([])
 const currentKaraoke = ref([])
 const reproductionList = ref([])
 const hideClass = ref(false)
-const searchString = ref('A')
+const searchString = ref('')
 
 defineProps({
   msg: {
@@ -79,17 +79,7 @@ function loadPlayer(filename) {
 const statusChanged = player.props.on('status', (val) => {
   console.log('Status: ', val);
   if (val === 'File Loaded') {
-
-    let pause = document.getElementById('pause-karaoke');
     player.start();
-    // let divPlayer = document.getElementById('cdg_wrapper').getElementsByTagName("canvas")
-    // // divPlayer[0].style.width = "250px";
-    // divPlayer[0].style.height = "25rem";
-    // pause.addEventListener(click, (e)=>{
-    //   console.log('si entra pero no hay reaccion')
-    //   player.pause()
-    // });
-
   }
 });
 const onLoadingChange = player.props.on('loading', (val, prev) => {
@@ -281,14 +271,44 @@ function updateSearch(e){
   <div class="all-songs">
     <div class="search">
       <div class="search-string">
-        {{ searchString }}
+       Searching by:  {{ searchString }}
     </div>
       <!-- ON SCREEN KEYBOARD -->
       <OnScreenKeyboard 
         @sendString="(value) => searchString = value" 
         @sendBackSpace="(value) => searchString = value"
         />  
-   
+    </div>
+    <!-- CARD FOR FOLDERS -->
+    <div class="card-folders">
+      <div class="card">
+        <img src="../assets/logo.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../assets/logo.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../assets/logo.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../assets/logo.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
     </div>
     <!-- ALL SONGS -->
       <h2 className="text-center display-4">All Songs</h2>
