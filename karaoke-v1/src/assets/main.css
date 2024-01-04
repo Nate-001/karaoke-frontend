@@ -1,7 +1,7 @@
 body{
   background: black;
-  border: 1px solid white;
-  padding: 1px;
+  border: 1.5px solid white;
+  padding: 1.5px;
   border-radius: 5px;
 }
 .main-player{
@@ -22,11 +22,9 @@ body{
   height: 40vh;
   width: 100%;
 }
+/* CDG CONTOLS */
 .cdg-player{
-
   height: 50vh;
-  
-  /* background: greenyellow; */
   margin-bottom: 2rem;
   color: white;
 }
@@ -34,49 +32,43 @@ body{
   display: none;
 }
 
-/* #song_volume_button i{
-  padding-right: .5rem;
-  height: .2rem;
+ #song_volume_button i
+ 
+ {
+
+  color: skyblue;
+
+}
+
+.playControl, .playButton{
+  width: 3.2rem;
+  height: 3.2rem;
+}
+.playButton > i{
   color: skyblue;
 }
-#song_volume_button{
+
+ #song_volume_button{
   background-color: black;
-  height: 1rem;
-} */
-/* .icofont-pause{
-  border: 0;
-  margin-bottom: 0.3rem;
-  background: black;
-  color: skyblue;
-} */
+} 
 
-
-/* .cdg-controls{
-  height: 10rem;
-  padding: .1rem;
-} */
-.cdg-controls .playButton, 
-.cdg-controls .volumeButton{
-  display: none;
-  border: 0;
-  border-radius: 1px;
-  height: 3rem;
-  padding: .2rem;
-  width: 3rem;
-  margin: auto;
-  pointer-events: all;
+.playControl{
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  flex: content;
 }
-.cdg-controls .playButton>i, 
-.cdg-controls .volumeButton>i{
-  display: none;
-  margin: auto;
-  border: 0;
-  border-radius: 1px;
-  height: 2rem;
-  padding: 0;
-  width: 1.5rem;
-  pointer-events: all;
+.playButton{
+  background-color: black;
+}
 
+
+.cdg-controls{
+  margin: .3rem;
+}
+.cdg-controls > *{
+  padding: .1rem;
 }
 
 
@@ -96,7 +88,9 @@ body{
   color: white;
   
 }
-
+.all-songs h2{
+  color: aqua;
+}
 
 .buttons-controls{
  
@@ -141,6 +135,7 @@ canvas{
   border-radius: 10px;
 }
 
+/* TABLES */
 table{
   margin: 0 auto;
   border-collapse: collapse;
@@ -149,6 +144,7 @@ table{
 thead th{
   /* border: .2rem solid white; */
   box-shadow: .01rem .1rem .01rem white;
+  box-shadow: .1rem .1rem .1rem solid skyblue;
 }
 tr:nth-child(even){
   background-color: rgb(38, 37, 37);
@@ -162,3 +158,14 @@ opacity: .8;
   
 }
 }
+
+
+/* SEARCH */
+.search{
+  margin-left: 2rem;
+  padding: 1rem;
+}
+.search > *{
+  margin: .5rem;
+}
+

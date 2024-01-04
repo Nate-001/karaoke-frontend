@@ -3,6 +3,8 @@
 // import '../index'
 import { onMounted, ref, reactive, watch } from 'vue';
 import { CDGPlayer, CDGControls } from '/node_modules/cdgplayer/dist/cdgplayer.js';
+import OnScreenKeyboard from './OnScreenKeyboard.vue';
+
 const karaokes = ref([])
 const currentKaraoke = ref([])
 const reproductionList = ref([])
@@ -14,6 +16,8 @@ defineProps({
     required: false
   }
 })
+
+// #region ON MOUNTED
 onMounted(()=>{
   karaokes.value = logFiles();
   // let playbtn = document.getElementById('play-karaoke')
@@ -32,11 +36,13 @@ onMounted(()=>{
   })
 
 });
+// #endregion ON MOUNTED
+
 watch(reproductionList.value, (newValue, oldValue) => {
   hideClass.value =true
   console.log(newValue, oldValue)})
 
-
+// #region FUNCTIONS
 function loadPlayer(filename) {
     //!! CODE TO DESTROY PLAYER
   const btn = document.getElementById('play-karaoke')
@@ -217,6 +223,12 @@ function nextKaraoke () {
   clickPlay()
 
 }
+function pausePlay(){
+  let btnPause = document.getElementsByClassName('playButton')
+  btnPause[0].click()
+}
+
+// #endregion FUNCTIONS
 
 </script>
 
@@ -234,7 +246,7 @@ function nextKaraoke () {
         <button className="btn btn-outline-info" @click="prevKaraoke()" id="prev-karaoke">&lt; &lt;</button>
         <button className="btn btn-outline-success" @click="getKaraoke()" id="play-karaoke">Play</button>
         <button className="btn btn-outline-info" @click="nextKaraoke()" id="next-karaoke">&gt;  &gt;</button>
-        <button className="btn btn-outline-info"  id="pause-karaoke">Pause</button>
+        <button className="btn btn-outline-primary" @click="pausePlay()" id="pause-karaoke">Pause</button>
       </div>
       <button className="btn btn-outline-warning" id="full-screen">Full Screen</button>
       
@@ -262,10 +274,9 @@ function nextKaraoke () {
     </div>
   </div>
   <div class="all-songs">
-    <div class="m-auto">
-
-      <input class="display-6 ml-5" type="text" name="searchy" id="search">
-      <label class="display-6" for="search"> Search</label>
+    <div class="search">
+      <OnScreenKeyboard />  
+   
     </div>
       <h2 className="text-center display-4">All Songs</h2>
    

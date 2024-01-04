@@ -1,0 +1,13 @@
+.first-row > button, 
+.second-row > button,
+.third-row > button{
+    width: 4rem;
+    height: 3rem;
+}
+.search-string{
+
+    height: 2rem;
+    font-size: 1.5rem;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    padding: .2rem;
+}
