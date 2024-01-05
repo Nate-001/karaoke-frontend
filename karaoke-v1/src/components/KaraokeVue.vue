@@ -227,6 +227,28 @@ function updateSearch(e){
 }
 
 function moveToLeft(){
+  let cOne = document.getElementById('card-1'); 
+  let cTwo = document.getElementById('card-2'); 
+  let cThree = document.getElementById('card-3'); 
+  let cFour = document.getElementById('card-4');
+  let cFive = document.getElementById('phantom-card');
+ 
+  cOne.classList.add('move-down');
+  cTwo.classList.add('move-left');
+  cThree.classList.add('move-left');
+  cFour.classList.add('move-left');
+  cFive.classList.add('move-last');
+
+ setTimeout(()=>{
+  cOne.classList.remove('move-down');
+  cTwo.classList.remove('move-left');
+  cThree.classList.remove('move-left');
+  cFour.classList.remove('move-left');
+  cFive.classList.remove('move-last');
+  console.log('class removed')
+ },1000) 
+
+
   // let x = document.getElementById('card');
   // let y = document.getElementsByClassName('card')
   // for(let i=0; i< y.length; i++){
@@ -292,7 +314,7 @@ function moveToLeft(){
     <!-- CARD FOR FOLDERS -->
     <div class="card-folders">
       <button class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&lt;</button>
-      <div id="card-1" class="card">
+      <div id="card-1" class="card move-card">
         <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
         <div class="containers">
           <h4><b>John Doe</b></h4>
@@ -320,9 +342,16 @@ function moveToLeft(){
           <p>Architect & Engineer</p>
         </div>
       </div>
+      <div id="phantom-card" class="card">
+        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
+        <div class="containers">
+          <h4><b>John Doe</b></h4>
+          <p>Architect & Engineer</p>
+        </div>
+      </div>
  
    
-      <button class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&gt;</button>
+      <button id="top-btn" class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&gt;</button>
     </div>
     <!-- ALL SONGS -->
       <h2 className="text-center display-4">All Songs</h2>

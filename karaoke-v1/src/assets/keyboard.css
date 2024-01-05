@@ -12,6 +12,7 @@
 }
 
 .card-folders{
+    /* background-color: red; */
     display: flex;
     max-width: 40rem;
     max-height: 10rem;
@@ -20,16 +21,116 @@
     /* overflow-x: hidden; */
     margin:0 auto;
 }
-
+#top-btn{
+    z-index: 100;
+}
 .card{
     /* overflow: hidden; */
+    
     min-width: 10rem;
     background-color: black;
     border-radius: 5%;
     border: 1px solid white;
     align-items: center;
 }
+#phantom-card{
+    /* overflow: hidden; */
+    /* opacity: 0; */
+    z-index: -5;
+    position: absolute;
+    width: 10rem;
+    height: 8rem;
+    /* background-color: red; */
+    border-radius: 5%;
+    border: 1px solid white;
+    align-items: center;
+    margin-left: 36.2rem;
+    margin-top: 0;
 
-#card-1{
-    opacity: 0;
 }
+.move-down{
+    width: 10rem;
+    height: 8rem;
+    background-color: red;
+    position: relative;
+    animation-name: moveDown;
+    animation-duration: .8s;
+}
+.move-up{
+    opacity: 1;
+    display: block;
+    width: 10rem;
+    height: 8rem;
+    background-color: red;
+    position: relative;
+    animation-name: moveUp;
+    animation-duration: .5s;
+}
+
+.move-left{
+    width: 10rem;
+    height: 8rem;
+    background-color: red;
+    position: relative;
+    animation-name: moveLeft;
+    animation-duration: 1.2s; 
+}
+.move-last{
+    width: 10rem;
+    height: 8rem;
+    background-color: red;
+    position: relative;
+    animation-name: moveLast;
+    animation-duration: 1.2s; 
+}
+.card-3{
+    width: 10rem;
+    height: 8rem;
+    background-color: red;
+    position: relative;
+    animation-name: moveLeft;
+    animation-duration: 1.3s; 
+}
+.card-4{
+    width: 10rem;
+    height: 8rem;
+    background-color: red;
+    position: relative;
+    animation-name: moveLeft;
+    animation-duration: 1.4s; 
+}
+/* #card-1{
+    opacity: 0;
+} */
+
+@keyframes moveDown {
+    0%   {background-color:red; left:0px; top:0px}
+    25%  {background-color:yellow;  top:0px;}
+    50%  {background-color:blue; top:200px;}
+    75%  {background-color:green;  top:200px;}
+    100% {background-color:red; left:0px; top:200px; opacity: 0;z-index: 1;}
+  } 
+@keyframes moveUp {
+    0%   {background-color:red; right:200px; top:-200px;display: block; opacity: 1;}
+    25%  {background-color:yellow;right:200px;  top:-200px;display: block; opacity: 1;}
+    50%  {background-color:blue; right:200px; top:0px;display: none;}
+    /* 75%  {background-color:green; right:200px;  top:0px;display: none;} */
+    100% {background-color:red; right:200px; top:0px;display: none;z-index: 1;}
+  } 
+
+@keyframes moveLeft {
+    0%   {background-color:red; right:0px; top:0px;}
+    25%  {background-color:yellow; right:200px; top:0px;}
+    /* 50%  {background-color:blue; right:200px;}  */
+    75%  {background-color:green; right:200px;}
+    100% {background-color:red; right:200px; top:0px; opacity: 0;z-index: 1;} 
+
+  }
+@keyframes moveLast {
+    0%   {background-color:red; right:0px; top:265px;z-index: 1;}
+    /* 25%  {background-color:yellow; right:100px; top:265px;z-index: 1;}
+    50%  {background-color:blue; right:100px;top:265px;z-index: 1;} 
+    75%  {background-color:green; right:100px;top:265px;z-index: 1;} */
+    100% {background-color:red; right:100px; top:265px; opacity: 0;z-index: 1;} 
+
+  }
