@@ -48,12 +48,16 @@
     margin-top: 0;
 
 }
+
+/* !!ANIMATIONS CLASSES */
 .move-down{
     width: 10rem;
     height: 8rem;
     background-color: red;
     position: relative;
     animation-name: moveDown;
+    transition-timing-function: ease;
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
     animation-duration: .8s;
 }
 .move-up{
@@ -73,6 +77,8 @@
     background-color: red;
     position: relative;
     animation-name: moveLeft;
+    transition-timing-function: ease-in;
+    transition-timing-function: cubic-bezier(0.42, 0, 1, 1);
     animation-duration: 1.2s; 
 }
 .move-last{
@@ -81,7 +87,9 @@
     background-color: red;
     position: relative;
     animation-name: moveLast;
-    animation-duration: 1.2s; 
+    transition-timing-function: ease-out;
+    transition-timing-function: cubic-bezier(0, 0, 0.58, 1);
+    animation-duration: 3.2s; 
 }
 .card-3{
     width: 10rem;
@@ -89,7 +97,7 @@
     background-color: red;
     position: relative;
     animation-name: moveLeft;
-    animation-duration: 1.3s; 
+    animation-duration: 2.3s; 
 }
 .card-4{
     width: 10rem;
@@ -97,7 +105,7 @@
     background-color: red;
     position: relative;
     animation-name: moveLeft;
-    animation-duration: 1.4s; 
+    animation-duration: 3ms; 
 }
 /* #card-1{
     opacity: 0;
