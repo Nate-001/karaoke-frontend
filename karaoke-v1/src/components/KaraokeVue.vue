@@ -5,8 +5,12 @@ import { onMounted, ref, reactive, watch } from 'vue';
 import { CDGPlayer, CDGControls } from '/node_modules/cdgplayer/dist/cdgplayer.js';
 import OnScreenKeyboard from './OnScreenKeyboard.vue'
 
+const mediaBaseUrl = ref('http://localhost:8000/media/')
 const karaokes = ref([])
 const currentKaraoke = ref([])
+const currentTrackLength = ref(null)
+const currentTrackTime = ref(null)
+
 const folderList = ref([])
 const reproductionList = ref([])
 const hideClass = ref(false)
@@ -79,6 +83,7 @@ function loadPlayer(filename) {
 // CHECK STATUS OF PLAYER
 const statusChanged = player.props.on('status', (val) => {
   console.log('Status: ', val);
+  console.log(player.props)
   if (val === 'File Loaded') {
     player.start();
   }
@@ -133,7 +138,7 @@ async function getKaraoke() {
   console.log(currentKaraoke.value["data"].track)
   console.log("***********")
   
-  const response = await fetch(currentKaraoke.value["data"].track);
+  const response = await fetch("http://localhost:8000/media/"+currentKaraoke.value["data"].track);
   console.log(currentKaraoke, "si este es")
   const karaoke = await response.arrayBuffer()
 // setState('loading')
@@ -163,19 +168,38 @@ function clickPlay(e, event){
   
 // }
 const addToReproductionList = (index) => {
-  reproductionList.value.push(karaokes.value[index]);
+  reproductionList.value.push(folderList.value[index].fields);
+  console.log("====*****====")
+  console.log(reproductionList.value[0])
+  console.log("====*****====")
+
   let i = reproductionList.value.length-1
   if(currentKaraoke.value.length < 1){
     currentKaraoke.value = {"index":i, "data":reproductionList.value[0]}
+  console.log("========")
+    
+    console.log(currentKaraoke.value)
+  console.log("========")
+    
     getKaraoke()
   }
-}
+};
+
+async function getImage(imageUrl) {
+let baseUrl = "http://localhost:8000/media/"
+const response = await fetch(baseUrl+imageUrl);
+const img = await response.blob()
+ return img
+// console.log(files)
+};
+
 async function logFiles() {
-let baseUrl = "http://localhost:8000"
+let baseUrl = "http://localhost:8000/api/show_artist/"
 const response = await fetch(baseUrl);
 const files = await response.json()
-folderList.value = files.results
+folderList.value = files
 console.log(files)
+
 };
 
 //#region Karaoke PREVIOUS NEXT PAUSE PLAY
@@ -314,22 +338,23 @@ function moveToLeft(){
     <!-- CARD FOR FOLDERS -->
     <div class="card-folders">
       <button class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&lt;</button>
+
       <div v-for="(folder, index) in folderList" :key="folder.title" class="for"> 
-      <div :id="'card-'+index" class="card move-card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
+      <div :id="'card-'+index" class="card move-card"  @click="console.log(folder.fields.artist)">
+        <img :src="mediaBaseUrl+folder.fields.img" alt="artist">
         <div class="containers">
-          <h4><b>{{folder.artist}}</b></h4>
-          <p>{{folder.title}}</p>
+          <h4 style="color:skyblue; padding:2px;"><b>{{folder.fields.artist}}</b></h4>
+        
         </div>
       </div>
       
-      <div id="phantom-card" class="card">
+      <!-- <div id="phantom-card" class="card">
         <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
         <div class="containers">
           <h4><b>John Doe</b></h4>
           <p>Architect & Engineer</p>
         </div>
-      </div>
+      </div> -->
     </div>
    
       <button id="top-btn" class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&gt;</button>
@@ -346,9 +371,9 @@ function moveToLeft(){
         </tr>
       </thead>
       <tbody>
-        <tr @click="addToReproductionList(index)" v-for="(karaoke, index) in karaokes" :key="index">
-          <td>{{karaoke.title}}</td>
-          <td>{{karaoke.artist}}</td>
+        <tr @click="addToReproductionList(index)" v-for="(karaoke, index) in folderList" :key="index">
+          <td>{{karaoke.fields.title}}</td>
+          <td>{{karaoke.fields.artist}}</td>
           <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
         </tr>
         <tr>
