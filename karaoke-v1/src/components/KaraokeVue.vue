@@ -3,7 +3,7 @@
 // import '../index'
 import { onMounted, ref, reactive, watch } from 'vue';
 import { CDGPlayer, CDGControls } from '/node_modules/cdgplayer/dist/cdgplayer.js';
-import OnScreenKeyboard from './OnScreenKeyboard.vue';
+import OnScreenKeyboard from './OnScreenKeyboard.vue'
 
 const karaokes = ref([])
 const currentKaraoke = ref([])
@@ -174,10 +174,11 @@ async function logFiles() {
 let baseUrl = "http://localhost:8000"
 const response = await fetch(baseUrl);
 const files = await response.json()
-karaokes.value = files.results
+folderList.value = files.results
 console.log(files)
 };
 
+//#region Karaoke PREVIOUS NEXT PAUSE PLAY
 function prevKaraoke() {
   let prev = currentKaraoke.value["index"] -1
   console.log("Prev: "-prev)
@@ -220,6 +221,7 @@ function pausePlay(){
   let btnPause = document.getElementsByClassName('playButton')
   btnPause[0].click()
 }
+//#endregion Karaoke PREVIOUS NEXT PAUSE PLAY
 
 // #endregion FUNCTIONS
 function updateSearch(e){
@@ -233,14 +235,14 @@ function moveToLeft(){
   let cFour = document.getElementById('card-4');
   let cFive = document.getElementById('phantom-card');
  
-  cOne.classList.add('move-down');
+  cOne.classList.add('move-desapear');
   cTwo.classList.add('move-left');
   cThree.classList.add('move-left');
   cFour.classList.add('move-left');
   cFive.classList.add('move-last');
 
  setTimeout(()=>{
-  cOne.classList.remove('move-down');
+  cOne.classList.remove('move-desapear');
   cTwo.classList.remove('move-left');
   cThree.classList.remove('move-left');
   cFour.classList.remove('move-left');
@@ -280,8 +282,6 @@ function moveToLeft(){
     <!-- PLAY LIST  -->
     <div class="play-list">
       <h1 className="display-4 text-center">PLAY LIST</h1>
-  
-     
       <table calssName="d-grid">
         <thead>
           <tr>
@@ -300,11 +300,11 @@ function moveToLeft(){
       </table>
     </div>
   </div>
-  <div class="all-songs">
+  <div class="all-songs-container">
     <div class="search">
       <div class="search-string">
-       Searching by:  {{ searchString }}
-    </div>
+         <span class="text-secondary">Searching by: </span><strong>{{ searchString }}</strong>
+      </div>
       <!-- ON SCREEN KEYBOARD -->
       <OnScreenKeyboard 
         @sendString="(value) => searchString = value" 
@@ -314,34 +314,15 @@ function moveToLeft(){
     <!-- CARD FOR FOLDERS -->
     <div class="card-folders">
       <button class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&lt;</button>
-      <div id="card-1" class="card move-card">
+      <div v-for="(folder, index) in folderList" :key="folder.title" class="for"> 
+      <div :id="'card-'+index" class="card move-card">
         <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
         <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
+          <h4><b>{{folder.artist}}</b></h4>
+          <p>{{folder.title}}</p>
         </div>
       </div>
-      <div id="card-2" class="card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
-        <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-      <div id="card-3" class="card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
-        <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-      <div id="card-4" class="card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
-        <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
+      
       <div id="phantom-card" class="card">
         <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
         <div class="containers">
@@ -349,13 +330,13 @@ function moveToLeft(){
           <p>Architect & Engineer</p>
         </div>
       </div>
- 
+    </div>
    
       <button id="top-btn" class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&gt;</button>
     </div>
     <!-- ALL SONGS -->
+    <div class="all-songs">
       <h2 className="text-center display-4">All Songs</h2>
-   
     <table calssName="d-grid">
       <thead>
         <tr>
@@ -370,8 +351,55 @@ function moveToLeft(){
           <td>{{karaoke.artist}}</td>
           <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
         </tr>
+        <tr>
+          <td>holo</td>
+          <td>holo</td>
+          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
+        </tr>
+        <tr>
+          <td>holo</td>
+          <td>holo</td>
+          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
+        </tr>
+        <tr>
+          <td>holo</td>
+          <td>holo</td>
+          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
+        </tr>
+        <tr>
+          <td>holo</td>
+          <td>holo</td>
+          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
+        </tr>
+        <tr>
+          <td>holo</td>
+          <td>holo</td>
+          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
+        </tr>
+        <tr>
+          <td>holo</td>
+          <td>holo</td>
+          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
+        </tr>
+        <tr>
+          <td>holo</td>
+          <td>holo</td>
+          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
+        </tr>
+        <tr>
+          <td>holo</td>
+          <td>holo</td>
+          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
+        </tr>
+        <tr>
+          <td>holo</td>
+          <td>holo</td>
+          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
+        </tr>
+       
       </tbody>
     </table>
+    </div><!-- all SONGS -->
   </div>
 </div>
 

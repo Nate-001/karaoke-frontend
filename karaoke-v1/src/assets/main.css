@@ -80,6 +80,14 @@ body{
   overflow-x: none;
  
 }
+.all-songs{
+  width: 100%;
+  height: 50vh;
+  margin-top: 2rem;
+  color: white;
+  overflow-y: scroll;
+  overflow-x: none;
+}
 .play-list >*{
   flex-basis: 25%;
 }
@@ -126,13 +134,15 @@ canvas{
 /* Track */
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
+  border-radius: 8px;
+  scrollbar-width: thin;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: skyblue;
-  border-radius: 10px;
+  border-radius: 8px;  
+  scrollbar-width: thin;
 }
 
 /* TABLES */
@@ -167,5 +177,8 @@ opacity: .8;
 }
 .search > *{
   margin: .5rem;
+  
 }
-
+.search-string{
+  color: blue;
+}

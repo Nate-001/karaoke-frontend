@@ -44,6 +44,8 @@ function backSpace(value){
     if(value == 'erase'){
         searchString.value = ''
 
+    }else if(value=='space'){
+        searchString.value += " "
     }else{
         searchString.value = searchString.value.slice(0,-1)
     }
@@ -94,6 +96,11 @@ function backSpace(value){
                 @click="backSpace('erase')" 
                 class="btn btn-outline-danger number-button m-1">
                 Erase
+            </button>
+            <button  
+                @click="backSpace('space')" 
+                class="btn btn-outline-primary number-button m-1">
+                Space
             </button>
         </div>
   
