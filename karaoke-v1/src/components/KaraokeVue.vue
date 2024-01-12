@@ -194,7 +194,7 @@ const img = await response.blob()
 };
 
 async function logFiles() {
-let baseUrl = "http://localhost:8000/api/show_artist/"
+let baseUrl = `http://localhost:8000/api/show_artist/?artist=${searchString.value}`
 const response = await fetch(baseUrl);
 const files = await response.json()
 folderList.value = files
@@ -341,10 +341,27 @@ function moveToLeft(){
 
       <div v-for="(folder, index) in folderList" :key="folder.title" class="for"> 
       <div :id="'card-'+index" class="card move-card"  @click="console.log(folder.fields.artist)">
-        <img :src="mediaBaseUrl+folder.fields.img" alt="artist">
-        <div class="containers">
-          <h4 style="color:skyblue; padding:2px;"><b>{{folder.fields.artist}}</b></h4>
-        
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img :src="mediaBaseUrl+folder.fields.img" alt="artist">
+              <div class="containers">
+                <h4 style="color:skyblue; padding:2px;">
+                  <b>{{folder.fields.artist}}</b>
+                </h4>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <img :src="mediaBaseUrl+folder.fields.img" alt="artist">
+              <div class="containers">
+                <h4 style="color:skyblue; padding:2px;">
+                  <b>{{folder.fields.artist}}</b>
+                </h4>
+              </div>
+            </div>
+
+          </div>
+          
         </div>
       </div>
       
@@ -374,51 +391,6 @@ function moveToLeft(){
         <tr @click="addToReproductionList(index)" v-for="(karaoke, index) in folderList" :key="index">
           <td>{{karaoke.fields.title}}</td>
           <td>{{karaoke.fields.artist}}</td>
-          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
-        </tr>
-        <tr>
-          <td>holo</td>
-          <td>holo</td>
-          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
-        </tr>
-        <tr>
-          <td>holo</td>
-          <td>holo</td>
-          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
-        </tr>
-        <tr>
-          <td>holo</td>
-          <td>holo</td>
-          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
-        </tr>
-        <tr>
-          <td>holo</td>
-          <td>holo</td>
-          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
-        </tr>
-        <tr>
-          <td>holo</td>
-          <td>holo</td>
-          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
-        </tr>
-        <tr>
-          <td>holo</td>
-          <td>holo</td>
-          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
-        </tr>
-        <tr>
-          <td>holo</td>
-          <td>holo</td>
-          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
-        </tr>
-        <tr>
-          <td>holo</td>
-          <td>holo</td>
-          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
-        </tr>
-        <tr>
-          <td>holo</td>
-          <td>holo</td>
           <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
         </tr>
        

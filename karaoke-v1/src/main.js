@@ -1,6 +1,7 @@
 import './assets/main.css'
 import './assets/cards.css'
 import './assets/keyboard.css'
+import './assets/flipcards.css'
 // import './assets/style.css'
 // import './assets/mediaPlayer.css'
 
