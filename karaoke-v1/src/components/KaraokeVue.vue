@@ -49,6 +49,11 @@ watch(reproductionList.value, (newValue, oldValue) => {
   hideClass.value =true
   console.log(newValue, oldValue)})
 
+  watch(searchString.value, (newValue, oldValue) =>{
+    console.log(oldValue, newValue)
+    logFiles()
+  })
+
 // #region FUNCTIONS
 function loadPlayer(filename) {
     //!! CODE TO DESTROY PLAYER
