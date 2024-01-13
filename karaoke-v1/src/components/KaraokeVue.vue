@@ -6,12 +6,13 @@ import { CDGPlayer, CDGControls } from '/node_modules/cdgplayer/dist/cdgplayer.j
 import OnScreenKeyboard from './OnScreenKeyboard.vue'
 
 const mediaBaseUrl = ref('http://localhost:8000/media/')
-const karaokes = ref([])
 const currentKaraoke = ref([])
 const currentTrackLength = ref(null)
 const currentTrackTime = ref(null)
 
+const karaokes = ref([])
 const folderList = ref([])
+
 const reproductionList = ref([])
 const hideClass = ref(false)
 const searchString = ref('')
@@ -173,7 +174,7 @@ function clickPlay(e, event){
   
 // }
 const addToReproductionList = (index) => {
-  reproductionList.value.push(folderList.value[index].fields);
+  reproductionList.value.push(karaokes.value[index].fields);
   console.log("====*****====")
   console.log(reproductionList.value[0])
   console.log("====*****====")
@@ -202,8 +203,13 @@ async function logFiles() {
 let baseUrl = `http://localhost:8000/api/show_artist/?artist=${searchString.value}`
 const response = await fetch(baseUrl);
 const files = await response.json()
-folderList.value = files
+karaokes.value = files
+folderList.value = Object.groupBy(files, kar => kar.fields.artist)
 console.log(files)
+console.log('*****FOLDERS********')
+console.log(folderList.value)
+console.log(folderList.value)
+console.log('*****FOLDERS********')
 
 };
 
@@ -341,26 +347,36 @@ function moveToLeft(){
         />  
     </div>
     <!-- CARD FOR FOLDERS -->
-    <div class="card-folders">
+    <div class="text-white">
+      <div v-for="(folder, index) in folderList" :key="index">
+        {{ folder[index] }}
+      </div>
+      alfredo
+    </div>
+    
+
+    <div class="card-folders text-white">
       <button class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&lt;</button>
 
-      <div v-for="(folder, index) in folderList" :key="folder.title" class="for"> 
-      <div :id="'card-'+index" class="card move-card"  @click="console.log(folder.fields.artist)">
+      <div v-for="(folder, index) in folderList" :key="folder.title" class="for">
+        <!-- {{ index }}  -->
+        <!-- {{ folder[0]['fields'].title }} -->
+      <div :id="'card-'+index" class="card move-card"  @click="console.log(folder[0]['fields'].artist)">
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <img :src="mediaBaseUrl+folder.fields.img" alt="artist">
+              <img :src="mediaBaseUrl+folder[0]['fields'].img" alt="artist">
               <div class="containers">
                 <h4 style="color:skyblue; padding:2px;">
-                  <b>{{folder.fields.artist}}</b>
+                  <b>{{folder[0]['fields'].artist}}</b>
                 </h4>
               </div>
             </div>
             <div class="flip-card-back">
-              <img :src="mediaBaseUrl+folder.fields.img" alt="artist">
+              <img :src="mediaBaseUrl+folder[0]['fields'].img" alt="artist">
               <div class="containers">
                 <h4 style="color:skyblue; padding:2px;">
-                  <b>{{folder.fields.artist}}</b>
+                  <b>{{folder[0]['fields'].artist}}</b>
                 </h4>
               </div>
             </div>
@@ -370,18 +386,14 @@ function moveToLeft(){
         </div>
       </div>
       
-      <!-- <div id="phantom-card" class="card">
-        <img src="../assets/music_note.png" alt="Avatar" style="width:50%">
-        <div class="containers">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div> -->
+
     </div>
    
       <button id="top-btn" class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&gt;</button>
     </div>
+    
     <!-- ALL SONGS -->
+
     <div class="all-songs">
       <h2 className="text-center display-4">All Songs</h2>
     <table calssName="d-grid">
@@ -393,7 +405,7 @@ function moveToLeft(){
         </tr>
       </thead>
       <tbody>
-        <tr @click="addToReproductionList(index)" v-for="(karaoke, index) in folderList" :key="index">
+        <tr @click="addToReproductionList(index)" v-for="(karaoke, index) in karaokes" :key="index">
           <td>{{karaoke.fields.title}}</td>
           <td>{{karaoke.fields.artist}}</td>
           <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
@@ -401,7 +413,8 @@ function moveToLeft(){
        
       </tbody>
     </table>
-    </div><!-- all SONGS -->
+    </div>
+    <!-- all SONGS -->
   </div>
 </div>
 
