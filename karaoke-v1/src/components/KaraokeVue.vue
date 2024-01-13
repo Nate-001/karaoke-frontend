@@ -208,7 +208,7 @@ folderList.value = Object.groupBy(files, kar => kar.fields.artist)
 console.log(files)
 console.log('*****FOLDERS********')
 console.log(folderList.value)
-console.log(folderList.value)
+console.log(karaokes.value)
 console.log('*****FOLDERS********')
 
 };
@@ -358,10 +358,10 @@ function moveToLeft(){
     <div class="card-folders text-white">
       <button class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&lt;</button>
 
-      <div v-for="(folder, index) in folderList" :key="folder.title" class="for">
+      <div v-for="(folder, index) in folderList" :key="index" class="for">
         <!-- {{ index }}  -->
         <!-- {{ folder[0]['fields'].title }} -->
-      <div :id="'card-'+index" class="card move-card"  @click="console.log(folder[0]['fields'].artist)">
+      <div :id="'card-'+index[0]" class="card move-card"  @click="console.log(folder[0]['fields'].artist)">
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
