@@ -3,6 +3,18 @@
 import {ref} from 'vue'
 const searchString = ref('')
 //#region BUTTONS
+const numbers =[
+    {btnClass:'btn',btnLabel:"1"},
+        {btnClass:'btn',btnLabel:"2"},
+        {btnClass:'btn',btnLabel:"3"},
+        {btnClass:'btn',btnLabel:"4"},
+        {btnClass:'btn',btnLabel:"5"},
+        {btnClass:'btn',btnLabel:"6"},
+        {btnClass:'btn', btnLabel:"7"},
+        {btnClass:'btn',btnLabel:"8"},
+        {btnClass:'btn',btnLabel:"9"},
+        {btnClass:'btn',btnLabel:"0"}
+]
 const qButtons = [
     {btnClass:'btn',btnLabel:"Q"}, 
         {btnClass:'btn',btnLabel:"W"},
@@ -62,7 +74,15 @@ function backSpace(value){
 <template>
     <div class="main-keyboard">
 
-            
+        <div class="numbers-row text-center">
+            <button class="btn btn-outline-secondary number-button m-1" 
+                @click="setInput(button)"
+                v-for="button in numbers" 
+                :key="button"
+                :class="button.btnClass">
+                {{ button.btnLabel }}
+            </button>
+        </div>    
         <div class="first-row text-center">
             <button class="btn btn-outline-success number-button m-1" 
                 @click="setInput(button)"
@@ -88,11 +108,7 @@ function backSpace(value){
             </button>
         </div>
         <div class="fourth-row text-center">
-            <button  
-                @click="backSpace('backspace')"  
-                class="btn btn-outline-warning number-button m-1">
-                Back Space
-            </button>
+         
             <button  
                 @click="backSpace('erase')" 
                 class="btn btn-outline-danger number-button m-1">
@@ -102,6 +118,11 @@ function backSpace(value){
                 @click="backSpace('space')" 
                 class="btn btn-outline-primary number-button m-1">
                 Space
+            </button>
+            <button  
+                @click="backSpace('backspace')"  
+                class="btn btn-outline-warning number-button m-1">
+                Back Space
             </button>
         </div>
   
