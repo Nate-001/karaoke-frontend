@@ -7,6 +7,7 @@ import OnScreenKeyboard from './OnScreenKeyboard.vue'
 
 const mediaBaseUrl = ref('http://localhost:8000/media/')
 const currentKaraoke = ref([])
+const currentFolder = ref('A 5')
 const currentTrackLength = ref(null)
 const currentTrackTime = ref(null)
 
@@ -50,10 +51,10 @@ watch(reproductionList.value, (newValue, oldValue) => {
   hideClass.value =true
   console.log(newValue, oldValue)})
 
-  watch(searchString.value, (newValue, oldValue) =>{
-    console.log(oldValue, newValue)
-    logFiles()
-  })
+// watch(searchString.value, (newValue, oldValue) =>{
+//     console.log(oldValue, newValue)
+//     logFiles()
+//   })
 
 // #region FUNCTIONS
 function loadPlayer(filename) {
@@ -72,7 +73,7 @@ function loadPlayer(filename) {
   try {
     btn.addEventListener('click',()=>{
     player.destroy()
-    console.log('erased')
+    // console.log('erased')
 })
   } catch (error) {
     console.log(error)
@@ -88,39 +89,39 @@ function loadPlayer(filename) {
 
 // CHECK STATUS OF PLAYER
 const statusChanged = player.props.on('status', (val) => {
-  console.log('Status: ', val);
-  console.log(player.props)
+  // console.log('Status: ', val);
+  // console.log(player.props)
   if (val === 'File Loaded') {
     player.start();
   }
 });
 const onLoadingChange = player.props.on('loading', (val, prev) => {
-  console.log(val, prev)
+  // console.log(val, prev)
     if (val !== prev) {
         // loading changed, so now do something
         // player.props.off(onLoadingChange);
         // player.destroy();
         
-        console.log(val, prev)
-        console.log('current value: ' + val, 'previus value: ' + prev)
+        // console.log(val, prev)
+        // console.log('current value: ' + val, 'previus value: ' + prev)
     }
 });
 const onStatusChange = player.props.on('status', (val, prev) =>{
-  console.log("st val: "+val, "ST prev: "+prev)
+  // console.log("st val: "+val, "ST prev: "+prev)
   if(val == 'Loading File...'){
-    console.log('afirmativo carnal')
+    // console.log('afirmativo carnal')
     try {
       // player.destroy()
     } catch (error) {
       console.log(error)
     }
   }else{
-    console.log('negativo carnal')
+    // console.log('negativo carnal')
   }
 })
 setTimeout(() => {
-    console.log(player)
-    console.log(player.props.timePlayed)
+    // console.log(player)
+    // console.log(player.props.timePlayed)
     // console.log(player.tag.APIC.data.data)
     let img = document.getElementById('img-cover')
   
@@ -133,24 +134,24 @@ setTimeout(() => {
   )
   
   player.load(filename);
-  console.log('this are the props')
-  console.log(player.props)
+  // console.log('this are the props')
+  // console.log(player.props)
 }
 
-
+// #! GET KARAOKES TRACK BY CURRENT KARAOKE VALUE
 async function getKaraoke() {
-  console.log("reproduction length: "+reproductionList.value.length)
-  console.log("***********")
-  console.log(currentKaraoke.value["data"].track)
-  console.log("***********")
+  // console.log("reproduction length: "+reproductionList.value.length)
+  // console.log("***********")
+  // console.log(currentKaraoke.value["data"].track)
+  // console.log("***********")
   
   const response = await fetch("http://localhost:8000/media/"+currentKaraoke.value["data"].track);
-  console.log(currentKaraoke, "si este es")
+  // console.log(currentKaraoke, "si este es")
   const karaoke = await response.arrayBuffer()
 // setState('loading')
-console.log('***********')
+// console.log('***********')
 // console.log(event.target)  
-console.log('***********')
+// console.log('***********')
 
   loadPlayer(karaoke)
 
@@ -163,9 +164,10 @@ function deleteElement(index){
 function clickPlay(e, event){
   const btnPlay = document.getElementById('play-karaoke')
   btnPlay.click(e,event);
-  console.log(event)
+  // console.log(event)
 
 }
+
 // function setCurrentPlay(track){
 //   console.log('esta es el track: '+ track)
 //   const btnPlay = document.getElementById('play-karaoke')  
@@ -175,9 +177,9 @@ function clickPlay(e, event){
 // }
 const addToReproductionList = (index) => {
   reproductionList.value.push(karaokes.value[index].fields);
-  console.log("====*****====")
-  console.log(reproductionList.value[0])
-  console.log("====*****====")
+  // console.log("====*****====")
+  // console.log(reproductionList.value[0])
+  // console.log("====*****====")
 
   let i = reproductionList.value.length-1
   if(currentKaraoke.value.length < 1){
@@ -199,24 +201,38 @@ const img = await response.blob()
 // console.log(files)
 };
 
+// GETS ALL THE KARAOKES AND FILTERS IF THERE IS A SEARCH STRING
 async function logFiles() {
 let baseUrl = `http://localhost:8000/api/show_artist/?artist=${searchString.value}`
 const response = await fetch(baseUrl);
 const files = await response.json()
-karaokes.value = files
+// karaokes.value = files
 folderList.value = Object.groupBy(files, kar => kar.fields.artist)
-console.log(files)
-console.log('*****FOLDERS********')
-console.log(folderList.value)
-console.log(karaokes.value)
-console.log('*****FOLDERS********')
+
+// console.log(files)
+// console.log('*****FOLDERS********')
+// console.log(folderList.value)
+// console.log(karaokes.value)
+// console.log('*****FOLDERS********')
 
 };
 
+// handles click on folders to add information on table of karaokes
+function folderSelected(folder){
+  let newList = []
+  folderList.value[folder].forEach(element =>{
+    newList.push(element)
+    // console.log(karaokes.value)
+  }
+  )
+  karaokes.value = newList
+  // console.log(karaokes.value)
+  }
 //#region Karaoke PREVIOUS NEXT PAUSE PLAY
 function prevKaraoke() {
-  let prev = currentKaraoke.value["index"] -1
-  console.log("Prev: "-prev)
+  let prev = currentKaraoke.value["index"]
+  prev -= 1
+  console.log("Prev: " + prev)
   console.log("Reproduction Length: ",reproductionList.value.length-1)
   if(reproductionList.value.length-1 > 1 && prev > reproductionList.value.length-1){
     
@@ -236,13 +252,13 @@ function prevKaraoke() {
 function nextKaraoke () {
   let next = currentKaraoke.value["index"] +1
   console.log("next: "+next)
-  console.log("reproduction length: ",reproductionList.value.length-1)
+  // console.log("reproduction length: ",reproductionList.value.length-1)
   if(reproductionList.value.length-1 > 0 && next <= reproductionList.value.length-1){
     
     currentKaraoke.value={"index": next, "data":reproductionList.value[next]}
-    console.log('--------------')
-    console.log(currentKaraoke)
-    console.log('--------------')
+    // console.log('--------------')
+    // console.log(currentKaraoke)
+    // console.log('--------------')
     
   }
   else {
@@ -328,7 +344,10 @@ function moveToLeft(){
         <tbody>
           <tr @click="deleteElement(index)" v-for="(karaoke, index) in reproductionList" :key="index">
             <td>{{karaoke.title}}</td>
-            <td>{{karaoke.artist}} <svg style="color:white;" xmlns="http://www.w3.org/2000/svg" height="22" width="24" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm64 192c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm64-64c0-17.7 14.3-32 32-32s32 14.3 32 32V352c0 17.7-14.3 32-32 32s-32-14.3-32-32V160zM320 288c17.7 0 32 14.3 32 32v32c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32z"/></svg></td>
+            <td>{{karaoke.artist}} 
+              <svg style="color:white;" xmlns="http://www.w3.org/2000/svg" height="22" width="24" viewBox="0 0 448 512">
+              <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm64 192c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm64-64c0-17.7 14.3-32 32-32s32 14.3 32 32V352c0 17.7-14.3 32-32 32s-32-14.3-32-32V160zM320 288c17.7 0 32 14.3 32 32v32c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32z"/></svg>
+            </td>
             <td className="d-grid"><button @click="deleteElement(index)" className="btn btn-outline-danger m-1">Delete</button></td>
           </tr>
         </tbody>
@@ -358,7 +377,7 @@ function moveToLeft(){
     <div class="card-folders text-white">
       <button class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&lt;</button>
 
-      <div v-for="(folder, index) in folderList" :key="index" class="for">
+      <div v-for="(folder, index) in folderList" :key="index" class="for"  @click="folderSelected(folder[0]['fields'].artist)">
         <!-- {{ index }}  -->
         <!-- {{ folder[0]['fields'].title }} -->
       <div :id="'card-'+index[0]" class="card move-card"  @click="console.log(folder[0]['fields'].artist)">
