@@ -7,7 +7,7 @@ import OnScreenKeyboard from './OnScreenKeyboard.vue'
 
 const mediaBaseUrl = ref('http://localhost:8000/media/')
 const currentKaraoke = ref([])
-const currentFolder = ref('A 5')
+const currentFolder = ref('')
 const currentTrackLength = ref(null)
 const currentTrackTime = ref(null)
 
@@ -49,12 +49,14 @@ onMounted(()=>{
 
 watch(reproductionList.value, (newValue, oldValue) => {
   hideClass.value =true
-  console.log(newValue, oldValue)})
+  // console.log(newValue, oldValue)
+}
+  )
 
-// watch(searchString.value, (newValue, oldValue) =>{
-//     console.log(oldValue, newValue)
-//     logFiles()
-//   })
+watch(searchString, (newValue, oldValue) =>{
+    // console.log(oldValue, newValue)
+    logFiles()
+  })
 
 // #region FUNCTIONS
 function loadPlayer(filename) {
@@ -203,6 +205,7 @@ const img = await response.blob()
 
 // GETS ALL THE KARAOKES AND FILTERS IF THERE IS A SEARCH STRING
 async function logFiles() {
+  // alert('DATA IS BEING FETCHED')
 let baseUrl = `http://localhost:8000/api/show_artist/?artist=${searchString.value}`
 const response = await fetch(baseUrl);
 const files = await response.json()

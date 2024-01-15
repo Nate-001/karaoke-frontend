@@ -1,6 +1,6 @@
 <script setup> 
-import MyButton from './MyButton.vue';
-import {defineEmits,ref} from 'vue'
+// import MyButton from './MyButton.vue';
+import {ref} from 'vue'
 const searchString = ref('')
 //#region BUTTONS
 const qButtons = [
@@ -40,6 +40,7 @@ function setInput(e){
     searchString.value += e.btnLabel
     emit('sendString', searchString.value)
 }
+
 function backSpace(value){
     if(value == 'erase'){
         searchString.value = ''
