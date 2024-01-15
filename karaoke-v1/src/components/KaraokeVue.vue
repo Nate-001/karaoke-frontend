@@ -32,6 +32,17 @@ onMounted(()=>{
   // let playbtn = document.getElementById('play-karaoke')
   let divPlayer = document.getElementById('cdg_wrapper').getElementsByTagName("canvas")
   let screen = document.getElementById('full-screen')
+
+  let tmp = JSON.parse(getCookie('reproductionlist'))
+  console.log(tmp, 'this is tmp')
+  if(tmp.length > 0){
+    reproductionList.value = tmp
+    currentKaraoke.value = {"index":0, "data":reproductionList.value[0]}
+    console.log(currentKaraoke.value)
+    getKaraoke()
+    hideClass.value =true
+  }
+
   //! FULL SCREEN
   screen.addEventListener('click', () =>{
     if (divPlayer.requestFullscreen) {
@@ -100,12 +111,7 @@ const statusChanged = player.props.on('status', (val) => {
 const onLoadingChange = player.props.on('loading', (val, prev) => {
   // console.log(val, prev)
     if (val !== prev) {
-        // loading changed, so now do something
-        // player.props.off(onLoadingChange);
-        // player.destroy();
-        
-        // console.log(val, prev)
-        // console.log('current value: ' + val, 'previus value: ' + prev)
+
     }
 });
 const onStatusChange = player.props.on('status', (val, prev) =>{
@@ -142,25 +148,19 @@ setTimeout(() => {
 
 // #! GET KARAOKES TRACK BY CURRENT KARAOKE VALUE
 async function getKaraoke() {
-  // console.log("reproduction length: "+reproductionList.value.length)
-  // console.log("***********")
-  // console.log(currentKaraoke.value["data"].track)
-  // console.log("***********")
-  
+
   const response = await fetch("http://localhost:8000/media/"+currentKaraoke.value["data"].track);
   // console.log(currentKaraoke, "si este es")
   const karaoke = await response.arrayBuffer()
-// setState('loading')
-// console.log('***********')
-// console.log(event.target)  
-// console.log('***********')
-
   loadPlayer(karaoke)
 
 };
 
 function deleteElement(index){
   reproductionList.value.splice(index,1)
+   // create cookie for reproduction list
+   let json_str = JSON.stringify(reproductionList.value)
+  setCookie("reproductionlist", json_str, 1)
 }
 
 function clickPlay(e, event){
@@ -170,18 +170,13 @@ function clickPlay(e, event){
 
 }
 
-// function setCurrentPlay(track){
-//   console.log('esta es el track: '+ track)
-//   const btnPlay = document.getElementById('play-karaoke')  
-//   currentKaraoke.value = track
-//   btnPlay.click()
-  
-// }
+
 const addToReproductionList = (index) => {
   reproductionList.value.push(karaokes.value[index].fields);
-  // console.log("====*****====")
-  // console.log(reproductionList.value[0])
-  // console.log("====*****====")
+
+  // create cookie for reproduction list
+  let json_str = JSON.stringify(reproductionList.value)
+  setCookie("reproductionlist", json_str, 1)
 
   let i = reproductionList.value.length-1
   if(currentKaraoke.value.length < 1){
@@ -195,6 +190,27 @@ const addToReproductionList = (index) => {
   }
 };
 
+function setCookie(cname, cvalue, exdays){
+  const d = new Date()
+  d.setTime(d.getTime() + (exdays*24*60*60*1000))
+  let expires = "expires="+ d.toUTCString()
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+
+}
+
+function getCookie(cname){
+  let name = cname + "="
+  // let decodedCookie = docodeURIComponent(document.cookie)
+  let ca = document.cookie.split(';')
+  
+  for (let i =0; i<ca.length; i++){
+    let c = ca[i].trim();
+    if((c.indexOf(name))==0){
+      return c.substring(name.length)
+    }
+  }
+
+}
 async function getImage(imageUrl) {
 let baseUrl = "http://localhost:8000/media/"
 const response = await fetch(baseUrl+imageUrl);
@@ -211,12 +227,6 @@ const response = await fetch(baseUrl);
 const files = await response.json()
 // karaokes.value = files
 folderList.value = Object.groupBy(files, kar => kar.fields.artist)
-
-// console.log(files)
-// console.log('*****FOLDERS********')
-// console.log(folderList.value)
-// console.log(karaokes.value)
-// console.log('*****FOLDERS********')
 
 };
 
@@ -237,7 +247,7 @@ function prevKaraoke() {
   prev -= 1
   console.log("Prev: " + prev)
   console.log("Reproduction Length: ",reproductionList.value.length-1)
-  if(reproductionList.value.length-1 > 1 && prev > reproductionList.value.length-1){
+  if(reproductionList.value.length-1 > 1 && prev >= 0){
     
     currentKaraoke.value={"index": prev, "data":reproductionList.value[prev]}
     console.log('--------------')
@@ -252,25 +262,21 @@ function prevKaraoke() {
   clickPlay()
 }
 
+// PLAY NEXT KARAOKE
 function nextKaraoke () {
   let next = currentKaraoke.value["index"] +1
   console.log("next: "+next)
-  // console.log("reproduction length: ",reproductionList.value.length-1)
-  if(reproductionList.value.length-1 > 0 && next <= reproductionList.value.length-1){
+  
+  if(reproductionList.value.length-1 > 0 && next < reproductionList.value.length-1){
     
     currentKaraoke.value={"index": next, "data":reproductionList.value[next]}
-    // console.log('--------------')
-    // console.log(currentKaraoke)
-    // console.log('--------------')
-    
   }
   else {
     currentKaraoke.value={"index": 0, "data":reproductionList.value[0]}
-    
   }
   clickPlay()
-
 }
+// PAUSE PLAYER
 function pausePlay(){
   let btnPause = document.getElementsByClassName('playButton')
   btnPause[0].click()
