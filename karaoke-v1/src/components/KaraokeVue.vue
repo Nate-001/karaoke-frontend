@@ -247,7 +247,7 @@ function prevKaraoke() {
   prev -= 1
   console.log("Prev: " + prev)
   console.log("Reproduction Length: ",reproductionList.value.length-1)
-  if(reproductionList.value.length-1 > 1 && prev >= 0){
+  if(reproductionList.value.length > 0 && prev >= 0){
     
     currentKaraoke.value={"index": prev, "data":reproductionList.value[prev]}
     console.log('--------------')
@@ -267,7 +267,7 @@ function nextKaraoke () {
   let next = currentKaraoke.value["index"] +1
   console.log("next: "+next)
   
-  if(reproductionList.value.length-1 > 0 && next < reproductionList.value.length-1){
+  if(reproductionList.value.length-1 > 0 && next < reproductionList.value.length){
     
     currentKaraoke.value={"index": next, "data":reproductionList.value[next]}
   }
