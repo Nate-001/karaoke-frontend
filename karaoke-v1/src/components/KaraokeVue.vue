@@ -351,7 +351,7 @@ function moveToLeft(){
           </tr>
         </thead>
         <tbody>
-          <tr @click="deleteElement(index)" v-for="(karaoke, index) in reproductionList" :key="index">
+          <tr v-for="(karaoke, index) in reproductionList" :key="index">
             <td>{{karaoke.title}}</td>
             <td>{{karaoke.artist}} 
               <svg style="color:white;" xmlns="http://www.w3.org/2000/svg" height="22" width="24" viewBox="0 0 448 512">
