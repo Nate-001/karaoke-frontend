@@ -75,7 +75,7 @@ function backSpace(value){
     <div class="main-keyboard">
 
         <div class="numbers-row text-center">
-            <button class="btn btn-outline-secondary number-button m-1" 
+            <button class="btn btn-outline-secondary keyboard-button m-1" 
                 @click="setInput(button)"
                 v-for="button in numbers" 
                 :key="button"
@@ -84,7 +84,7 @@ function backSpace(value){
             </button>
         </div>    
         <div class="first-row text-center">
-            <button class="btn btn-outline-success number-button m-1" 
+            <button class="btn btn-outline-success keyboard-button m-1" 
                 @click="setInput(button)"
                 v-for="button in qButtons" 
                 :class="button.btnClass"
@@ -92,7 +92,7 @@ function backSpace(value){
             </button>
         </div>
         <div class="second-row text-center">
-            <button class="btn btn-outline-info number-button m-1" 
+            <button class="btn btn-outline-info keyboard-button m-1" 
                 @click="setInput(button)"
                 v-for="button in aButtons" 
                 :class="button.btnClass"
@@ -100,7 +100,7 @@ function backSpace(value){
             </button>
         </div>
         <div class="third-row text-center">
-            <button class="btn btn-outline-primary number-button m-1" 
+            <button class="btn btn-outline-primary keyboard-button m-1" 
                 @click="setInput(button)"
                 v-for="button in zButtons" 
                 :class="button.btnClass"
@@ -111,17 +111,17 @@ function backSpace(value){
          
             <button  
                 @click="backSpace('erase')" 
-                class="btn btn-outline-danger number-button m-1">
+                class="btn btn-outline-danger keyboard-button m-1">
                 Erase
             </button>
             <button  
                 @click="backSpace('space')" 
-                class="btn btn-outline-primary number-button m-1">
+                class="btn btn-outline-primary keyboard-button m-1">
                 Space
             </button>
             <button  
                 @click="backSpace('backspace')"  
-                class="btn btn-outline-warning number-button m-1">
+                class="btn btn-outline-warning keyboard-button m-1">
                 Back Space
             </button>
         </div>

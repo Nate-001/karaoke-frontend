@@ -8,7 +8,6 @@
     margin:0 auto;
 }
 .cards-only{
-    background-color: red;
     display: flex;
     max-width: 50rem;
     max-height: 10rem;

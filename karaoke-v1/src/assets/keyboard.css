@@ -1,8 +1,10 @@
 .first-row > button, 
 .second-row > button,
-.third-row > button{
-    width: 3.5rem;
-    height: 3rem;
+.third-row > button,
+.numbers-row > button{
+    width: 3rem;
+    height: 2.5rem;
+  
 }
 .search-string{
     height: 1.5rem;
@@ -11,3 +13,11 @@
     padding: .1rem;
 }
 
+.main-keyboard{
+    font-weight: 900;
+}
+
+.keyboard-button{
+    font-weight: 700;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}

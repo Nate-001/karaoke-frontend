@@ -70,7 +70,7 @@ body{
 }
 canvas{
   width: 30rem;
-  height: 20rem;
+  height: 18rem;
 }
 
 .cdg-controls{
@@ -79,8 +79,31 @@ canvas{
 .cdg-controls > *{
   padding: .1rem;
 }
+.all-songs-container{
 
-
+  max-height: 90vh;
+}
+.all-songs{
+  width: 100%;
+  height: 40%;
+  margin-top: .5rem;
+  color: white;
+  overflow-y: scroll;
+  overflow-x: none;
+}
+.all-songs{
+  flex: 1;
+  color: white;
+  
+}
+.all-songs h2, .play-list h1{
+  color: aqua;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-size: x-large;
+}
+.play-list >*{
+  flex-basis: 25%;
+}
 .play-list{
   width: 100%;
   height: 35vh;
@@ -89,31 +112,13 @@ canvas{
   overflow-x: none;
  
 }
-.all-songs{
-  width: 100%;
-  height: 45vh;
-  margin-top: .5rem;
-  color: white;
-  overflow-y: scroll;
-  overflow-x: none;
-}
-.play-list >*{
-  flex-basis: 25%;
-}
-.all-songs{
-  flex: 1;
-  color: white;
-  
-}
-.all-songs h2{
-  color: aqua;
-}
+
 
 .buttons-controls{
   display: flex;
   gap: .5rem;
   flex-direction: row;
-  
+  margin-bottom: .5rem;
 }
 .btn-inside-controls{
   display: flex;

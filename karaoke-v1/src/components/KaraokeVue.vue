@@ -336,7 +336,7 @@ function moveToLeft(){
     </div>
     <!-- PLAY LIST  -->
     <div class="play-list">
-      <h1 className="display-4 text-center">PLAY LIST</h1>
+      <h1 className="text-center">PLAY LIST</h1>
       <table calssName="d-grid">
         <thead>
           <tr>
@@ -359,7 +359,7 @@ function moveToLeft(){
         </tbody>
       </table>
     </div>
-    <p class="text-center text-primary m-2">ALFCOMPUTACION.COM</p>
+    <p class="text-center text-primary m-1">ALFCOMPUTACION.COM</p>
   </div>
   <div class="all-songs-container">
     <div class="search">
@@ -442,7 +442,7 @@ function moveToLeft(){
     <!-- ALL SONGS -->
 
     <div class="all-songs">
-      <h2 className="text-center display-4">All Songs</h2>
+      <h2 className="text-center">All Songs</h2>
     <table calssName="d-grid">
       <thead>
         <tr>
