@@ -319,7 +319,7 @@ function moveToLeft(){
 
   <div className="greetings" id="player-container">
     <!-- CDGPLAYER -->
-    <div className="cdg-player" style="visiblility: visible">
+    <div className="cdg-player" style="visibility: visible">
       <div :class="{'hide': hideClass}" id="img-cover"></div>
       <div id="cdg_controls"></div>
       <div id="cdg_wrapper"></div>
@@ -359,7 +359,15 @@ function moveToLeft(){
         </tbody>
       </table>
     </div>
-    <p class="text-center text-primary m-1">ALFCOMPUTACION.COM</p>
+    <p class="text-center text-primary m-1">
+      <img 
+        class="pr-1"
+        width="25" 
+        height="15" 
+        src="../assets/logo.png" 
+        alt="logo">
+              ALFCOMPUTACION.COM &#169;
+    </p>
   </div>
   <div class="all-songs-container">
     <div class="search">
