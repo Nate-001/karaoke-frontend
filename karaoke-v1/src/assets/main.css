@@ -22,12 +22,7 @@ body{
   height: 40vh;
   width: 100%;
 }
-/* CDG CONTOLS */
-.cdg-player{
-  height: 50vh;
-  margin-bottom: 2rem;
-  color: white;
-}
+
 .hide{
   display: none;
 }
@@ -63,6 +58,20 @@ body{
   background-color: black;
 }
 
+/* CDG CONTOLS */
+.cdg-player{
+  height: 45vh;
+  margin-bottom: 2rem;
+  color: white;
+}
+/* CDG WRAPPER AND CANVAS*/
+#cdg-wrapper{
+  width: 20rem;
+}
+canvas{
+  width: 30rem;
+  height: 20rem;
+}
 
 .cdg-controls{
   margin: .3rem;
@@ -82,8 +91,8 @@ body{
 }
 .all-songs{
   width: 100%;
-  height: 50vh;
-  margin-top: 2rem;
+  height: 45vh;
+  margin-top: .5rem;
   color: white;
   overflow-y: scroll;
   overflow-x: none;
@@ -101,7 +110,6 @@ body{
 }
 
 .buttons-controls{
- 
   display: flex;
   gap: .5rem;
   flex-direction: row;
@@ -118,13 +126,8 @@ body{
   font-size: 1.5rem;
   
 }
-#cdg-wrapper{
-  width: 20rem;
-}
-canvas{
-  width: 30rem;
-  height: 25rem;
-}
+
+
 
 /* width */
 ::-webkit-scrollbar {

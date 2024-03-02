@@ -1,13 +1,25 @@
 .card-folders{
-    /* background-color: red; */
     display: flex;
     max-width: 40rem;
     max-height: 10rem;
     gap: 1rem;
-    margin-bottom: 2.5rem;
-    /* overflow-x: hidden; */
+    margin-bottom: 1rem;
+    overflow-x: hidden;
     margin:0 auto;
 }
+.cards-only{
+    background-color: red;
+    display: flex;
+    max-width: 50rem;
+    max-height: 10rem;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    margin:0 auto;
+}
+
+
 #top-btn{
     z-index: 100;
 }
@@ -18,12 +30,12 @@
 .card{
     /* overflow: hidden; */
     
-    width: 10rem;
+    width: 10.3rem;
     max-height: 10rem;
     background-color: black;
     border-radius: 5%;
-    border: 1px solid white;
-    align-items: center;
+    border: 3px solid blue;
+    align-items: center;    
 }
 #phantom-card{
     /* overflow: hidden; */

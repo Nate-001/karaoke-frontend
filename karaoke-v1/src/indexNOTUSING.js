@@ -47,7 +47,18 @@ function loadPlayer(filename) {
 
 
 async function logKaraoke() {
-  const response = await fetch(baseUrl+"SF365-01 - Kungs vs Cookin' on 3 Burners - This Girl.zip");
+  let headers = new Headers();
+
+  headers.append('Content-Type', 'application/json');
+  headers.append('Accept', 'application/json');
+
+  headers.append('Access-Control-Allow-Origin', 'http://localhost:8080');
+  headers.append('Access-Control-Allow-Credentials', 'true');
+
+  headers.append('GET', 'POST', 'OPTIONS');
+
+  headers.append('Authorization', 'Basic ' + base64.encode(username + ":" + password));
+  const response = await fetch(baseUrl+"SF365-01 - Kungs vs Cookin' on 3 Burners - This Girl.zip", headers);
   const karaoke = await response.arrayBuffer()
   setState('loading')
   loadPlayer(karaoke)

@@ -78,7 +78,19 @@ function loadPlayer(filename) {
 //   loadPlayer(kar)
 // })();
 const playKaraoke = async function (){
-    const response = await fetch("http://127.0.0.1:8000/media/music/A 5/1403_Supervisor_De_Tus_Sueños_Pop.zip");
+  let headers = new Headers();
+
+  headers.append('Content-Type', 'application/json');
+  headers.append('Accept', 'application/json');
+
+  headers.append('Access-Control-Allow-Origin', 'http://localhost:8080');
+  headers.append('Access-Control-Allow-Credentials', 'true');
+
+  headers.append('GET', 'POST', 'OPTIONS');
+
+  headers.append('Authorization', 'Basic ' + base64.encode(username + ":" + password));
+
+    const response = await fetch("http://127.0.0.1:8000/media/music/A 5/1403_Supervisor_De_Tus_Sueños_Pop.zip", headers);
     console.log(response)
     const kar = await response.arrayBuffer()
     loadPlayer(kar)

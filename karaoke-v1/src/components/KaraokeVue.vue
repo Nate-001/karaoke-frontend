@@ -38,7 +38,8 @@ onMounted(()=>{
   if(tmp.length > 0){
     reproductionList.value = tmp
     currentKaraoke.value = {"index":0, "data":reproductionList.value[0]}
-    console.log(currentKaraoke.value)
+    // console.log(currentKaraoke.value)
+
     getKaraoke()
     hideClass.value =true
   }
@@ -182,7 +183,7 @@ const addToReproductionList = (index) => {
   if(currentKaraoke.value.length < 1){
     currentKaraoke.value = {"index":i, "data":reproductionList.value[0]}
   console.log("========")
-    
+  
     console.log(currentKaraoke.value)
   console.log("========")
     
@@ -310,13 +311,6 @@ function moveToLeft(){
   console.log('class removed')
  },1000) 
 
-
-  // let x = document.getElementById('card');
-  // let y = document.getElementsByClassName('card')
-  // for(let i=0; i< y.length; i++){
-  //   console.log(window.scrollX + document.querySelector('#card').getBoundingClientRect().left + -10 + "px") 
-    
-  // }
 }
 </script>
 
@@ -324,6 +318,7 @@ function moveToLeft(){
 <div class="main-player">
 
   <div className="greetings" id="player-container">
+    <!-- CDGPLAYER -->
     <div className="cdg-player" style="visiblility: visible">
       <div :class="{'hide': hideClass}" id="img-cover"></div>
       <div id="cdg_controls"></div>
@@ -354,14 +349,17 @@ function moveToLeft(){
           <tr v-for="(karaoke, index) in reproductionList" :key="index">
             <td>{{karaoke.title}}</td>
             <td>{{karaoke.artist}} 
-              <svg style="color:white;" xmlns="http://www.w3.org/2000/svg" height="22" width="24" viewBox="0 0 448 512">
-              <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm64 192c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm64-64c0-17.7 14.3-32 32-32s32 14.3 32 32V352c0 17.7-14.3 32-32 32s-32-14.3-32-32V160zM320 288c17.7 0 32 14.3 32 32v32c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32z"/></svg>
             </td>
+            <td v-if="currentKaraoke.data.title == karaoke.title">  
+            <img width="50" height="25" src="../assets/equalizer_white.gif" alt="shows playing equalizer">
+            </td> 
+            <td v-else></td>
             <td className="d-grid"><button @click="deleteElement(index)" className="btn btn-outline-danger m-1">Delete</button></td>
           </tr>
         </tbody>
       </table>
     </div>
+    <p class="text-center text-primary m-2">ALFCOMPUTACION.COM</p>
   </div>
   <div class="all-songs-container">
     <div class="search">
@@ -379,46 +377,67 @@ function moveToLeft(){
       <div v-for="(folder, index) in folderList" :key="index">
         {{ folder[index] }}
       </div>
-      alfredo
     </div>
     
+<!-- CARD FOLDERS -->
+    <div class="card-folders">
+      <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button>
+          <div class="cards-only">
+              <div v-for="(folder, index) in folderList" :key="index" class="for"  @click="folderSelected(folder[0]['fields'].artist)">
 
-    <div class="card-folders text-white">
-      <button class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&lt;</button>
-
-      <div v-for="(folder, index) in folderList" :key="index" class="for"  @click="folderSelected(folder[0]['fields'].artist)">
-        <!-- {{ index }}  -->
-        <!-- {{ folder[0]['fields'].title }} -->
-      <div :id="'card-'+index[0]" class="card move-card"  @click="console.log(folder[0]['fields'].artist)">
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img :src="mediaBaseUrl+folder[0]['fields'].img" alt="artist">
-              <div class="containers">
-                <h4 style="color:skyblue; padding:2px;">
-                  <b>{{folder[0]['fields'].artist}}</b>
-                </h4>
+                <div :id="'card-'+index[0]" class="card move-card"  @click="console.log(folder[0]['fields'].artist)">
+                  <div class="flip-card">
+                    <div class="flip-card-inner">
+                      <div class="flip-card-front">
+                        <img class="img-front" :src="mediaBaseUrl+folder[0]['fields'].img" alt="artist">
+                        <div class="containers">
+                          <h6>
+                            <small>{{folder[0]['fields'].artist}}</small>
+                          </h6>
+                        </div>
+                      </div>
+                      <div class="flip-card-back">
+                        <img class="img-back" :src="mediaBaseUrl+folder[0]['fields'].img" alt="artist">
+                        <div class="containers">
+                          <h6>
+                            <small>{{folder[0]['fields'].artist}}</small>
+                          </h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="flip-card-back">
-              <img :src="mediaBaseUrl+folder[0]['fields'].img" alt="artist">
-              <div class="containers">
-                <h4 style="color:skyblue; padding:2px;">
-                  <b>{{folder[0]['fields'].artist}}</b>
-                </h4>
-              </div>
-            </div>
+              <div v-for="(folder, index) in folderList" :key="index" class="for"  @click="folderSelected(folder[0]['fields'].artist)">
 
+                <div :id="'card-'+index[0]" class="card move-card"  @click="console.log(folder[0]['fields'].artist)">
+                  <div class="flip-card">
+                    <div class="flip-card-inner">
+                      <div class="flip-card-front">
+                        <img class="img-front" :src="mediaBaseUrl+folder[0]['fields'].img" alt="artist">
+                        <div class="containers">
+                          <h6>
+                            <small>{{folder[0]['fields'].artist}}</small>
+                          </h6>
+                        </div>
+                      </div>
+                      <div class="flip-card-back">
+                        <img class="img-back" :src="mediaBaseUrl+folder[0]['fields'].img" alt="artist">
+                        <div class="containers">
+                          <h6>
+                            <small>{{folder[0]['fields'].artist}}</small>
+                          </h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
           </div>
-          
-        </div>
-      </div>
-      
 
+      <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToLeft()">&gt;</button>
     </div>
-   
-      <button id="top-btn" class="btn btn-outline-success btn-rounded" @click="moveToLeft()">&gt;</button>
-    </div>
+      <!-- !!!!!!!!!!!!!!! -->
     
     <!-- ALL SONGS -->
 
@@ -443,7 +462,9 @@ function moveToLeft(){
     </table>
     </div>
     <!-- all SONGS -->
+    
   </div>
+ 
 </div>
 
 </template>
