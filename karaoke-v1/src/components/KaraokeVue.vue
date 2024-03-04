@@ -14,6 +14,12 @@ const currentTrackTime = ref(null)
 const karaokes = ref([])
 const folderList = ref([])
 
+const pagination = ref([])
+const page_prev = ref(1)
+const page_next = ref(2)
+
+const pageData = ref({page:1})
+
 const reproductionList = ref([])
 const hideClass = ref(false)
 const searchString = ref('')
@@ -32,17 +38,21 @@ onMounted(()=>{
   // let playbtn = document.getElementById('play-karaoke')
   let divPlayer = document.getElementById('cdg_wrapper').getElementsByTagName("canvas")
   let screen = document.getElementById('full-screen')
-
-  let tmp = JSON.parse(getCookie('reproductionlist'))
+  try {
+      let tmp = JSON.parse(getCookie('reproductionlist'))
   console.log(tmp, 'this is tmp')
-  if(tmp.length > 0){
-    reproductionList.value = tmp
-    currentKaraoke.value = {"index":0, "data":reproductionList.value[0]}
-    // console.log(currentKaraoke.value)
+    if(tmp.length > 1){
+      reproductionList.value = tmp
+      currentKaraoke.value = {"index":0, "data":reproductionList.value[0]}
+      // console.log(currentKaraoke.value)
 
-    getKaraoke()
-    hideClass.value =true
+      getKaraoke()
+      hideClass.value =true
+    }
+  } catch (error) {
+    
   }
+
 
   //! FULL SCREEN
   screen.addEventListener('click', () =>{
@@ -147,7 +157,7 @@ setTimeout(() => {
   // console.log(player.props)
 }
 
-// #! GET KARAOKES TRACK BY CURRENT KARAOKE VALUE
+// #! GET KARAOKES TRACK BY CURRENT KARAOKE VALUE actual file as a arrayBuffer
 async function getKaraoke() {
 
   const response = await fetch("http://localhost:8000/media/"+currentKaraoke.value["data"].track);
@@ -173,8 +183,9 @@ function clickPlay(e, event){
 
 
 const addToReproductionList = (index) => {
-  reproductionList.value.push(karaokes.value[index].fields);
-
+  
+  reproductionList.value.push(karaokes.value[index]);
+  console.log(reproductionList.value)
   // create cookie for reproduction list
   let json_str = JSON.stringify(reproductionList.value)
   setCookie("reproductionlist", json_str, 1)
@@ -223,20 +234,53 @@ const img = await response.blob()
 // GETS ALL THE KARAOKES AND FILTERS IF THERE IS A SEARCH STRING
 async function logFiles() {
   // alert('DATA IS BEING FETCHED')
-let baseUrl = `http://localhost:8000/api/show_artist/?artist=${searchString.value}`
+let baseUrl = `http://localhost:8000/api/show_artist/?artist=${searchString.value}&page=${pageData.value.page}`
+
 const response = await fetch(baseUrl);
 const files = await response.json()
 // karaokes.value = files
-folderList.value = Object.groupBy(files, kar => kar.fields.artist)
+
+
+
+folderList.value = Object.groupBy(files.data, ({artist}) => artist)
+pagination.value = files.page
+pageData.value.page = files.page.current
+
+if (pageData.value.page == 0){
+  page_prev.value = pagination.current
+}
+
+console.log("folderList groupeBy")
+console.log(folderList.value)
+console.log("folderList groupeBy")
 
 };
 
+// PAGINATION FUNCTIONS
+function selectedPage(page){
+  console.log(page, "este es el page")
+  pageData.value.page = page
+  logFiles()
+}
+function nextPage(){
+  if(pagination.value.has_next){
+    pageData.value.page += 1
+    logFiles()
+  }
+}
+function previousPage(){
+  if(pagination.value.has_previous){
+    pageData.value.page -= 1
+    logFiles()
+  }
+}
 // handles click on folders to add information on table of karaokes
 function folderSelected(folder){
   let newList = []
+  console.log(folder)
   folderList.value[folder].forEach(element =>{
     newList.push(element)
-    // console.log(karaokes.value)
+    console.log(karaokes.value)
   }
   )
   karaokes.value = newList
@@ -372,7 +416,7 @@ function moveToLeft(){
   <div class="all-songs-container">
     <div class="search">
       <div class="search-string">
-         <span class="text-secondary">Searching by: </span><strong>{{ searchString }}</strong>
+         <span class="text-secondary">Search by: </span><strong>{{ searchString }}</strong>
       </div>
       <!-- ON SCREEN KEYBOARD -->
       <OnScreenKeyboard 
@@ -389,26 +433,27 @@ function moveToLeft(){
     
 <!-- CARD FOLDERS -->
     <div class="card-folders">
-      <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button>
+      <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
           <div class="cards-only">
-              <div v-for="(folder, index) in folderList" :key="index" class="for"  @click="folderSelected(folder[0]['fields'].artist)">
 
-                <div :id="'card-'+index[0]" class="card move-card"  @click="console.log(folder[0]['fields'].artist)">
+              <div v-for="(folder, artist) in folderList" :key="folder[0].id" class="for"  @click="folderSelected(artist)">
+
+                <div :id="'card-'+folder[0].id" class="card move-card"  @click="console.log(folder[0].artist)">
                   <div class="flip-card">
                     <div class="flip-card-inner">
                       <div class="flip-card-front">
-                        <img class="img-front" :src="mediaBaseUrl+folder[0]['fields'].img" alt="artist">
+                        <img class="img-front" :src="mediaBaseUrl+folder[0].img" alt="artist">
                         <div class="containers">
                           <h6>
-                            <small>{{folder[0]['fields'].artist}}</small>
+                            <small>{{artist}}</small>
                           </h6>
                         </div>
                       </div>
                       <div class="flip-card-back">
-                        <img class="img-back" :src="mediaBaseUrl+folder[0]['fields'].img" alt="artist">
+                        <img  class="img-back" :src="mediaBaseUrl+folder[0].img" alt="artist">
                         <div class="containers">
                           <h6>
-                            <small>{{folder[0]['fields'].artist}}</small>
+                            <small>{{artist}}</small>
                           </h6>
                         </div>
                       </div>
@@ -416,35 +461,44 @@ function moveToLeft(){
                   </div>
                 </div>
               </div>
-              <div v-for="(folder, index) in folderList" :key="index" class="for"  @click="folderSelected(folder[0]['fields'].artist)">
 
-                <div :id="'card-'+index[0]" class="card move-card"  @click="console.log(folder[0]['fields'].artist)">
-                  <div class="flip-card">
-                    <div class="flip-card-inner">
-                      <div class="flip-card-front">
-                        <img class="img-front" :src="mediaBaseUrl+folder[0]['fields'].img" alt="artist">
-                        <div class="containers">
-                          <h6>
-                            <small>{{folder[0]['fields'].artist}}</small>
-                          </h6>
-                        </div>
-                      </div>
-                      <div class="flip-card-back">
-                        <img class="img-back" :src="mediaBaseUrl+folder[0]['fields'].img" alt="artist">
-                        <div class="containers">
-                          <h6>
-                            <small>{{folder[0]['fields'].artist}}</small>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
           </div>
 
-      <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToLeft()">&gt;</button>
+      <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToLeft()">&gt;</button> -->
     </div>
+
+      <!-- !!!!!!!!!!!!!!! -->
+      <p class="text-center">
+
+        Current page: 
+        <strong>{{ pagination.current }}
+        </strong> of <strong>{{ pagination.num_pages }}</strong> 
+        Total records: <strong>{{ pagination.total_records }}</strong>
+      </p>
+<div class="pagination m-auto" style="max-width: 30rem;">
+  
+     <span v-if="pagination.has_previous">
+     <button class="btn btn-primary" @click="selectedPage(1)"> 
+        &laquo;First
+      </button>
+     <button class="btn btn-primary" @click="previousPage()"> 
+        Previous
+      </button>
+     </span>
+        <button @click="selectedPage(page_prev)" 
+        class="btn btn-primary">{{page_prev}}</button> 
+
+     <span v-if="pagination.has_next">
+        <button @click="selectedPage(page_next)" 
+        class="btn btn-primary form-control">{{page_next}}</button> 
+     </span>
+        <span v-if="pagination.current != pagination.num_pages">
+            <button class="btn btn-primary" 
+            @click="nextPage()">Next</button>
+            <button class="btn btn-primary" 
+            @click="selectedPage(pagination.num_pages)">Last&raquo;</button>
+        </span>
+</div>
       <!-- !!!!!!!!!!!!!!! -->
     
     <!-- ALL SONGS -->
@@ -461,8 +515,8 @@ function moveToLeft(){
       </thead>
       <tbody>
         <tr @click="addToReproductionList(index)" v-for="(karaoke, index) in karaokes" :key="index">
-          <td>{{karaoke.fields.title}}</td>
-          <td>{{karaoke.fields.artist}}</td>
+          <td>{{karaoke.title}}</td>
+          <td>{{karaoke.artist}}</td>
           <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
         </tr>
        
