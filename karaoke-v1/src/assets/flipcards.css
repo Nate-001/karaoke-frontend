@@ -26,7 +26,14 @@
   .flip-card:hover .flip-card-inner {
     transform: rotateY(180deg);
   }
-  
+  .current{
+    background-color: white;
+    color: blue;
+  }
+  .rotate{
+    transform: rotateY(180deg);
+  }
+
   .flip-card-front, .flip-card-back {
     position: absolute;
     border-radius: 5px;

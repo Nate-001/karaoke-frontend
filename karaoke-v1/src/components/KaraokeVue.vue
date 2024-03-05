@@ -10,6 +10,7 @@ const currentKaraoke = ref([])
 const currentFolder = ref('')
 const currentTrackLength = ref(null)
 const currentTrackTime = ref(null)
+const fliper = ref(false)
 
 const karaokes = ref([])
 const folderList = ref([])
@@ -467,7 +468,7 @@ function moveToLeft(){
       <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToLeft()">&gt;</button> -->
     </div>
 
-      <!-- !!!!!!!!!!!!!!! -->
+      <!-- !!!!!!!  PAGINATION  !!!!!!!! -->
       <p class="text-center">
 
         Current page: 
@@ -478,28 +479,28 @@ function moveToLeft(){
 <div class="pagination m-auto" style="max-width: 30rem;">
   
      <span v-if="pagination.has_previous">
-     <button class="btn btn-primary" @click="selectedPage(1)"> 
+     <button class="btn btn-primary me-1"  @click="selectedPage(1)"> 
         &laquo;First
       </button>
-     <button class="btn btn-primary" @click="previousPage()"> 
+     <button class="btn btn-primary me-1" @click="previousPage()"> 
         Previous
       </button>
      </span>
         <button @click="selectedPage(page_prev)" 
-        class="btn btn-primary">{{page_prev}}</button> 
+        class="btn btn-outline-primary me-2"><b>{{page_prev}}</b></button> 
 
      <span v-if="pagination.has_next">
         <button @click="selectedPage(page_next)" 
-        class="btn btn-primary form-control">{{page_next}}</button> 
+        class="btn btn-primary form-control me-1">{{page_next}}</button> 
      </span>
         <span v-if="pagination.current != pagination.num_pages">
-            <button class="btn btn-primary" 
+            <button class="btn btn-primary me-1" 
             @click="nextPage()">Next</button>
-            <button class="btn btn-primary" 
+            <button class="btn btn-primary me-1" 
             @click="selectedPage(pagination.num_pages)">Last&raquo;</button>
         </span>
 </div>
-      <!-- !!!!!!!!!!!!!!! -->
+      <!-- !!!!!!  END PAGINATION !!!!!!!!! -->
     
     <!-- ALL SONGS -->
 
