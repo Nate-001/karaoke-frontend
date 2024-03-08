@@ -1,11 +1,12 @@
 <script setup>
-// import logFiles from '../index'
+// import getFolders from '../index'
 // import '../index'
 import { onMounted, ref, reactive, watch } from 'vue';
 import { CDGPlayer, CDGControls } from '/node_modules/cdgplayer/dist/cdgplayer.js';
 import OnScreenKeyboard from './OnScreenKeyboard.vue'
 
-const mediaBaseUrl = ref('http://localhost:8000/media/')
+const url = ref('http://localhost:8000/')
+const mediaBaseUrl = ref(`${url.value}media/`)
 const currentKaraoke = ref([])
 const currentFolder = ref('')
 const currentTrackLength = ref(null)
@@ -35,7 +36,10 @@ defineProps({
 
 // #region ON MOUNTED
 onMounted(()=>{
-  karaokes.value = logFiles();
+  // ******************************
+  // karaokes.value = getFolders();
+  getFolders()
+  // ******************************
   // let playbtn = document.getElementById('play-karaoke')
   let divPlayer = document.getElementById('cdg_wrapper').getElementsByTagName("canvas")
   let screen = document.getElementById('full-screen')
@@ -78,7 +82,7 @@ watch(reproductionList.value, (newValue, oldValue) => {
 
 watch(searchString, (newValue, oldValue) =>{
     // console.log(oldValue, newValue)
-    logFiles()
+    getFolders()
   })
 
 // #region FUNCTIONS
@@ -233,16 +237,13 @@ const img = await response.blob()
 };
 
 // GETS ALL THE KARAOKES AND FILTERS IF THERE IS A SEARCH STRING
-async function logFiles() {
+async function getFolders() {
   // alert('DATA IS BEING FETCHED')
-let baseUrl = `http://localhost:8000/api/show_artist/?artist=${searchString.value}&page=${pageData.value.page}`
+let baseUrl = `${url.value}api/show_artist/?artist=${searchString.value}&page=${pageData.value.page}`
 
 const response = await fetch(baseUrl);
 const files = await response.json()
 // karaokes.value = files
-
-
-
 folderList.value = Object.groupBy(files.data, ({artist}) => artist)
 pagination.value = files.page
 pageData.value.page = files.page.current
@@ -261,32 +262,46 @@ console.log("folderList groupeBy")
 function selectedPage(page){
   console.log(page, "este es el page")
   pageData.value.page = page
-  logFiles()
+  getFolders()
 }
 function nextPage(){
   if(pagination.value.has_next){
     pageData.value.page += 1
-    logFiles()
+    getFolders()
   }
 }
 function previousPage(){
   if(pagination.value.has_previous){
     pageData.value.page -= 1
-    logFiles()
+    getFolders()
   }
 }
 // handles click on folders to add information on table of karaokes
-function folderSelected(folder){
-  let newList = []
-  console.log(folder)
-  folderList.value[folder].forEach(element =>{
-    newList.push(element)
-    console.log(karaokes.value)
-  }
-  )
-  karaokes.value = newList
+// ***************************
+// FUNCTION TO FETCH KARAOKES
+// ***************************
+async function folderSelected(folder){
+
+  // alert(folder)
+  const response = await fetch(`http://localhost:8000/api/show_tracks/?id=${folder}`)
+  const files = await response.json()
+ 
+  
+  // let newList = []
+  // console.log(folder)
+  // folderList.value[folder].forEach(element =>{
+  //   print(element)
+  //   newList.push(element)
+  //   console.log(karaokes.value)
+  // }
+  // )
+  // karaokes.value = newList
+  karaokes.value = files.data
   // console.log(karaokes.value)
+  console.log(karaokes.value.title)
   }
+
+  
 //#region Karaoke PREVIOUS NEXT PAUSE PLAY
 function prevKaraoke() {
   let prev = currentKaraoke.value["index"]
@@ -437,7 +452,7 @@ function moveToLeft(){
       <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
           <div class="cards-only">
 
-              <div v-for="(folder, artist) in folderList" :key="folder[0].id" class="for"  @click="folderSelected(artist)">
+              <div v-for="(folder, artist) in folderList" :key="folder[0].id" class="for"  @click="folderSelected(folder[0].id)">
 
                 <div :id="'card-'+folder[0].id" class="card move-card"  @click="console.log(folder[0].artist)">
                   <div class="flip-card">
