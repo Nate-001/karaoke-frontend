@@ -15,8 +15,8 @@ const fliper = ref(false)
 
 const karaokes = ref([])
 const folderList = ref([])
-const timePlayed = ref('0:00')
-const trackLength = ref('0:00')
+const timePlayed = ref(1)
+const trackLength = ref(1)
 const isPlaying = ref(false)
 
 const pagination = ref([])
@@ -60,15 +60,7 @@ onMounted(()=>{
   } catch (error) {
     
   }
-watch(isPlaying, (newIsPlaying, oldIsPlaying)=>{
-  console.log(isPlaying.value)
-  if(isPlaying){
-    
-    if(timePlayed.value == trackLength.value){
-      nextKaraoke()
-    }
-  }
-})
+
 
   //! FULL SCREEN
   screen.addEventListener('click', () =>{
@@ -84,6 +76,29 @@ watch(isPlaying, (newIsPlaying, oldIsPlaying)=>{
 
 });
 // #endregion ON MOUNTED
+// ********WATCHERS******
+watch(isPlaying, (newIsPlaying, oldIsPlaying)=>{
+  console.log(isPlaying.value)
+  if(isPlaying){
+    
+    if(timePlayed.value >= trackLength.value){
+      console.log("se acabo la cancion")
+      if(!isPlaying){
+          let next = currentKaraoke.value["index"] +1
+      console.log("next: "+next)
+      
+      if(reproductionList.value.length-1 > 0 && next < reproductionList.value.length){
+        
+        currentKaraoke.value={"index": next, "data":reproductionList.value[next]}
+      }
+      else {
+        currentKaraoke.value={"index": 0, "data":reproductionList.value[0]}
+      }
+      clickPlay()
+      }
+    }
+  }
+})
 
 watch(reproductionList.value, (newValue, oldValue) => {
   hideClass.value =true
@@ -155,9 +170,9 @@ const onStatusChange = player.props.on('status', (val, prev) =>{
   }
 })
 setTimeout(() => {
-    console.log(player)
-    console.log(player.props.timePlayed)
-    console.log(player.tag.APIC.data.data)
+    // console.log(player)
+    // console.log(player.props.timePlayed)
+    // console.log(player.tag.APIC.data.data)
     let img = document.getElementById('img-cover')
   
     let mig = document.createElement('svg')
@@ -173,8 +188,15 @@ setTimeout(() => {
       console.log(player.props)
       // console.log(player.props.timePlayed)
       // console.log(player.props.trackLength)
-      trackLength.value = player.props.trackLength
-      timePlayed.value = player.props.timePlayed
+      let min = Number(player.props.trackLength.split(':')[0]) * 60 
+      let sec =  Number(player.props.trackLength.split(':')[1])
+      let seconds = min + sec-5
+      let min_played = Number(player.props.timePlayed.split(':')[0]) * 60 
+      let sec_played =  Number(player.props.timePlayed.split(':')[1])
+      let seconds_played = min_played + sec_played
+      console.log(seconds)
+      trackLength.value = seconds
+      timePlayed.value = seconds_played
 
     //   if(timePlayed.value == player.props.trackLength){
     //     // console.log('Song finished' + timePlayed.value)
@@ -210,7 +232,7 @@ function deleteElement(index){
 function clickPlay(e, event){
   const btnPlay = document.getElementById('play-karaoke')
   btnPlay.click(e,event);
-  // console.log(event)
+  console.log(event)
 
 }
 
@@ -550,6 +572,7 @@ function moveToLeft(){
     <div class="all-songs">
       <h2 className="text-center">All Songs</h2>
       {{ timePlayed }}
+      {{ trackLength }}
     <table calssName="d-grid">
       <thead>
         <tr>
