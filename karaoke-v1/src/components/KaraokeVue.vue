@@ -15,6 +15,9 @@ const fliper = ref(false)
 
 const karaokes = ref([])
 const folderList = ref([])
+const timePlayed = ref('0:00')
+const trackLength = ref('0:00')
+const isPlaying = ref(false)
 
 const pagination = ref([])
 const page_prev = ref(1)
@@ -57,7 +60,15 @@ onMounted(()=>{
   } catch (error) {
     
   }
-
+watch(isPlaying, (newIsPlaying, oldIsPlaying)=>{
+  console.log(isPlaying.value)
+  if(isPlaying){
+    
+    if(timePlayed.value == trackLength.value){
+      nextKaraoke()
+    }
+  }
+})
 
   //! FULL SCREEN
   screen.addEventListener('click', () =>{
@@ -144,9 +155,9 @@ const onStatusChange = player.props.on('status', (val, prev) =>{
   }
 })
 setTimeout(() => {
-    // console.log(player)
-    // console.log(player.props.timePlayed)
-    // console.log(player.tag.APIC.data.data)
+    console.log(player)
+    console.log(player.props.timePlayed)
+    console.log(player.tag.APIC.data.data)
     let img = document.getElementById('img-cover')
   
     let mig = document.createElement('svg')
@@ -156,7 +167,24 @@ setTimeout(() => {
   },10000
   
   )
-  
+    let interval = setInterval(() => {
+      isPlaying.value = player.props.isPlaying
+    if (player.props.isPlaying){
+      console.log(player.props)
+      // console.log(player.props.timePlayed)
+      // console.log(player.props.trackLength)
+      trackLength.value = player.props.trackLength
+      timePlayed.value = player.props.timePlayed
+
+    //   if(timePlayed.value == player.props.trackLength){
+    //     // console.log('Song finished' + timePlayed.value)
+    //     clearInterval(interval)
+    //     nextKaraoke()
+    // }
+        
+
+    }
+  }, 1000);
   player.load(filename);
   // console.log('this are the props')
   // console.log(player.props)
@@ -521,6 +549,7 @@ function moveToLeft(){
 
     <div class="all-songs">
       <h2 className="text-center">All Songs</h2>
+      {{ timePlayed }}
     <table calssName="d-grid">
       <thead>
         <tr>
