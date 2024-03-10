@@ -20,8 +20,8 @@ const trackLength = ref(1)
 const isPlaying = ref(false)
 
 const pagination = ref([])
-const page_prev = ref(1)
-const page_next = ref(2)
+// const page_prev = ref(1)
+// const page_next = ref(2)
 
 const pageData = ref({page:1})
 
@@ -434,7 +434,7 @@ function moveToLeft(){
       <div id="cdg_controls"></div>
       <div id="cdg_wrapper"></div>
     </div>  
-    <div className="buttons-controls">
+          <div className="buttons-controls">
       <div className="btn-inside-controls">
         <button className="btn btn-outline-info" @click="prevKaraoke()" id="prev-karaoke">&lt; &lt;</button>
         <button className="btn btn-outline-success" @click="getKaraoke()" id="play-karaoke">Play</button>
@@ -534,35 +534,45 @@ function moveToLeft(){
     </div>
 
       <!-- !!!!!!!  PAGINATION  !!!!!!!! -->
-      <p class="text-center">
-
-        Current page: 
-        <strong>{{ pagination.current }}
-        </strong> of <strong>{{ pagination.num_pages }}</strong> 
-        Total records: <strong>{{ pagination.total_records }}</strong>
-      </p>
+<p class="text-center">
+    Current page: 
+    <strong>{{ pagination.current }}
+    </strong> of <strong>{{ pagination.num_pages }}</strong> 
+    Total records: <strong>{{ pagination.total_records }}</strong>
+</p>
 <div class="pagination m-auto" style="max-width: 30rem;">
   
      <span v-if="pagination.has_previous">
      <button class="btn btn-primary me-1"  @click="selectedPage(1)"> 
         &laquo;First
       </button>
-     <button class="btn btn-primary me-1" @click="previousPage()"> 
-        Previous
-      </button>
+      <span >
+        <button class="btn btn-primary me-1" @click="selectedPage(pagination.previous_page_number)"> 
+          Previous
+        </button>
+        
+      </span>
      </span>
-        <button @click="selectedPage(page_prev)" 
-        class="btn btn-outline-primary me-2"><b>{{page_prev}}</b></button> 
+     <span v-if="pagination.previous_page_number != 1">
+       <button @click="selectedPage(pagination.previous_page_number)" 
+       class="btn btn-primary me-2"><b>{{pagination.previous_page_number}}</b>
+      </button> 
+    </span>
+     <span>
+       <button 
+       class="btn btn-outline-primary me-2"><b>{{pagination.current}}</b>
+      </button> 
+    </span>
 
      <span v-if="pagination.has_next">
-        <button @click="selectedPage(page_next)" 
-        class="btn btn-primary form-control me-1">{{page_next}}</button> 
+        <button @click="selectedPage(pagination.next_page_number)" 
+        class="btn btn-primary form-control me-1">{{pagination.next_page_number}}</button> 
      </span>
         <span v-if="pagination.current != pagination.num_pages">
             <button class="btn btn-primary me-1" 
-            @click="nextPage()">Next</button>
+            @click="selectedPage(pagination.next_page_number)">Next</button>
             <button class="btn btn-primary me-1" 
-            @click="selectedPage(pagination.num_pages)">Last&raquo;</button>
+            @click="selectedPage(pagination.num_pages)">{{pagination.num_pages}}Last&raquo;</button>
         </span>
 </div>
       <!-- !!!!!!  END PAGINATION !!!!!!!!! -->
