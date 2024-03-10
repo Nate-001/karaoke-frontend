@@ -78,12 +78,12 @@ onMounted(()=>{
 // #endregion ON MOUNTED
 // ********WATCHERS******
 watch(isPlaying, (newIsPlaying, oldIsPlaying)=>{
-  console.log(isPlaying.value)
+  // console.log(isPlaying.value)
   if(isPlaying){
     
     if(timePlayed.value >= trackLength.value){
-      console.log("se acabo la cancion")
-      if(!isPlaying){
+      // console.log("se acabo la cancion")
+      if(!isPlaying.value){
           let next = currentKaraoke.value["index"] +1
       console.log("next: "+next)
       
@@ -185,25 +185,19 @@ setTimeout(() => {
     let interval = setInterval(() => {
       isPlaying.value = player.props.isPlaying
     if (player.props.isPlaying){
-      console.log(player.props)
-      // console.log(player.props.timePlayed)
-      // console.log(player.props.trackLength)
+      // console.log(player.props)
+      // need seconds to compare when track is over
+      // conversion of time to seconds
       let min = Number(player.props.trackLength.split(':')[0]) * 60 
       let sec =  Number(player.props.trackLength.split(':')[1])
       let seconds = min + sec-5
       let min_played = Number(player.props.timePlayed.split(':')[0]) * 60 
       let sec_played =  Number(player.props.timePlayed.split(':')[1])
       let seconds_played = min_played + sec_played
-      console.log(seconds)
+      // change the value of time played and total time of track 
       trackLength.value = seconds
       timePlayed.value = seconds_played
 
-    //   if(timePlayed.value == player.props.trackLength){
-    //     // console.log('Song finished' + timePlayed.value)
-    //     clearInterval(interval)
-    //     nextKaraoke()
-    // }
-        
 
     }
   }, 1000);
@@ -213,18 +207,22 @@ setTimeout(() => {
 }
 
 // #! GET KARAOKES TRACK BY CURRENT KARAOKE VALUE actual file as a arrayBuffer
+
 async function getKaraoke() {
-
-  const response = await fetch("http://localhost:8000/media/"+currentKaraoke.value["data"].track);
-  // console.log(currentKaraoke, "si este es")
-  const karaoke = await response.arrayBuffer()
-  loadPlayer(karaoke)
-
+  try {
+      const response = await fetch("http://localhost:8000/media/"+currentKaraoke.value["data"].track);
+      // console.log(currentKaraoke, "si este es")
+      const karaoke = await response.arrayBuffer()
+      loadPlayer(karaoke)
+  } catch (error) {
+    console.log("Could not get media from server: ", error)
+  }
 };
 
 function deleteElement(index){
   reproductionList.value.splice(index,1)
    // create cookie for reproduction list
+   // after we delete a track
    let json_str = JSON.stringify(reproductionList.value)
   setCookie("reproductionlist", json_str, 1)
 }
@@ -242,6 +240,7 @@ const addToReproductionList = (index) => {
   reproductionList.value.push(karaokes.value[index]);
   console.log(reproductionList.value)
   // create cookie for reproduction list
+  // after we add a track
   let json_str = JSON.stringify(reproductionList.value)
   setCookie("reproductionlist", json_str, 1)
 
@@ -258,6 +257,7 @@ const addToReproductionList = (index) => {
 };
 
 function setCookie(cname, cvalue, exdays){
+  // set the cookie
   const d = new Date()
   d.setTime(d.getTime() + (exdays*24*60*60*1000))
   let expires = "expires="+ d.toUTCString()
@@ -497,7 +497,7 @@ function moveToLeft(){
       </div>
     </div>
     
-<!-- CARD FOLDERS -->
+<!--#region CARD FOLDERS -->
     <div class="card-folders">
       <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
           <div class="cards-only">
@@ -532,7 +532,9 @@ function moveToLeft(){
 
       <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToLeft()">&gt;</button> -->
     </div>
+<!--#endregion CARD FOLDERS -->
 
+<!-- #region PAGINATION -->
       <!-- !!!!!!!  PAGINATION  !!!!!!!! -->
 <p class="text-center">
     Current page: 
@@ -576,13 +578,12 @@ function moveToLeft(){
         </span>
 </div>
       <!-- !!!!!!  END PAGINATION !!!!!!!!! -->
-    
-    <!-- ALL SONGS -->
+<!-- #endregion PAGINATION -->
+
+    <!--#region ALL SONGS -->
 
     <div class="all-songs">
       <h2 className="text-center">All Songs</h2>
-      {{ timePlayed }}
-      {{ trackLength }}
     <table calssName="d-grid">
       <thead>
         <tr>
@@ -601,7 +602,7 @@ function moveToLeft(){
       </tbody>
     </table>
     </div>
-    <!-- all SONGS -->
+    <!--endregion all SONGS -->
     
   </div>
  
