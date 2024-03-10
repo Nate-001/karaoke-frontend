@@ -542,7 +542,7 @@ function moveToLeft(){
     </strong> of <strong>{{ pagination.num_pages }}</strong> 
     Total records: <strong>{{ pagination.total_records }}</strong>
 </p>
-<div class="pagination m-auto" style="max-width: 30rem;">
+<div class="pagination m-auto" style="max-width: 45rem;">
   
      <span v-if="pagination.has_previous">
      <button class="btn btn-primary me-1"  @click="selectedPage(1)"> 
@@ -574,7 +574,7 @@ function moveToLeft(){
             <button class="btn btn-primary me-1" 
             @click="selectedPage(pagination.next_page_number)">Next</button>
             <button class="btn btn-primary me-1" 
-            @click="selectedPage(pagination.num_pages)">{{pagination.num_pages}}Last&raquo;</button>
+            @click="selectedPage(pagination.num_pages)">Last&raquo;</button>
         </span>
 </div>
       <!-- !!!!!!  END PAGINATION !!!!!!!!! -->
