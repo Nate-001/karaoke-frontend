@@ -27,7 +27,8 @@ const pageData = ref({page:1})
 
 const reproductionList = ref([])
 const hideClass = ref(false)
-const searchString = ref('')
+const searchArtist = ref('')
+const searchByTitle = ref(true)
 
 defineProps({
   msg: {
@@ -77,8 +78,14 @@ onMounted(()=>{
 });
 // #endregion ON MOUNTED
 // ********WATCHERS******
+watch(searchByTitle, (newSearchByTitle, oldSearchByTitle)=>{
+    // folderList.value = []
+    pageData.value = {"page":1}
+    getFolders()
+})
 watch(isPlaying, (newIsPlaying, oldIsPlaying)=>{
   // console.log(isPlaying.value)
+  // AUTOPLAY WATCHER makes player play all songs from playlist
   if(isPlaying){
     
     if(timePlayed.value >= trackLength.value){
@@ -106,8 +113,9 @@ watch(reproductionList.value, (newValue, oldValue) => {
 }
   )
 
-watch(searchString, (newValue, oldValue) =>{
+watch(searchArtist, (newValue, oldValue) =>{
     // console.log(oldValue, newValue)
+    // folderList.value = []
     getFolders()
   })
 
@@ -289,10 +297,12 @@ const img = await response.blob()
 // GETS ALL THE KARAOKES AND FILTERS IF THERE IS A SEARCH STRING
 async function getFolders() {
   // alert('DATA IS BEING FETCHED')
-let baseUrl = `${url.value}api/show_artist/?artist=${searchString.value}&page=${pageData.value.page}`
+let baseUrl = `${url.value}api/show_artist/?sbt=${searchByTitle.value}&artist=${searchArtist.value}&page=${pageData.value.page}`
 
 const response = await fetch(baseUrl);
 const files = await response.json()
+
+
 // karaokes.value = files
 folderList.value = Object.groupBy(files.data, ({artist}) => artist)
 pagination.value = files.page
@@ -482,12 +492,16 @@ function moveToLeft(){
   <div class="all-songs-container">
     <div class="search">
       <div class="search-string">
-         <span class="text-secondary">Search by: </span><strong>{{ searchString }}</strong>
+         <span class="text-warning">Search by 
+          <label class="bl-1" for="artist">Artist</label> 
+          <input type="checkbox" name="artist" id="artist" @change="searchByTitle = !searchByTitle">      
+          </span><strong>{{ searchArtist }}</strong>
+         
       </div>
       <!-- ON SCREEN KEYBOARD -->
       <OnScreenKeyboard 
-        @sendString="(value) => searchString = value" 
-        @sendBackSpace="(value) => searchString = value"
+        @sendString="(value) => searchArtist = value" 
+        @sendBackSpace="(value) => searchArtist = value"
         />  
     </div>
     <!-- CARD FOR FOLDERS -->
