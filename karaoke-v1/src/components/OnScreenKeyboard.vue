@@ -75,7 +75,7 @@ function backSpace(value){
     <div class="main-keyboard">
 
         <div class="numbers-row text-center">
-            <button class="btn btn-outline-secondary keyboard-button m-1" 
+            <button class="btn btn-outline-primary keyboard-button m-1" 
                 @click="setInput(button)"
                 v-for="button in numbers" 
                 :key="button"

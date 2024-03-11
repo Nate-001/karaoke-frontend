@@ -28,7 +28,7 @@ const pageData = ref({page:1})
 const reproductionList = ref([])
 const hideClass = ref(false)
 const searchArtist = ref('')
-const searchByTitle = ref(true)
+const searchByTitle = ref(false)
 
 defineProps({
   msg: {
@@ -77,10 +77,10 @@ onMounted(()=>{
 
 });
 // #endregion ON MOUNTED
-// ********WATCHERS******
+//#region  ********WATCHERS******
 watch(searchByTitle, (newSearchByTitle, oldSearchByTitle)=>{
     // folderList.value = []
-    pageData.value = {"page":1}
+
     getFolders()
 })
 watch(isPlaying, (newIsPlaying, oldIsPlaying)=>{
@@ -116,8 +116,10 @@ watch(reproductionList.value, (newValue, oldValue) => {
 watch(searchArtist, (newValue, oldValue) =>{
     // console.log(oldValue, newValue)
     // folderList.value = []
+    console.log(searchArtist.value)
     getFolders()
   })
+//#endregion  ********WATCHERS******
 
 // #region FUNCTIONS
 function loadPlayer(filename) {
@@ -486,16 +488,19 @@ function moveToLeft(){
         height="15" 
         src="../assets/logo.png" 
         alt="logo">
-              ALFCOMPUTACION.COM &#169;
+        ALFCOMPUTACION.COM &#169;
     </p>
   </div>
   <div class="all-songs-container">
+    <!--#region search and keyboard-->
     <div class="search">
       <div class="search-string">
-         <span class="text-warning">Search by 
-          <label class="bl-1" for="artist">Artist</label> 
-          <input type="checkbox" name="artist" id="artist" @change="searchByTitle = !searchByTitle">      
-          </span><strong>{{ searchArtist }}</strong>
+         <span class="text-warning">
+          <label for="artist-check">Artist</label> 
+          <input class="p-1" type="checkbox" name="artist" id="artist-check" @change="searchByTitle = !searchByTitle">      
+          <label class="" for="artist-check">Title</label> 
+          <p class="text-white">{{ searchArtist }}</p>
+          </span>
          
       </div>
       <!-- ON SCREEN KEYBOARD -->
@@ -503,7 +508,9 @@ function moveToLeft(){
         @sendString="(value) => searchArtist = value" 
         @sendBackSpace="(value) => searchArtist = value"
         />  
-    </div>
+    </div><!--#endregion search and keyboard-->
+
+
     <!-- CARD FOR FOLDERS -->
     <div class="text-white">
       <div v-for="(folder, index) in folderList" :key="index">
@@ -550,7 +557,7 @@ function moveToLeft(){
 
 <!-- #region PAGINATION -->
       <!-- !!!!!!!  PAGINATION  !!!!!!!! -->
-<p class="text-center">
+<p class="text-center text-white">
     Current page: 
     <strong>{{ pagination.current }}
     </strong> of <strong>{{ pagination.num_pages }}</strong> 
@@ -618,9 +625,9 @@ function moveToLeft(){
     </div>
     <!--endregion all SONGS -->
     
-  </div>
+  </div> <!-- end all-songs-container -->
  
-</div>
+</div> <!-- end main-player -->
 
 </template>
 
