@@ -412,6 +412,34 @@ function updateSearch(e){
 }
 
 function moveToLeft(){
+  // let cards = document.querySelector("[class^=card-]")
+  let element = document.getElementById('card-1')
+  let element2 = document.getElementById('card-2')
+  let element3 = document.getElementById('card-3')
+  let element4 = document.getElementById('card-4')
+
+
+  
+
+    let first1 = window.getComputedStyle(element)
+    let leftValue1 = first1.getPropertyValue('left').replace("px", "")
+    element.style.left = (Number(leftValue1)- 20) + "rem"
+
+    let first2 = window.getComputedStyle(element2)
+    let leftValue2 = first2.getPropertyValue('left').replace("px", "")
+    element2.style.left = (Number(leftValue2)- 20) + "rem"
+
+    let first3 = window.getComputedStyle(element3)
+    let leftValue3 = first3.getPropertyValue('left').replace("px", "")
+    element3.style.left = (Number(leftValue3)- 20) + "rem"
+
+    // let first4 = window.getComputedStyle(element4)
+    // let leftValue4 = first4.getPropertyValue('left').replace("px", "").replace("rem", "")
+    // element4.style.left = (Number(leftValue4)- 20) + "rem"
+
+  
+
+  return 0
   let cOne = document.getElementById('card-1'); 
   let cTwo = document.getElementById('card-2'); 
   let cThree = document.getElementById('card-3'); 
@@ -432,6 +460,30 @@ function moveToLeft(){
   cFive.classList.remove('move-last');
   console.log('class removed')
  },1000) 
+
+}
+function moveToRight(){
+    let element = document.getElementById('card-1')
+    let element2 = document.getElementById('card-2')
+    let element3 = document.getElementById('card-3')
+    let element4 = document.getElementById('card-4')
+
+    let first1 = window.getComputedStyle(element)
+    let leftValue1 = first1.getPropertyValue('right').replace("px", "")
+    element.style.left = (Number(leftValue1)+ 20) + "rem"
+
+    let first2 = window.getComputedStyle(element2)
+    let leftValue2 = first2.getPropertyValue('right').replace("px", "")
+    element2.style.left = (Number(leftValue2)+ 20) + "rem"
+
+    let first3 = window.getComputedStyle(element3)
+    let leftValue3 = first3.getPropertyValue('right').replace("px", "")
+    element3.style.left = (Number(leftValue3)+ 20) + "rem"
+
+    // let first4 = window.getComputedStyle(element4)
+    // let leftValue4 = first4.getPropertyValue('left').replace("px", "").replace("rem", "")
+    // element4.style.left = (Number(leftValue4)+ 20) + "rem"
+
 
 }
 </script>
@@ -520,7 +572,7 @@ function moveToLeft(){
     
 <!--#region CARD FOLDERS -->
     <div class="card-folders">
-      <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
+      <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button>
           <div class="cards-only">
 
               <div v-for="(folder, artist) in folderList" :key="folder[0].id" class="for"  @click="folderSelected(folder[0].id)">
@@ -551,7 +603,7 @@ function moveToLeft(){
 
           </div>
 
-      <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToLeft()">&gt;</button> -->
+      <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToRight()">&gt;</button>
     </div>
 <!--#endregion CARD FOLDERS -->
 

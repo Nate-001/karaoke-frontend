@@ -133,18 +133,18 @@
 
 @keyframes moveLeft {
     0%   {background-color:red; right:0px; top:0px;}
-    25%  {background-color:yellow; right:200px; top:0px;}
+    25%  {background-color:yellow; right:11rem; top:0px;}
     /* 50%  {background-color:blue; right:200px;}  */
-    75%  {background-color:green; right:200px;}
-    100% {background-color:red; right:200px; top:0px; opacity: 0;z-index: 1;} 
+    75%  {background-color:green; right:11rem;}
+    100% {background-color:red; right:11rem; top:0px; opacity: 0;z-index: 1;} 
 
   }
 @keyframes moveDesapear {
     0%   {background-color:red; right:0px; top:0px;}
-    25%  {background-color:yellow; right:200px; top:0px;}
-    50%  {background-color:blue; right:200px;} 
-    75%  {background-color:green; right:200px;opacity: 0;}
-    100% {background-color:red; right:200px; top:0px; opacity: 0;z-index: -1;} 
+    25%  {background-color:yellow; right:11rem; top:0px;}
+    50%  {background-color:blue; right:11rem;} 
+    75%  {background-color:green; right:11rem;opacity: 0;}
+    100% {background-color:red; right:11rem; top:0px; opacity: 0;z-index: -1;} 
 
   }
 @keyframes moveLast {
