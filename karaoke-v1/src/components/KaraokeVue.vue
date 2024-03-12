@@ -572,7 +572,7 @@ function moveToRight(){
     
 <!--#region CARD FOLDERS -->
     <div class="card-folders">
-      <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button>
+      <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
           <div class="cards-only">
 
               <div v-for="(folder, artist) in folderList" :key="folder[0].id" class="for"  @click="folderSelected(folder[0].id)">
@@ -603,7 +603,7 @@ function moveToRight(){
 
           </div>
 
-      <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToRight()">&gt;</button>
+      <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToRight()">&gt;</button> -->
     </div>
 <!--#endregion CARD FOLDERS -->
 
