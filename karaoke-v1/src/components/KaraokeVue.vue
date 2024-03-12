@@ -15,6 +15,8 @@ const fliper = ref(false)
 
 const karaokes = ref([])
 const folderList = ref([])
+
+
 const timePlayed = ref(1)
 const trackLength = ref(1)
 const isPlaying = ref(false)
@@ -77,11 +79,20 @@ onMounted(()=>{
 
 });
 // #endregion ON MOUNTED
+
 //#region  ********WATCHERS******
 watch(searchByTitle, (newSearchByTitle, oldSearchByTitle)=>{
     // folderList.value = []
+    pagination.value = []
+    pageData.value = {page:1}
+    karaokes.value = []
+    if(searchByTitle.value == true){
+      getTitles()
+    }
+    else{
+      getFolders()
+    }
 
-    getFolders()
 })
 watch(isPlaying, (newIsPlaying, oldIsPlaying)=>{
   // console.log(isPlaying.value)
@@ -117,7 +128,14 @@ watch(searchArtist, (newValue, oldValue) =>{
     // console.log(oldValue, newValue)
     // folderList.value = []
     console.log(searchArtist.value)
-    getFolders()
+    pagination.value = []
+    pageData.value = {page:1}
+    karaokes.value = []
+    if(searchByTitle.value == true){
+        getTitles()
+      }else{
+        getFolders()
+      }
   })
 //#endregion  ********WATCHERS******
 
@@ -152,7 +170,7 @@ function loadPlayer(filename) {
 });
 
 
-// CHECK STATUS OF PLAYER
+//CHECK STATUS OF PLAYER
 const statusChanged = player.props.on('status', (val) => {
   // console.log('Status: ', val);
   // console.log(player.props)
@@ -160,12 +178,15 @@ const statusChanged = player.props.on('status', (val) => {
     player.start();
   }
 });
+
+//CHECK LOADING OF PLAYER
 const onLoadingChange = player.props.on('loading', (val, prev) => {
   // console.log(val, prev)
     if (val !== prev) {
 
     }
 });
+// CHECK STATUS OF PLAYER
 const onStatusChange = player.props.on('status', (val, prev) =>{
   // console.log("st val: "+val, "ST prev: "+prev)
   if(val == 'Loading File...'){
@@ -179,6 +200,8 @@ const onStatusChange = player.props.on('status', (val, prev) =>{
     // console.log('negativo carnal')
   }
 })
+// TIMEOUT TO SHOW ALL PROPS OF PLAYER
+// DEBUG PURPOSES
 setTimeout(() => {
     // console.log(player)
     // console.log(player.props.timePlayed)
@@ -229,6 +252,7 @@ async function getKaraoke() {
   }
 };
 
+// DELETE elements by index
 function deleteElement(index){
   reproductionList.value.splice(index,1)
    // create cookie for reproduction list
@@ -237,6 +261,7 @@ function deleteElement(index){
   setCookie("reproductionlist", json_str, 1)
 }
 
+// PLAY KARAOKE
 function clickPlay(e, event){
   const btnPlay = document.getElementById('play-karaoke')
   btnPlay.click(e,event);
@@ -244,7 +269,7 @@ function clickPlay(e, event){
 
 }
 
-
+// ADDS OBJECT TO REPRODUCTION LIST
 const addToReproductionList = (index) => {
   
   reproductionList.value.push(karaokes.value[index]);
@@ -266,6 +291,7 @@ const addToReproductionList = (index) => {
   }
 };
 
+// SETS THE COOKIE
 function setCookie(cname, cvalue, exdays){
   // set the cookie
   const d = new Date()
@@ -275,6 +301,7 @@ function setCookie(cname, cvalue, exdays){
 
 }
 
+// #region GET COOKIE
 function getCookie(cname){
   let name = cname + "="
   // let decodedCookie = docodeURIComponent(document.cookie)
@@ -288,6 +315,8 @@ function getCookie(cname){
   }
 
 }
+// #endregion GET COOKIE
+
 async function getImage(imageUrl) {
 let baseUrl = "http://localhost:8000/media/"
 const response = await fetch(baseUrl+imageUrl);
@@ -296,10 +325,13 @@ const img = await response.blob()
 // console.log(files)
 };
 
-// GETS ALL THE KARAOKES AND FILTERS IF THERE IS A SEARCH STRING
+//#region GETS ALL THE KARAOKES AND FILTERS IF THERE IS A SEARCH STRING
+// ********************************************************************
 async function getFolders() {
   // alert('DATA IS BEING FETCHED')
+
 let baseUrl = `${url.value}api/show_artist/?sbt=${searchByTitle.value}&artist=${searchArtist.value}&page=${pageData.value.page}`
+
 
 const response = await fetch(baseUrl);
 const files = await response.json()
@@ -319,25 +351,61 @@ console.log(folderList.value)
 console.log("folderList groupeBy")
 
 };
+async function getTitles() {
+  // alert('DATA IS BEING FETCHED')
+let baseUrl = `${url.value}api/show_title/?sbt=${searchByTitle.value}&title=${searchArtist.value}&page=${pageData.value.page}`
 
-// PAGINATION FUNCTIONS
+const response = await fetch(baseUrl);
+const files = await response.json()
+console.log(files)
+
+// karaokes.value = files
+karaokes.value = files.data 
+// Object.groupBy(files.data, ({artist}) => artist)
+pagination.value = files.page
+pageData.value.page = files.page.current
+
+if (pageData.value.page == 0){
+  page_prev.value = pagination.current
+}
+
+console.log("folderList TITLE")
+console.log(titleList.value)
+console.log("folderList TITLE")
+
+};
+//#endregion GETS ALL THE KARAOKES AND FILTERS IF THERE IS A SEARCH STRING
+
+
+//#region PAGINATION FUNCTIONS
 function selectedPage(page){
   console.log(page, "este es el page")
   pageData.value.page = page
+  if(searchByTitle){
+    return getTitles()
+  }
   getFolders()
 }
 function nextPage(){
   if(pagination.value.has_next){
     pageData.value.page += 1
+    if(searchByTitle){
+      return getTitles()
+    }
     getFolders()
   }
 }
 function previousPage(){
   if(pagination.value.has_previous){
     pageData.value.page -= 1
+    if(searchByTitle){
+      return getTitles()
+    }
     getFolders()
   }
 }
+//#endregion PAGINATION FUNCTIONS
+
 // handles click on folders to add information on table of karaokes
 // ***************************
 // FUNCTION TO FETCH KARAOKES
@@ -363,7 +431,6 @@ async function folderSelected(folder){
   console.log(karaokes.value.title)
   }
 
-  
 //#region Karaoke PREVIOUS NEXT PAUSE PLAY
 function prevKaraoke() {
   let prev = currentKaraoke.value["index"]
@@ -407,6 +474,7 @@ function pausePlay(){
 //#endregion Karaoke PREVIOUS NEXT PAUSE PLAY
 
 // #endregion FUNCTIONS
+
 function updateSearch(e){
   console.log(e)
 }
@@ -492,7 +560,7 @@ function moveToRight(){
 <div class="main-player">
 
   <div className="greetings" id="player-container">
-    <!-- CDGPLAYER -->
+    <!--#region CDGPLAYER -->
     <div className="cdg-player" style="visibility: visible">
       <div :class="{'hide': hideClass}" id="img-cover"></div>
       <div id="cdg_controls"></div>
@@ -508,31 +576,39 @@ function moveToRight(){
       <button className="btn btn-outline-warning" id="full-screen">Full Screen</button>
       
     </div>
-    <!-- PLAY LIST  -->
-    <div class="play-list">
-      <h1 className="text-center">PLAY LIST</h1>
-      <table calssName="d-grid">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Artist</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(karaoke, index) in reproductionList" :key="index">
-            <td>{{karaoke.title}}</td>
-            <td>{{karaoke.artist}} 
-            </td>
-            <td v-if="currentKaraoke.data.title == karaoke.title">  
-            <img width="50" height="25" src="../assets/equalizer_white.gif" alt="shows playing equalizer">
-            </td> 
-            <td v-else></td>
-            <td className="d-grid"><button @click="deleteElement(index)" className="btn btn-outline-danger m-1">Delete</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <!--#endregion CDGPLAYER -->
+
+    <!--#region PLAY LIST  -->
+    <template v-if="!reproductionList">LOADING...</template>
+    <template v-else>
+
+      <div v-if="reproductionList.length > 0" class="play-list">
+        <h1 className="text-center">PLAY LIST</h1>
+        <table calssName="d-grid">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Artist</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(karaoke, index) in reproductionList" :key="index">
+              <td>{{karaoke.title}}</td>
+              <td>{{karaoke.artist}} 
+              </td>
+              <td v-if="currentKaraoke.data.title == karaoke.title">  
+                <img width="50" height="25" src="../assets/equalizer_white.gif" alt="shows playing equalizer">
+              </td> 
+              <td v-else></td>
+              <td className="d-grid"><button @click="deleteElement(index)" className="btn btn-outline-danger m-1">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </template>
+    <!--#endregion PLAY LIST  -->
+
     <p class="text-center text-primary m-1">
       <img 
         class="pr-1"
@@ -571,12 +647,10 @@ function moveToRight(){
     </div>
     
 <!--#region CARD FOLDERS -->
-    <div class="card-folders">
+    <div v-if="!searchByTitle" class="card-folders">
       <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
           <div class="cards-only">
-
               <div v-for="(folder, artist) in folderList" :key="folder[0].id" class="for"  @click="folderSelected(folder[0].id)">
-
                 <div :id="'card-'+folder[0].id" class="card move-card"  @click="console.log(folder[0].artist)">
                   <div class="flip-card">
                     <div class="flip-card-inner">
@@ -600,9 +674,7 @@ function moveToRight(){
                   </div>
                 </div>
               </div>
-
           </div>
-
       <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToRight()">&gt;</button> -->
     </div>
 <!--#endregion CARD FOLDERS -->
@@ -653,10 +725,10 @@ function moveToRight(){
       <!-- !!!!!!  END PAGINATION !!!!!!!!! -->
 <!-- #endregion PAGINATION -->
 
-    <!--#region ALL SONGS -->
+    <!--#region ALL SONGS by ARTIST-->
 
-    <div class="all-songs">
-      <h2 className="text-center">All Songs</h2>
+    <div v-if="!searchByTitle" class="all-songs">
+      <h2 className="text-center">Artist and Albums</h2>
     <table calssName="d-grid">
       <thead>
         <tr>
@@ -666,16 +738,42 @@ function moveToRight(){
         </tr>
       </thead>
       <tbody>
-        <tr @click="addToReproductionList(index)" v-for="(karaoke, index) in karaokes" :key="index">
+        <tr v-for="(karaoke, index) in karaokes" :key="index">
           <td>{{karaoke.title}}</td>
           <td>{{karaoke.artist}}</td>
-          <td className="d-grid"><button className="btn btn-outline-success mt-1">Add</button></td>
+          <td className="d-grid"><button @click="addToReproductionList(index)" className="btn btn-outline-success mt-1">Add</button></td>
         </tr>
        
       </tbody>
     </table>
     </div>
-    <!--endregion all SONGS -->
+    <!--endregion all SONGS by ARTIST-->
+    
+    <!--#region ALL SONGS by TITLE-->
+
+    <div v-if="searchByTitle" class="all-songs">
+      <h2 className="text-center">Songs by Titles</h2>
+    <table calssName="d-grid">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Title</th>
+          <th>Artist</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody v-if="folderList">
+        <tr  v-for="(folder, index) in karaokes" :key="folder.id">
+          <td><img width="25" height="25" class="img-back m-auto" :src="mediaBaseUrl+folder.img" alt="artist"></td>
+          <td>{{folder.title}}</td>
+          <td>{{folder.artist}}</td>
+          <td className="d-grid"><button @click="addToReproductionList(index)" className="btn btn-outline-success mt-1">Add</button></td>
+        </tr>
+       
+      </tbody>
+    </table>
+    </div>
+    <!--endregion all SONGS by TITLE-->
     
   </div> <!-- end all-songs-container -->
  

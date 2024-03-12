@@ -1,40 +1,42 @@
 <template>
   <div>
-    <audio ref="audioElement" src="your-audio-file.mp3"></audio>
-    <input type="range" min="0" max="1" step="0.01" v-model="volume" @input="updateVolume" />
-    <input type="range" min="-1" max="1" step="0.01" v-model="balance" @input="updateBalance" />
+    <input type="range" min="0" max="1" step="0.01" v-model="volume" @input="updateVolume">
+    <input type="range" min="-1" max="1" step="0.01" v-model="balance" @input="updateBalance">
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
+<script>
+export default {
+  data() {
+    return {
+      volume: 1, // Default volume (100%)
+      balance: 0, // Default balance (center)
+      audioContext: null,
+      sourceNode: null,
+      gainNode: null,
+      pannerNode: null
+    };
+  },
+  mounted() {
+    this.audioContext = new AudioContext();
+    this.sourceNode = this.audioContext.createMediaElementSource(this.$refs.audioElement);
+    this.gainNode = this.audioContext.createGain();
+    this.pannerNode = this.audioContext.createStereoPanner();
 
-const volume = ref(1); // Default volume (100%)
-const balance = ref(0); // Default balance (center)
-const audioElement = ref(null);
+    this.sourceNode.connect(this.gainNode);
+    this.gainNode.connect(this.pannerNode);
+    this.pannerNode.connect(this.audioContext.destination);
 
-let audioContext;
-let sourceNode;
-let gainNode;
-let pannerNode;
-
-onMounted(() => {
-  audioContext = new AudioContext();
-  sourceNode = audioContext.createMediaElementSource(audioElement.value);
-  gainNode = audioContext.createGain();
-  pannerNode = audioContext.createStereoPanner();
-
-  sourceNode.connect(gainNode).connect(pannerNode).connect(audioContext.destination);
-
-  updateVolume();
-  updateBalance();
-});
-
-function updateVolume() {
-  gainNode.gain.value = volume.value;
-}
-
-function updateBalance() {
-  pannerNode.pan.value = balance.value;
-}
+    this.updateVolume();
+    this.updateBalance();
+  },
+  methods: {
+    updateVolume() {
+      this.gainNode.gain.value = this.volume;
+    },
+    updateBalance() {
+      this.pannerNode.pan.value = this.balance;
+    }
+  }
+};
 </script>
