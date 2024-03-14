@@ -751,7 +751,7 @@ function moveToRight(){
     
     <!--#region ALL SONGS by TITLE-->
 
-    <div v-if="searchByTitle" class="all-songs">
+    <div v-if="searchByTitle" class="all-songs titles">
       <h2 className="text-center">Songs by Titles</h2>
     <table calssName="d-grid">
       <thead>
@@ -762,10 +762,12 @@ function moveToRight(){
           <th></th>
         </tr>
       </thead>
+
       <tbody v-if="folderList">
         <tr  v-for="(folder, index) in karaokes" :key="folder.id">
-          <td><img width="25" height="25" class="img-back m-auto" :src="mediaBaseUrl+folder.img" alt="artist"></td>
+          <td><img width="25" height="20" class="img-back m-auto" :src="mediaBaseUrl+folder.img" alt="artist"></td>
           <td>{{folder.title}}</td>
+          <td>{{folder.id}}</td>
           <td>{{folder.artist}}</td>
           <td className="d-grid"><button @click="addToReproductionList(index)" className="btn btn-outline-success mt-1">Add</button></td>
         </tr>

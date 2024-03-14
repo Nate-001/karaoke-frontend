@@ -20,13 +20,14 @@ body{
 
 }
 #img-cover{
-  background-image: url('./logo.png');
+
+  background-image: url('./blue_logo.png');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   height: 30vh;
   width: 50%;
-  margin: 0 auto;
+  margin: 2rem auto;
 }
 
 .hide{
@@ -93,7 +94,7 @@ canvas{
 }
 .all-songs{
   width: 100%;
-  height: 20rem;
+  height: 15rem;
   margin-top: .2rem;
   color: white;
   overflow-y: scroll;
@@ -102,19 +103,26 @@ canvas{
 .all-songs{
   flex: 1;
   color: white;
-  
 }
+
 .all-songs h2, .play-list h1{
   color: aqua;
   font-family:Georgia, 'Times New Roman', Times, serif;
   font-size: large;
+}
+.titles{
+  height: 24rem;
+  margin-top: .2rem;
+  color: white;
+  overflow-y: scroll;
+  overflow-x: none;
 }
 .play-list >*{
   flex-basis: 25%;
 }
 .play-list{
   width: 100%;
-  height: 24rem;
+  height: 22rem;
   color: white;
   overflow-y: scroll;
   overflow-x: none;
