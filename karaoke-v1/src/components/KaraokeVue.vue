@@ -765,7 +765,7 @@ function moveToRight(){
 
       <tbody v-if="folderList">
         <tr  v-for="(folder, index) in karaokes" :key="folder.id">
-          <td><img width="25" height="20" class="img-back m-auto" :src="mediaBaseUrl+folder.img" alt="artist"></td>
+          <td><img width="20" height="20" class="img-back m-auto" :src="mediaBaseUrl+folder.img" alt="artist"></td>
           <td>{{folder.title}}</td>
           <td>{{folder.id}}</td>
           <td>{{folder.artist}}</td>
