@@ -4,6 +4,9 @@
 import { onMounted, ref, reactive, watch } from 'vue';
 import { CDGPlayer, CDGControls } from '/node_modules/cdgplayer/dist/cdgplayer.js';
 import OnScreenKeyboard from './OnScreenKeyboard.vue'
+import CardsKaraoke from './CardsKaraoke.vue';
+import TrackTable from './TrackTable.vue';
+
 
 const url = ref('http://localhost:8000/')
 const mediaBaseUrl = ref(`${url.value}media/`)
@@ -15,6 +18,7 @@ const fliper = ref(false)
 
 const karaokes = ref([])
 const folderList = ref([])
+const tableHeaders = ref(["Title", "Artist", "" ])
 
 
 const timePlayed = ref(1)
@@ -87,9 +91,11 @@ watch(searchByTitle, (newSearchByTitle, oldSearchByTitle)=>{
     pageData.value = {page:1}
     karaokes.value = []
     if(searchByTitle.value == true){
+      tableHeaders.value=["", "Title", "Artist", "" ]
       getTitles()
     }
     else{
+      tableHeaders.value=["Title", "Artist", "" ]
       getFolders()
     }
 
@@ -408,26 +414,14 @@ function previousPage(){
 
 // handles click on folders to add information on table of karaokes
 // ***************************
-// FUNCTION TO FETCH KARAOKES
+// FUNCTION TO FETCH KARAOKES from an artist ID 
 // ***************************
 async function folderSelected(folder){
-
-  // alert(folder)
+  // console.log(folder)
+  // return
   const response = await fetch(`http://localhost:8000/api/show_tracks/?id=${folder}`)
   const files = await response.json()
- 
-  
-  // let newList = []
-  // console.log(folder)
-  // folderList.value[folder].forEach(element =>{
-  //   print(element)
-  //   newList.push(element)
-  //   console.log(karaokes.value)
-  // }
-  // )
-  // karaokes.value = newList
   karaokes.value = files.data
-  // console.log(karaokes.value)
   console.log(karaokes.value.title)
   }
 
@@ -640,16 +634,21 @@ function moveToRight(){
 
 
     <!-- CARD FOR FOLDERS -->
-    <div class="text-white">
+    <!-- <div class="text-white">
       <div v-for="(folder, index) in folderList" :key="index">
         {{ folder[index] }}
       </div>
-    </div>
-    
-<!--#region CARD FOLDERS -->
-    <div v-if="!searchByTitle" class="card-folders">
+    </div> -->
+  <!-- !AQUI VAMOS A PONER EL CARD FOLDER COMPONENT -->
+  
+  <!--#region CARD FOLDERS -->
+  <div v-if="!searchByTitle" class="card-folders">
+      <CardsKaraoke 
+          :folderList="folderList" 
+          :url="mediaBaseUrl" 
+          @sendId="folderSelected" />
       <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
-          <div class="cards-only">
+          <!-- <div class="cards-only">
               <div v-for="(folder, artist) in folderList" :key="folder[0].id" class="for"  @click="folderSelected(folder[0].id)">
                 <div :id="'card-'+folder[0].id" class="card move-card"  @click="console.log(folder[0].artist)">
                   <div class="flip-card">
@@ -674,7 +673,7 @@ function moveToRight(){
                   </div>
                 </div>
               </div>
-          </div>
+          </div> -->
       <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToRight()">&gt;</button> -->
     </div>
 <!--#endregion CARD FOLDERS -->
@@ -726,8 +725,11 @@ function moveToRight(){
 <!-- #endregion PAGINATION -->
 
     <!--#region ALL SONGS by ARTIST-->
-
-    <div v-if="!searchByTitle" class="all-songs">
+    <TrackTable v-if="!searchByTitle"
+        :headers="tableHeaders" 
+        :karaokes="karaokes"
+        @addTrack="addToReproductionList"/>
+    <!-- <div v-if="!searchByTitle" class="all-songs">
       <h2 className="text-center">Artist and Albums</h2>
     <table calssName="d-grid">
       <thead>
@@ -746,12 +748,16 @@ function moveToRight(){
        
       </tbody>
     </table>
-    </div>
+    </div> -->
     <!--endregion all SONGS by ARTIST-->
     
     <!--#region ALL SONGS by TITLE-->
+        <TrackTable v-if="searchByTitle"
+        :headers="tableHeaders" 
+        :karaokes="karaokes"
+        @addTrack="addToReproductionList"/>
 
-    <div v-if="searchByTitle" class="all-songs titles">
+    <!-- <div v-if="searchByTitle" class="all-songs titles">
       <h2 className="text-center">Songs by Titles</h2>
     <table calssName="d-grid">
       <thead>
@@ -774,7 +780,7 @@ function moveToRight(){
        
       </tbody>
     </table>
-    </div>
+    </div> -->
     <!--endregion all SONGS by TITLE-->
     
   </div> <!-- end all-songs-container -->
