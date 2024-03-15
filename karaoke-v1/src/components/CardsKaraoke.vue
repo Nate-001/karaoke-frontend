@@ -18,8 +18,10 @@ const sendId = (id)=>{
     <div class="card-folders">
  
       <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
-          <div class="cards-only">
-              <div v-for="(folder, artist) in folderList" :key="folder[0].id" class="for"  @click="sendId(folder[0].id)">
+      <template v-if="Object.keys(folderList).length != 0">
+
+        <div class="cards-only">
+          <div v-for="(folder, artist) in folderList" :key="folder[0].id" class="for"  @click="sendId(folder[0].id)">
                 <div :id="'card-'+folder[0].id" class="card move-card"  @click="console.log(folder[0].artist, folder[0].id)">
                   <div class="flip-card">
                     <div class="flip-card-inner">
@@ -43,8 +45,38 @@ const sendId = (id)=>{
                   </div>
                 </div>
               </div>
+            </div>
+        </template>
+        <template v-else>
+
+          <div class="cards-only">
+            <div>
+              <div class="card move-card">
+                  <div class="flip-card">
+                    <div class="flip-card-inner">
+                      <div class="flip-card-front">
+                        <img class="img-front" src="http://localhost:8000/media/img/blue_logo.png" alt="artist">
+                        <div class="containers">
+                          <h6>
+                            <small>{{artist}}</small>
+                          </h6>
+                        </div>
+                      </div>
+                      <div class="flip-card-back">
+                        <img  class="img-back" src="http://localhost:8000/media/img/orange_logo.png" alt="vue community">
+                        <div class="containers">
+                          <h6>
+                            <small>{{artist}}</small>
+                          </h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
           </div>
-      <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToRight()">&gt;</button> -->
+          <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToRight()">&gt;</button> -->
+        </template>
     </div>
 <!--#endregion CARD FOLDERS -->
 </template>

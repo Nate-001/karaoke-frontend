@@ -5,11 +5,13 @@ const searchString = ref('')
 
 const props = defineProps({
     headers: Array,
-    karaokes: Array
+    karaokes: Array,
+    url: String
 })
 
 const emit = defineEmits(['addTrack'])
 const addToList = (id) =>{
+  
     emit('addTrack', id)
 }
 </script>
@@ -17,7 +19,7 @@ const addToList = (id) =>{
 <template>
     <div class="all-songs">
       <h2 class="text-center">Artist and Albums</h2>
-    <table calss="d-grid">
+      <table calss="d-grid">
       <thead >
         <tr>
           <th v-for="(header, index) in headers" :key="index" class="d-flex">{{header}}</th>
@@ -25,6 +27,10 @@ const addToList = (id) =>{
       </thead>
       <tbody>
         <tr v-for="(karaoke, index) in karaokes" :key="index">
+         
+          <td class="text-center" v-if="karaoke.img">
+            <img width="35" height="25" :src="url+karaoke.img" alt="album">
+          </td>
           <td>{{karaoke.title}}</td>
           <td>{{karaoke.artist}}</td>
           <td className="d-grid"><button @click="addToList(index)" className="btn btn-outline-success mt-1">Add</button></td>

@@ -18,7 +18,7 @@ const fliper = ref(false)
 
 const karaokes = ref([])
 const folderList = ref([])
-const tableHeaders = ref(["Title", "Artist", "" ])
+const tableHeaders = ref(["IMG","Title", "Artist", "BTN" ])
 
 
 const timePlayed = ref(1)
@@ -89,9 +89,10 @@ watch(searchByTitle, (newSearchByTitle, oldSearchByTitle)=>{
     // folderList.value = []
     pagination.value = []
     pageData.value = {page:1}
-    karaokes.value = []
+    // karaokes.value = []
     if(searchByTitle.value == true){
-      tableHeaders.value=["", "Title", "Artist", "" ]
+      // alert(searchByTitle.value)
+      tableHeaders.value=["IMG", "Title", "Artist", "BTN" ]
       getTitles()
     }
     else{
@@ -337,8 +338,8 @@ async function getFolders() {
   // alert('DATA IS BEING FETCHED')
 
 let baseUrl = `${url.value}api/show_artist/?sbt=${searchByTitle.value}&artist=${searchArtist.value}&page=${pageData.value.page}`
-
-
+karaokes.value = [] // NEW CODE 3-15-24
+folderList.value = []
 const response = await fetch(baseUrl);
 const files = await response.json()
 
@@ -359,6 +360,7 @@ console.log("folderList groupeBy")
 };
 async function getTitles() {
   // alert('DATA IS BEING FETCHED')
+karaokes.value = [] // NEW CODE 3-15-24
 let baseUrl = `${url.value}api/show_title/?sbt=${searchByTitle.value}&title=${searchArtist.value}&page=${pageData.value.page}`
 
 const response = await fetch(baseUrl);
@@ -387,7 +389,7 @@ console.log("folderList TITLE")
 function selectedPage(page){
   console.log(page, "este es el page")
   pageData.value.page = page
-  if(searchByTitle){
+  if(searchByTitle.value == true){
     return getTitles()
   }
   getFolders()
@@ -725,10 +727,14 @@ function moveToRight(){
 <!-- #endregion PAGINATION -->
 
     <!--#region ALL SONGS by ARTIST-->
-    <TrackTable v-if="!searchByTitle"
-        :headers="tableHeaders" 
-        :karaokes="karaokes"
-        @addTrack="addToReproductionList"/>
+    <template v-if="!searchByTitle">
+
+      <TrackTable
+      :headers="tableHeaders" 
+      :karaokes="karaokes"
+      :url="mediaBaseUrl"
+      @addTrack="addToReproductionList"/>
+    </template>
     <!-- <div v-if="!searchByTitle" class="all-songs">
       <h2 className="text-center">Artist and Albums</h2>
     <table calssName="d-grid">
@@ -752,10 +758,13 @@ function moveToRight(){
     <!--endregion all SONGS by ARTIST-->
     
     <!--#region ALL SONGS by TITLE-->
-        <TrackTable v-if="searchByTitle"
-        :headers="tableHeaders" 
-        :karaokes="karaokes"
-        @addTrack="addToReproductionList"/>
+    <template v-else>
+      <TrackTable
+          :headers="tableHeaders" 
+          :karaokes="karaokes"
+          :url="mediaBaseUrl"
+          @addTrack="addToReproductionList"/>
+    </template>    
 
     <!-- <div v-if="searchByTitle" class="all-songs titles">
       <h2 className="text-center">Songs by Titles</h2>
