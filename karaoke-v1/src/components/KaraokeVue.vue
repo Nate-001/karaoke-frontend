@@ -18,7 +18,7 @@ const fliper = ref(false)
 
 const karaokes = ref([])
 const folderList = ref([])
-const tableHeaders = ref(["IMG","Title", "Artist", "BTN" ])
+const tableHeaders = ref(["Title", "Artist", "" ])
 
 
 const timePlayed = ref(1)
@@ -92,7 +92,7 @@ watch(searchByTitle, (newSearchByTitle, oldSearchByTitle)=>{
     // karaokes.value = []
     if(searchByTitle.value == true){
       // alert(searchByTitle.value)
-      tableHeaders.value=["IMG", "Title", "Artist", "BTN" ]
+      tableHeaders.value=["", "Title", "Artist", "" ]
       getTitles()
     }
     else{

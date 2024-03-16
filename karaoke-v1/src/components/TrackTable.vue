@@ -22,11 +22,11 @@ const addToList = (id) =>{
       <table id="x-table">
       <thead>
         <tr class="t-headers">
-          <th v-for="(header, index) in headers" :key="index" class="d-flex">{{header}}</th>
+          <th v-for="(header, index) in headers" :key="index">{{header}}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(karaoke, index) in karaokes" :key="index">
+        <tr v-for="(karaoke, index) in karaokes" :key="index" @click="addToList(index)">
           <td class="text-center" v-if="karaoke.img">
             <img width="35" height="25" :src="url+karaoke.img" alt="album">
           </td>

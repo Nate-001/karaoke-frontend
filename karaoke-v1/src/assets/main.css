@@ -255,7 +255,7 @@ input:checked[type="checkbox"]::before{
 #x-table {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 100%;
+  width: 97%;
 }
 
 #x-tables td, #x-tables th {
@@ -263,11 +263,15 @@ input:checked[type="checkbox"]::before{
   padding: 8px;
 }
 
-#x-table tr:nth-child(even){background-color: #f2f2f2;}
+#x-table tr:nth-child(even){background-color: black;}
+#x-table tr:nth-child(odd){background-color: rgb(31, 28, 28);}
 
-#x-table tr:hover {background-color: #ddd;}
+#x-table tr:hover {
+  background-color: #ddd;
+  color: black;
+}
 
-#x-table th {
+#x-table th { 
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
