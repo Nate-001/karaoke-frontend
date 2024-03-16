@@ -17,8 +17,8 @@ const addToList = (id) =>{
 </script>
 
 <template>
+  <h6 class="text-center">Artist and Albums</h6>
     <div class="all-songs">
-      <h2 class="text-center">Artist and Albums</h2>
       <table id="x-table">
       <thead>
         <tr class="t-headers">
@@ -33,7 +33,7 @@ const addToList = (id) =>{
           <td>{{karaoke.title}}</td>
           <td>{{karaoke.artist}}</td>
           <td className="d-x">
-            <button @click="addToList(index)" className="btn btn-outline-success mt-1">
+            <button className="btn btn-outline-success mt-1">
               Add
             </button>
           </td>

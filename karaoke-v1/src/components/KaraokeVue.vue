@@ -555,246 +555,180 @@ function moveToRight(){
 <template>
 <div class="main-player">
 
-  <div className="greetings" id="player-container">
-    <!--#region CDGPLAYER -->
-    <div className="cdg-player" style="visibility: visible">
-      <div :class="{'hide': hideClass}" id="img-cover"></div>
-      <div id="cdg_controls"></div>
-      <div id="cdg_wrapper"></div>
-    </div>  
-          <div className="buttons-controls">
-      <div className="btn-inside-controls">
-        <button className="btn btn-outline-info" @click="prevKaraoke()" id="prev-karaoke">&lt; &lt;</button>
-        <button className="btn btn-outline-success" @click="getKaraoke()" id="play-karaoke">Play</button>
-        <button className="btn btn-outline-info" @click="nextKaraoke()" id="next-karaoke">&gt;  &gt;</button>
-        <button className="btn btn-outline-primary" @click="pausePlay()" id="pause-karaoke">Pause</button>
+  <div className="greetings cdg-container" id="player-container">
+      <!--#region CDGPLAYER -->
+      <div className="cdg-player" style="visibility: visible">
+        <div :class="{'hide': hideClass}" id="img-cover"></div>
+        <div id="cdg_controls"></div>
+        <div id="cdg_wrapper"></div>
+      </div>  
+
+      <div className="buttons-controls">
+        <div className="btn-inside-controls">
+          <button className="btn btn-outline-info" @click="prevKaraoke()" id="prev-karaoke">&lt; &lt;</button>
+          <button className="btn btn-outline-success" @click="getKaraoke()" id="play-karaoke">Play</button>
+          <button className="btn btn-outline-info" @click="nextKaraoke()" id="next-karaoke">&gt;  &gt;</button>
+          <button className="btn btn-outline-primary" @click="pausePlay()" id="pause-karaoke">Pause</button>
+        </div>
+        <button className="btn btn-outline-warning" id="full-screen">Full Screen</button>  
       </div>
-      <button className="btn btn-outline-warning" id="full-screen">Full Screen</button>
-      
-    </div>
-    <!--#endregion CDGPLAYER -->
-
-    <!--#region PLAY LIST  -->
-    <template v-if="!reproductionList">LOADING...</template>
-    <template v-else>
-
-      <div v-if="reproductionList.length > 0" class="play-list">
-        <h1 className="text-center">PLAY LIST</h1>
-        <table calssName="d-grid">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Artist</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(karaoke, index) in reproductionList" :key="index">
-              <td>{{karaoke.title}}</td>
-              <td>{{karaoke.artist}} 
-              </td>
-              <td v-if="currentKaraoke.data.title == karaoke.title">  
-                <img width="50" height="25" src="../assets/equalizer_white.gif" alt="shows playing equalizer">
-              </td> 
-              <td v-else></td>
-              <td className="d-grid"><button @click="deleteElement(index)" className="btn btn-outline-danger m-1">Delete</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </template>
-    <!--#endregion PLAY LIST  -->
-
-    <p class="text-center text-primary m-1">
-      <img 
-        class="pr-1"
-        width="25" 
-        height="15" 
-        src="../assets/logo.png" 
-        alt="logo">
-        ALFCOMPUTACION.COM &#169;
-    </p>
   </div>
-  <div class="all-songs-container">
-    <!--#region search and keyboard-->
-    <div class="search">
-      <div class="search-string">
-         <span class="text-warning">
-          <label for="artist-check">Artist</label> 
-          <input class="p-1" type="checkbox" name="artist" id="artist-check" @change="searchByTitle = !searchByTitle">      
-          <label class="" for="artist-check">Title</label> 
-          <p class="text-white">{{ searchArtist }}</p>
-          </span>
-         
-      </div>
-      <!-- ON SCREEN KEYBOARD -->
-      <OnScreenKeyboard 
-        @sendString="(value) => searchArtist = value" 
-        @sendBackSpace="(value) => searchArtist = value"
-        />  
-    </div><!--#endregion search and keyboard-->
-
-
-    <!-- CARD FOR FOLDERS -->
-    <!-- <div class="text-white">
-      <div v-for="(folder, index) in folderList" :key="index">
-        {{ folder[index] }}
-      </div>
-    </div> -->
-  <!-- !AQUI VAMOS A PONER EL CARD FOLDER COMPONENT -->
+    <!--#endregion CDGPLAYER -->
   
-  <!--#region CARD FOLDERS -->
-  <div v-if="!searchByTitle" class="card-folders">
-      <CardsKaraoke 
-          :folderList="folderList" 
-          :url="mediaBaseUrl" 
-          @sendId="folderSelected" />
-      <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
-          <!-- <div class="cards-only">
-              <div v-for="(folder, artist) in folderList" :key="folder[0].id" class="for"  @click="folderSelected(folder[0].id)">
-                <div :id="'card-'+folder[0].id" class="card move-card"  @click="console.log(folder[0].artist)">
-                  <div class="flip-card">
-                    <div class="flip-card-inner">
-                      <div class="flip-card-front">
-                        <img class="img-front" :src="mediaBaseUrl+folder[0].img" alt="artist">
-                        <div class="containers">
-                          <h6>
-                            <small>{{artist}}</small>
-                          </h6>
-                        </div>
-                      </div>
-                      <div class="flip-card-back">
-                        <img  class="img-back" :src="mediaBaseUrl+folder[0].img" alt="artist">
-                        <div class="containers">
-                          <h6>
-                            <small>{{artist}}</small>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div> -->
-      <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToRight()">&gt;</button> -->
+  <div class="search-container">
+      <!--#region search and keyboard-->
+      <div class="search">
+        <div class="search-string">
+          <span class="text-warning">
+            <label for="artist-check">Artist</label> 
+            <input class="p-1" type="checkbox" name="artist" id="artist-check" @change="searchByTitle = !searchByTitle">      
+            <label class="" for="artist-check">Title</label> 
+            <p class="text-white">{{ searchArtist }}</p>
+            </span>
+          
+        </div>
+        <!-- ON SCREEN KEYBOARD -->
+        <OnScreenKeyboard 
+          @sendString="(value) => searchArtist = value" 
+          @sendBackSpace="(value) => searchArtist = value"
+          />  
+      </div><!--#endregion search and keyboard-->
+
+    <!-- !AQUI VAMOS A PONER EL CARD FOLDER COMPONENT -->
+    
+    <!--#region CARD FOLDERS -->
+    <div v-if="!searchByTitle" class="card-folders">
+        <CardsKaraoke 
+            :folderList="folderList" 
+            :url="mediaBaseUrl" 
+            @sendId="folderSelected" />
+        <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
+          
+        <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToRight()">&gt;</button> -->
     </div>
-<!--#endregion CARD FOLDERS -->
+    <div v-else class="text-center">
+      <h6>Best Karaoke Software</h6>
+      <img style="margin: auto;" width="100" height="50" src="../assets/aqua_logo.png" alt="">
+    </div>
+  <!--#endregion CARD FOLDERS -->
 
-<!-- #region PAGINATION -->
-      <!-- !!!!!!!  PAGINATION  !!!!!!!! -->
-<p class="text-center text-white">
-    Current page: 
-    <strong>{{ pagination.current }}
-    </strong> of <strong>{{ pagination.num_pages }}</strong> 
-    Total records: <strong>{{ pagination.total_records }}</strong>
-</p>
-<div class="pagination m-auto" style="max-width: 45rem;">
-  
-     <span v-if="pagination.has_previous">
-     <button class="btn btn-primary me-1"  @click="selectedPage(1)"> 
-        &laquo;First
-      </button>
-      <span >
-        <button class="btn btn-primary me-1" @click="selectedPage(pagination.previous_page_number)"> 
-          Previous
-        </button>
-        
-      </span>
-     </span>
-     <span v-if="pagination.previous_page_number != 1">
-       <button @click="selectedPage(pagination.previous_page_number)" 
-       class="btn btn-primary me-2"><b>{{pagination.previous_page_number}}</b>
-      </button> 
-    </span>
-     <span>
-       <button 
-       class="btn btn-outline-primary me-2"><b>{{pagination.current}}</b>
-      </button> 
-    </span>
 
-     <span v-if="pagination.has_next">
-        <button @click="selectedPage(pagination.next_page_number)" 
-        class="btn btn-primary form-control me-1">{{pagination.next_page_number}}</button> 
-     </span>
-        <span v-if="pagination.current != pagination.num_pages">
-            <button class="btn btn-primary me-1" 
-            @click="selectedPage(pagination.next_page_number)">Next</button>
-            <button class="btn btn-primary me-1" 
-            @click="selectedPage(pagination.num_pages)">Last&raquo;</button>
-        </span>
-</div>
+  </div>
+
+  <div class="play-list-container">
+
+
+      <!--#region PLAY LIST  -->
+      <template v-if="!reproductionList">LOADING...</template>
+      <template v-else>
+
+        <h6 className="text-center">PLAY LIST</h6>
+        <div v-if="reproductionList.length > 0" class="play-list">
+          <table calssName="d-grid">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Artist</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(karaoke, index) in reproductionList" :key="index">
+                <td>{{karaoke.title}}</td>
+                <td>{{karaoke.artist}} 
+                </td>
+                <td v-if="currentKaraoke.data.title == karaoke.title">  
+                  <img width="50" height="25" src="../assets/equalizer_white.gif" alt="shows playing equalizer">
+                </td> 
+                <td v-else></td>
+                <td className="d-grid"><button @click="deleteElement(index)" className="btn btn-outline-danger m-1">Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </template>
+      <!--#endregion PLAY LIST  -->
+
+      <p class="text-center text-primary m-1">
+        <img 
+          class="pr-1"
+          width="25" 
+          height="15" 
+          src="../assets/logo.png" 
+          alt="logo">
+          ALFCOMPUTACION.COM &#169;
+      </p>
+  </div>
+
+
       <!-- !!!!!!  END PAGINATION !!!!!!!!! -->
 <!-- #endregion PAGINATION -->
-
-    <!--#region ALL SONGS by ARTIST-->
-    <template v-if="!searchByTitle">
-
-      <TrackTable
-      :headers="tableHeaders" 
-      :karaokes="karaokes"
-      :url="mediaBaseUrl"
-      @addTrack="addToReproductionList"/>
-    </template>
-    <!-- <div v-if="!searchByTitle" class="all-songs">
-      <h2 className="text-center">Artist and Albums</h2>
-    <table calssName="d-grid">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Artist</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(karaoke, index) in karaokes" :key="index">
-          <td>{{karaoke.title}}</td>
-          <td>{{karaoke.artist}}</td>
-          <td className="d-grid"><button @click="addToReproductionList(index)" className="btn btn-outline-success mt-1">Add</button></td>
-        </tr>
-       
-      </tbody>
-    </table>
-    </div> -->
-    <!--endregion all SONGS by ARTIST-->
+    <div class="all-songs-container">
+        <!-- #region PAGINATION -->
+        <!-- !!!!!!!  PAGINATION  !!!!!!!! -->
+  <p class="text-center text-white">
+      Current page: 
+      <strong>{{ pagination.current }}
+      </strong> of <strong>{{ pagination.num_pages }}</strong> 
+      Total records: <strong>{{ pagination.total_records }}</strong>
+  </p>
+  <div class="pagination m-auto" style="max-width: 45rem;">
     
-    <!--#region ALL SONGS by TITLE-->
-    <template v-else>
-      <TrackTable
+      <span v-if="pagination.has_previous">
+      <button class="btn btn-primary me-1"  @click="selectedPage(1)"> 
+          &laquo;First
+        </button>
+        <span >
+          <button class="btn btn-primary me-1" @click="selectedPage(pagination.previous_page_number)"> 
+            Previous
+          </button>
+          
+        </span>
+      </span>
+      <span v-if="pagination.previous_page_number != 1">
+        <button @click="selectedPage(pagination.previous_page_number)" 
+        class="btn btn-primary me-2"><b>{{pagination.previous_page_number}}</b>
+        </button> 
+      </span>
+      <span>
+        <button 
+        class="btn btn-outline-primary me-2"><b>{{pagination.current}}</b>
+        </button> 
+      </span>
+
+      <span v-if="pagination.has_next">
+          <button @click="selectedPage(pagination.next_page_number)" 
+          class="btn btn-primary form-control me-1">{{pagination.next_page_number}}</button> 
+      </span>
+          <span v-if="pagination.current != pagination.num_pages">
+              <button class="btn btn-primary me-1" 
+              @click="selectedPage(pagination.next_page_number)">Next</button>
+              <button class="btn btn-primary me-1" 
+              @click="selectedPage(pagination.num_pages)">Last&raquo;</button>
+          </span>
+  </div>
+        <!--#region ALL SONGS by ARTIST-->
+        <template v-if="!searchByTitle">
+          <TrackTable
           :headers="tableHeaders" 
           :karaokes="karaokes"
           :url="mediaBaseUrl"
           @addTrack="addToReproductionList"/>
-    </template>    
-
-    <!-- <div v-if="searchByTitle" class="all-songs titles">
-      <h2 className="text-center">Songs by Titles</h2>
-    <table calssName="d-grid">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Title</th>
-          <th>Artist</th>
-          <th></th>
-        </tr>
-      </thead>
-
-      <tbody v-if="folderList">
-        <tr  v-for="(folder, index) in karaokes" :key="folder.id">
-          <td><img width="20" height="20" class="img-back m-auto" :src="mediaBaseUrl+folder.img" alt="artist"></td>
-          <td>{{folder.title}}</td>
-          <td>{{folder.id}}</td>
-          <td>{{folder.artist}}</td>
-          <td className="d-grid"><button @click="addToReproductionList(index)" className="btn btn-outline-success mt-1">Add</button></td>
-        </tr>
-       
-      </tbody>
-    </table>
-    </div> -->
-    <!--endregion all SONGS by TITLE-->
-    
-  </div> <!-- end all-songs-container -->
- 
-</div> <!-- end main-player -->
+        </template>
+        <!--endregion all SONGS by ARTIST-->
+        
+        <!--#region ALL SONGS by TITLE-->
+        <template v-else>
+          <TrackTable
+              :headers="tableHeaders" 
+              :karaokes="karaokes"
+              :url="mediaBaseUrl"
+              @addTrack="addToReproductionList"/>
+        </template>    
+        <!--endregion all SONGS by TITLE-->
+        
+    </div> <!-- end all-songs-container -->
+ </div> <!-- end main-player -->
 
 </template>
 
