@@ -230,7 +230,7 @@ setTimeout(() => {
       // conversion of time to seconds
       let min = Number(player.props.trackLength.split(':')[0]) * 60 
       let sec =  Number(player.props.trackLength.split(':')[1])
-      let seconds = min + sec-5
+      let seconds = min + sec-3
       let min_played = Number(player.props.timePlayed.split(':')[0]) * 60 
       let sec_played =  Number(player.props.timePlayed.split(':')[1])
       let seconds_played = min_played + sec_played
@@ -474,103 +474,96 @@ function pausePlay(){
 function updateSearch(e){
   console.log(e)
 }
+// #region x
 
-function moveToLeft(){
-  // let cards = document.querySelector("[class^=card-]")
-  let element = document.getElementById('card-1')
-  let element2 = document.getElementById('card-2')
-  let element3 = document.getElementById('card-3')
-  let element4 = document.getElementById('card-4')
+// function moveToLeft(){
+//   // let cards = document.querySelector("[class^=card-]")
+//   let element = document.getElementById('card-1')
+//   let element2 = document.getElementById('card-2')
+//   let element3 = document.getElementById('card-3')
+//   let element4 = document.getElementById('card-4')
 
-
-  
-
-    let first1 = window.getComputedStyle(element)
-    let leftValue1 = first1.getPropertyValue('left').replace("px", "")
-    element.style.left = (Number(leftValue1)- 20) + "rem"
-
-    let first2 = window.getComputedStyle(element2)
-    let leftValue2 = first2.getPropertyValue('left').replace("px", "")
-    element2.style.left = (Number(leftValue2)- 20) + "rem"
-
-    let first3 = window.getComputedStyle(element3)
-    let leftValue3 = first3.getPropertyValue('left').replace("px", "")
-    element3.style.left = (Number(leftValue3)- 20) + "rem"
-
-    // let first4 = window.getComputedStyle(element4)
-    // let leftValue4 = first4.getPropertyValue('left').replace("px", "").replace("rem", "")
-    // element4.style.left = (Number(leftValue4)- 20) + "rem"
 
   
 
-  return 0
-  let cOne = document.getElementById('card-1'); 
-  let cTwo = document.getElementById('card-2'); 
-  let cThree = document.getElementById('card-3'); 
-  let cFour = document.getElementById('card-4');
-  let cFive = document.getElementById('phantom-card');
+//     let first1 = window.getComputedStyle(element)
+//     let leftValue1 = first1.getPropertyValue('left').replace("px", "")
+//     element.style.left = (Number(leftValue1)- 20) + "rem"
+
+//     let first2 = window.getComputedStyle(element2)
+//     let leftValue2 = first2.getPropertyValue('left').replace("px", "")
+//     element2.style.left = (Number(leftValue2)- 20) + "rem"
+
+//     let first3 = window.getComputedStyle(element3)
+//     let leftValue3 = first3.getPropertyValue('left').replace("px", "")
+//     element3.style.left = (Number(leftValue3)- 20) + "rem"
+
+//     // let first4 = window.getComputedStyle(element4)
+//     // let leftValue4 = first4.getPropertyValue('left').replace("px", "").replace("rem", "")
+//     // element4.style.left = (Number(leftValue4)- 20) + "rem"
+
+  
+
+//   return 0
+//   let cOne = document.getElementById('card-1'); 
+//   let cTwo = document.getElementById('card-2'); 
+//   let cThree = document.getElementById('card-3'); 
+//   let cFour = document.getElementById('card-4');
+//   let cFive = document.getElementById('phantom-card');
  
-  cOne.classList.add('move-desapear');
-  cTwo.classList.add('move-left');
-  cThree.classList.add('move-left');
-  cFour.classList.add('move-left');
-  cFive.classList.add('move-last');
+//   cOne.classList.add('move-desapear');
+//   cTwo.classList.add('move-left');
+//   cThree.classList.add('move-left');
+//   cFour.classList.add('move-left');
+//   cFive.classList.add('move-last');
 
- setTimeout(()=>{
-  cOne.classList.remove('move-desapear');
-  cTwo.classList.remove('move-left');
-  cThree.classList.remove('move-left');
-  cFour.classList.remove('move-left');
-  cFive.classList.remove('move-last');
-  console.log('class removed')
- },1000) 
+//  setTimeout(()=>{
+//   cOne.classList.remove('move-desapear');
+//   cTwo.classList.remove('move-left');
+//   cThree.classList.remove('move-left');
+//   cFour.classList.remove('move-left');
+//   cFive.classList.remove('move-last');
+//   console.log('class removed')
+//  },1000) 
 
-}
-function moveToRight(){
-    let element = document.getElementById('card-1')
-    let element2 = document.getElementById('card-2')
-    let element3 = document.getElementById('card-3')
-    let element4 = document.getElementById('card-4')
+// }
+// function moveToRight(){
+//     let element = document.getElementById('card-1')
+//     let element2 = document.getElementById('card-2')
+//     let element3 = document.getElementById('card-3')
+//     let element4 = document.getElementById('card-4')
 
-    let first1 = window.getComputedStyle(element)
-    let leftValue1 = first1.getPropertyValue('right').replace("px", "")
-    element.style.left = (Number(leftValue1)+ 20) + "rem"
+//     let first1 = window.getComputedStyle(element)
+//     let leftValue1 = first1.getPropertyValue('right').replace("px", "")
+//     element.style.left = (Number(leftValue1)+ 20) + "rem"
 
-    let first2 = window.getComputedStyle(element2)
-    let leftValue2 = first2.getPropertyValue('right').replace("px", "")
-    element2.style.left = (Number(leftValue2)+ 20) + "rem"
+//     let first2 = window.getComputedStyle(element2)
+//     let leftValue2 = first2.getPropertyValue('right').replace("px", "")
+//     element2.style.left = (Number(leftValue2)+ 20) + "rem"
 
-    let first3 = window.getComputedStyle(element3)
-    let leftValue3 = first3.getPropertyValue('right').replace("px", "")
-    element3.style.left = (Number(leftValue3)+ 20) + "rem"
+//     let first3 = window.getComputedStyle(element3)
+//     let leftValue3 = first3.getPropertyValue('right').replace("px", "")
+//     element3.style.left = (Number(leftValue3)+ 20) + "rem"
 
-    // let first4 = window.getComputedStyle(element4)
-    // let leftValue4 = first4.getPropertyValue('left').replace("px", "").replace("rem", "")
-    // element4.style.left = (Number(leftValue4)+ 20) + "rem"
+//     // let first4 = window.getComputedStyle(element4)
+//     // let leftValue4 = first4.getPropertyValue('left').replace("px", "").replace("rem", "")
+//     // element4.style.left = (Number(leftValue4)+ 20) + "rem"
 
 
-}
+// }
+// #endregion x
 </script>
 
 <template>
 <div class="main-player">
-
   <div className="greetings cdg-container" id="player-container">
       <!--#region CDGPLAYER -->
-      <div className="cdg-player" style="visibility: visible">
-        <div :class="{'hide': hideClass}" id="img-cover"></div>
-        <div id="cdg_controls"></div>
-        <div id="cdg_wrapper"></div>
-      </div>  
-
-      <div className="buttons-controls">
-        <div className="btn-inside-controls">
-          <button className="btn btn-outline-info" @click="prevKaraoke()" id="prev-karaoke">&lt; &lt;</button>
-          <button className="btn btn-outline-success" @click="getKaraoke()" id="play-karaoke">Play</button>
-          <button className="btn btn-outline-info" @click="nextKaraoke()" id="next-karaoke">&gt;  &gt;</button>
-          <button className="btn btn-outline-primary" @click="pausePlay()" id="pause-karaoke">Pause</button>
-        </div>
-        <button className="btn btn-outline-warning" id="full-screen">Full Screen</button>  
+      <div class="cdg-player-container">
+        <div className="cdg-player" style="visibility: visible">
+          <div :class="{'hide': hideClass}" id="img-cover"></div>
+          <div id="cdg_controls"></div>
+          <div id="cdg_wrapper"></div>
+        </div>  
       </div>
   </div>
     <!--#endregion CDGPLAYER -->
@@ -594,29 +587,21 @@ function moveToRight(){
           />  
       </div><!--#endregion search and keyboard-->
 
-    <!-- !AQUI VAMOS A PONER EL CARD FOLDER COMPONENT -->
-    
-    <!--#region CARD FOLDERS -->
-    <div v-if="!searchByTitle" class="card-folders">
-        <CardsKaraoke 
-            :folderList="folderList" 
-            :url="mediaBaseUrl" 
-            @sendId="folderSelected" />
-        <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
-          
-        <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToRight()">&gt;</button> -->
-    </div>
-    <div v-else class="text-center">
-      <h6>Best Karaoke Software</h6>
-      <img style="margin: auto;" width="100" height="50" src="../assets/aqua_logo.png" alt="">
-    </div>
-  <!--#endregion CARD FOLDERS -->
+
 
 
   </div>
 
   <div class="play-list-container">
-
+      <div className="buttons-controls">
+        <div className="btn-inside-controls">
+          <button className="btn btn-outline-info" @click="prevKaraoke()" id="prev-karaoke">&lt; &lt;</button>
+          <button className="btn btn-outline-success" @click="getKaraoke()" id="play-karaoke">Play</button>
+          <button className="btn btn-outline-info" @click="nextKaraoke()" id="next-karaoke">&gt;  &gt;</button>
+          <button className="btn btn-outline-primary" @click="pausePlay()" id="pause-karaoke">Pause</button>
+        </div>
+        <button className="btn btn-outline-warning" id="full-screen">Full Screen</button>  
+      </div>
 
       <!--#region PLAY LIST  -->
       <template v-if="!reproductionList">LOADING...</template>
@@ -663,16 +648,56 @@ function moveToRight(){
 
     
 
-  <!-- #region PAGINATION -->
-  <!-- !!!!!!!  PAGINATION  !!!!!!!! -->
+
     <div class="all-songs-container">
-        <p class="text-center text-white">
+       
+<!-- ---------------------------------- -->
+  <!--#region ALL SONGS by ARTIST-->
+        <template v-if="!searchByTitle">
+          <TrackTable
+          :headers="tableHeaders" 
+          :karaokes="karaokes"
+          :url="mediaBaseUrl"
+          @addTrack="addToReproductionList"/>
+        </template>
+        <!--endregion all SONGS by ARTIST-->
+        
+        <!--#region ALL SONGS by TITLE-->
+        <template v-else>
+          <TrackTable
+              :headers="tableHeaders" 
+              :karaokes="karaokes"
+              :url="mediaBaseUrl"
+              @addTrack="addToReproductionList"/>
+        </template>    
+        <!--endregion all SONGS by TITLE-->
+         
+      <!-- !AQUI VAMOS A PONER EL CARD FOLDER COMPONENT -->
+    
+    <!--#region CARD FOLDERS -->
+    <div v-if="!searchByTitle" class="card-folders mb-1 mt-1">
+        <CardsKaraoke 
+            :folderList="folderList" 
+            :url="mediaBaseUrl" 
+            @sendId="folderSelected" />
+        <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
+          
+        <!-- <button id="top-btn" class="btn btn-outline-primary  btn-rounded" @click="moveToRight()">&gt;</button> -->
+    </div>
+    <div v-else class="text-center">
+      <h6>Best Karaoke Software</h6>
+      <img style="margin: auto;" width="100" height="50" src="../assets/aqua_logo.png" alt="">
+    </div>
+  <!--#endregion CARD FOLDERS -->
+   <!-- #region PAGINATION -->
+  <!-- !!!!!!!  PAGINATION  !!!!!!!! -->
+         <p class="text-center text-white">
           Current page: 
           <strong>{{ pagination.current }}
           </strong> of <strong>{{ pagination.num_pages }}</strong> 
           Total records: <strong>{{ pagination.total_records }}</strong>
         </p>
-    <div class="pagination m-auto" style="max-width: 45rem;">
+    <div class="pagination m-auto" style="max-width: 30rem;">
     
       <span v-if="pagination.has_previous">
       <button class="btn btn-primary me-1"  @click="selectedPage(1)"> 
@@ -709,26 +734,6 @@ function moveToRight(){
   </div>
   <!-- !!!!!!  END PAGINATION !!!!!!!!! -->
   <!-- #endregion PAGINATION -->
-        <!--#region ALL SONGS by ARTIST-->
-        <template v-if="!searchByTitle">
-          <TrackTable
-          :headers="tableHeaders" 
-          :karaokes="karaokes"
-          :url="mediaBaseUrl"
-          @addTrack="addToReproductionList"/>
-        </template>
-        <!--endregion all SONGS by ARTIST-->
-        
-        <!--#region ALL SONGS by TITLE-->
-        <template v-else>
-          <TrackTable
-              :headers="tableHeaders" 
-              :karaokes="karaokes"
-              :url="mediaBaseUrl"
-              @addTrack="addToReproductionList"/>
-        </template>    
-        <!--endregion all SONGS by TITLE-->
-        
     </div> <!-- end all-songs-container -->
  </div> <!-- end main-player -->
 

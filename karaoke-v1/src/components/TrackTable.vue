@@ -33,7 +33,7 @@ const addToList = (id) =>{
           <td>{{karaoke.title}}</td>
           <td>{{karaoke.artist}}</td>
           <td className="d-x">
-            <button className="btn btn-outline-success mt-1">
+            <button className="btn btn-outline-success">
               Add
             </button>
           </td>

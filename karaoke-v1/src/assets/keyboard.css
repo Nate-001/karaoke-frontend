@@ -7,17 +7,17 @@
   
 }
 .search-string{
-    height: .7rem;
-    font-size: .7rem;
+    height: 1rem;
+    font-size: 1rem;
     font-family: Georgia, 'Times New Roman', Times, serif;
     padding: .1rem;
 }
 
 .main-keyboard{
-    font-weight: 600;
+    font-weight: 300;
 }
 
 .keyboard-button{
-    font-weight: 600;
+    font-weight: 300;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
