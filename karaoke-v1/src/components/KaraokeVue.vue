@@ -661,18 +661,18 @@ function moveToRight(){
   </div>
 
 
-      <!-- !!!!!!  END PAGINATION !!!!!!!!! -->
-<!-- #endregion PAGINATION -->
+    
+
+  <!-- #region PAGINATION -->
+  <!-- !!!!!!!  PAGINATION  !!!!!!!! -->
     <div class="all-songs-container">
-        <!-- #region PAGINATION -->
-        <!-- !!!!!!!  PAGINATION  !!!!!!!! -->
-  <p class="text-center text-white">
-      Current page: 
-      <strong>{{ pagination.current }}
-      </strong> of <strong>{{ pagination.num_pages }}</strong> 
-      Total records: <strong>{{ pagination.total_records }}</strong>
-  </p>
-  <div class="pagination m-auto" style="max-width: 45rem;">
+        <p class="text-center text-white">
+          Current page: 
+          <strong>{{ pagination.current }}
+          </strong> of <strong>{{ pagination.num_pages }}</strong> 
+          Total records: <strong>{{ pagination.total_records }}</strong>
+        </p>
+    <div class="pagination m-auto" style="max-width: 45rem;">
     
       <span v-if="pagination.has_previous">
       <button class="btn btn-primary me-1"  @click="selectedPage(1)"> 
@@ -707,6 +707,8 @@ function moveToRight(){
               @click="selectedPage(pagination.num_pages)">Last&raquo;</button>
           </span>
   </div>
+  <!-- !!!!!!  END PAGINATION !!!!!!!!! -->
+  <!-- #endregion PAGINATION -->
         <!--#region ALL SONGS by ARTIST-->
         <template v-if="!searchByTitle">
           <TrackTable
