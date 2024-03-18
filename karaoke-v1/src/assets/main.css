@@ -296,3 +296,26 @@ input[type="checkbox"]::before{
 input:checked[type="checkbox"]::before{
   left: 1rem;
 }
+
+/* 
+HOW TO CENTER A DIV
+.(PARENT-ELEMENT)-center{
+  display: flex;
+  felx-direction: column;
+  aling-items: center;
+  justify-content: center;
+}
+
+PARA MODALES
+main{
+  min-height: 100vh;
+  position: relative;
+}
+div{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+*/
+
