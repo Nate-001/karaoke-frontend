@@ -152,6 +152,17 @@ function loadPlayer(filename) {
   if(currentKaraoke.value['data'].media_type == 'KAR'){
   //!! CODE TO DESTROY PLAYER
   //!! CODE TO DESTROY PLAYER
+  try{
+    // sets audio player with null src to stop it
+    const audio_player = document.getElementById('audio-player');
+    const cdg_controls = document.getElementById('cdg_controls');
+    console.log(audio_player)
+    audio_player.src = "" 
+    audio_player.style.display = "none"
+    cdg_controls.style.display = "block"
+  }catch(error){
+
+  }
   const btn = document.getElementById('play-karaoke')
 
   try {
@@ -167,6 +178,7 @@ function loadPlayer(filename) {
     // this code Destroys karaoke player
     btn.addEventListener('click',()=>{
     player.destroy()
+ 
     // console.log('erased')
 })
   } catch (error) {
@@ -254,6 +266,7 @@ function loadPlayer(filename) {
     // const controls = new CDGControls('#cdg_controls', player, {
     //     position: 'top',
     //   });
+    hideClass.value =false
   }
  
 
@@ -280,9 +293,14 @@ async function getKaraoke() {
   }
   else if(currentKaraoke.value["data"].media_type=="AUD"){
     // Get the audio file, load it on the player and play
+    // hideClass.value = false
     console.log("currentKaraoke.value =  " + currentKaraoke.value["data"].track)
     const audio_player = document.getElementById('audio-player');
+    const cdg_controls = document.getElementById('cdg_controls');
     console.log(audio_player)
+    audio_player.style.display = "block"
+    cdg_controls.style.display = "none"
+
     audio_player.src = `http://localhost:8000/media/${currentKaraoke.value["data"].track}` 
     audio_player.load()
     audio_player.play()
@@ -303,6 +321,7 @@ function clickPlay(e, event){
   const btnPlay = document.getElementById('play-karaoke')
   // This event destroys the karaoke player
   btnPlay.click(e,event);
+  
   console.log(event)
 
 }
@@ -593,21 +612,22 @@ function updateSearch(e){
   <div className="greetings cdg-container" id="player-container">
       <!--#region CDGPLAYER -->
       <div class="cdg-player-container">
-        <div className="cdg-player" style="visibility: visible">
+        <div className="cdg-player"  style="visibility: visible">
           <div :class="{'hide': hideClass}" id="img-cover"></div>
           <div id="cdg_controls"></div>
           <div id="cdg_wrapper"></div>
         </div>  
       </div>
-  </div>
-    <!--#endregion CDGPLAYER -->
-    <!--#region AUDIOPLAYER -->
+          <!--#region AUDIOPLAYER -->
   <div class="audio-player">
     <div class="player">
-      <audio id="audio-player" src="" controls></audio>
+      <audio class="form-control" id="audio-player" src="" controls controlsList="nodownload"></audio>
     </div>
   </div>
     <!--#endregion AUDIOPLAYER -->
+  </div>
+    <!--#endregion CDGPLAYER -->
+
 
   <div class="search-container">
       <!--#region search and keyboard-->
