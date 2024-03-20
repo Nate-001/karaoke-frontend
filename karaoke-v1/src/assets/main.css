@@ -1,6 +1,8 @@
 body{
   background: black;
   font-size: 12px;
+
+    /* The image used */
 }
 h6{color:aqua;}
 .main-player {
@@ -18,7 +20,11 @@ h6{color:aqua;}
 
 .cdg-container {
   /* border: 3px solid white; */
-
+  background-image: url('./green_logo.png');
+  background-repeat: no-repeat;
+  background-size: 15rem 15rem;
+  background-position: center;
+  /* background-color: red; */  
   grid-column-start: 1;
   grid-column-end: 3;
   grid-row: 1;
@@ -73,14 +79,26 @@ h6{color:aqua;}
 } */
 
 #img-cover{
+  background-image: url("./aqua_logo.png");
 
-  background-image: url('./blue_logo.png');
+  /* Add the blur effect */
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background-image: url('./pink_logo.png');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   height: 30vh;
   width: 50%;
-  margin: 2rem auto;
+  margin: auto auto; */
 }
 
 .hide{
@@ -116,11 +134,15 @@ h6{color:aqua;}
   background-color: black;
 }
 
+.audio-player{
+  /* margin-top: .1rem;
+  padding: .1rem; */
+}
 /* CDG CONTOLS */
 .cdg-player{
   /* background-color: red; */
   width: 90%;
-  height: 50%;
+  height: 70%;
   margin: auto;
   color: white;
 }
@@ -134,7 +156,7 @@ h6{color:aqua;}
 }
 canvas{
   /* width: 15rem; */
-  height: 20rem;
+  height: 25rem;
 }
 
 .cdg-controls{

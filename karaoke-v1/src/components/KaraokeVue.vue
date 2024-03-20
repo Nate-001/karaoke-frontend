@@ -55,8 +55,8 @@ onMounted(()=>{
   let screen = document.getElementById('full-screen')
   try {
       let tmp = JSON.parse(getCookie('reproductionlist'))
-  console.log(tmp, 'this is tmp')
-    if(tmp.length > 1){
+  // console.log(tmp, 'this is tmp')
+    if(tmp.length > 0){
       reproductionList.value = tmp
       currentKaraoke.value = {"index":0, "data":reproductionList.value[0]}
       // console.log(currentKaraoke.value)
@@ -148,6 +148,8 @@ watch(searchArtist, (newValue, oldValue) =>{
 
 // #region FUNCTIONS
 function loadPlayer(filename) {
+  // This function loads a track and
+  // starts the player
 
   if(currentKaraoke.value['data'].media_type == 'KAR'){
   //!! CODE TO DESTROY PLAYER
@@ -223,7 +225,7 @@ function loadPlayer(filename) {
       // TIMEOUT TO SHOW ALL PROPS OF PLAYER
       // DEBUG PURPOSES
       setTimeout(() => {
-          // console.log(player)
+          console.log(player)
           // console.log(player.props.timePlayed)
           // console.log(player.tag.APIC.data.data)
           let img = document.getElementById('img-cover')
@@ -304,6 +306,7 @@ async function getKaraoke() {
     audio_player.src = `http://localhost:8000/media/${currentKaraoke.value["data"].track}` 
     audio_player.load()
     audio_player.play()
+    audio_player.addEventListener('ended', nextKaraoke)
   }
 };
 
@@ -516,8 +519,32 @@ function nextKaraoke () {
 }
 // PAUSE PLAYER
 function pausePlay(){
-  let btnPause = document.getElementsByClassName('playButton')
-  btnPause[0].click()
+  // Check for currrentKaraoke.value to: 
+  // we select the button that the player has and 
+  // perform a click on it OR click puase on audio
+  const toggle_pause = document.getElementById('pause-karaoke');
+  if(currentKaraoke.value["data"].media_type=="KAR"){
+    let btnPause = document.getElementsByClassName('playButton')
+    btnPause[0].click()
+    if(isPlaying.value == false){
+      toggle_pause.innerHTML = "Pause"
+    }
+    else(
+      toggle_pause.innerHTML = "Play"
+
+    )
+    
+  }else{
+    const audio_player = document.getElementById('audio-player');
+
+    if(!audio_player.paused){
+      toggle_pause.innerHTML = "Play"
+      return  audio_player.pause()
+    }
+    audio_player.play()
+    toggle_pause.innerHTML = "Pause"
+
+  }
 }
 //#endregion Karaoke PREVIOUS NEXT PAUSE PLAY
 
@@ -608,9 +635,17 @@ function updateSearch(e){
 
 <template>
 <div class="main-player">
-  <!--#region CDGPLAYER -->
   <div className="greetings cdg-container" id="player-container">
-      <!--#region CDGPLAYER -->
+    <!--#region AUDIOPLAYER -->
+      <div class="audio-player">
+        <div class="player m-1">
+          <audio class="form-control bg-black text-white" id="audio-player" src="" controls controlsList="nodownload"></audio>
+          <video ref="videoRef" src="" id="video-container" width="100%" controls controlsList="nodownload">here is videwo</video>
+        </div>
+      </div>
+    <!--#endregion AUDIOPLAYER -->
+
+    <!--#region CDGPLAYER -->
       <div class="cdg-player-container">
         <div className="cdg-player"  style="visibility: visible">
           <div :class="{'hide': hideClass}" id="img-cover"></div>
@@ -618,15 +653,9 @@ function updateSearch(e){
           <div id="cdg_wrapper"></div>
         </div>  
       </div>
-          <!--#region AUDIOPLAYER -->
-  <div class="audio-player">
-    <div class="player">
-      <audio class="form-control" id="audio-player" src="" controls controlsList="nodownload"></audio>
-    </div>
+      <!--#endregion CDGPLAYER -->
+
   </div>
-    <!--#endregion AUDIOPLAYER -->
-  </div>
-    <!--#endregion CDGPLAYER -->
 
 
   <div class="search-container">
@@ -657,7 +686,7 @@ function updateSearch(e){
       <div className="buttons-controls">
         <div className="btn-inside-controls">
           <button className="btn btn-outline-info" @click="prevKaraoke()" id="prev-karaoke">&lt; &lt;</button>
-          <button className="btn btn-outline-success" @click="getKaraoke()" id="play-karaoke">Play</button>
+          <button className="btn btn-outline-success" @click="getKaraoke()" id="play-karaoke">Start</button>
           <button className="btn btn-outline-info" @click="nextKaraoke()" id="next-karaoke">&gt;  &gt;</button>
           <button className="btn btn-outline-primary" @click="pausePlay()" id="pause-karaoke">Pause</button>
         </div>
