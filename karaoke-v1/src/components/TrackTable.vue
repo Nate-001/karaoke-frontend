@@ -17,30 +17,35 @@ const addToList = (id) =>{
 </script>
 
 <template>
-  <h6 class="text-center">Artist and Albums</h6>
+  <span>
+
+    <h6 class="text-center">Artist and Albums</h6>
     <div class="all-songs">
       <table id="x-table">
-      <thead>
-        <tr class="t-headers">
-          <th v-for="(header, index) in headers" :key="index">{{header}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(karaoke, index) in karaokes" :key="index" @click="addToList(index)">
-          <td class="text-center" v-if="karaoke.img">
-            <img width="35" height="25" :src="url+karaoke.img" alt="album">
-          </td>
-          <td>{{karaoke.title}}</td>
-          <td>{{karaoke.artist}}</td>
-          <td className="d-x">
-            <button className="btn btn-outline-success">
-              Add
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <thead>
+          <tr class="t-headers">
+            <th v-for="(header, index) in headers" :key="index">{{header}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(karaoke, index) in karaokes" :key="index" @click="addToList(index)">
+            <td class="text-center" v-if="karaoke.img">
+              <img width="35" height="25" :src="url+karaoke.img" alt="album">
+            </td>
+            <td>{{karaoke.title}}</td>
+            <td>{{karaoke.artist}}</td>
+            <td>{{karaoke.media_type}}</td>
+            <td className="d-x">
+              <button className="btn btn-outline-success">
+                Add
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
+  </span>
     <!-- <div class="all-songs">
       <h2 class="text-center">Artist and Albums</h2>
       <table calss="d-grid">

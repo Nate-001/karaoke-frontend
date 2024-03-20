@@ -18,7 +18,7 @@ const fliper = ref(false)
 
 const karaokes = ref([])
 const folderList = ref([])
-const tableHeaders = ref(["Title", "Artist", "" ])
+const tableHeaders = ref(["Title", "Artist","Type", "" ])
 
 
 const timePlayed = ref(1)
@@ -92,11 +92,11 @@ watch(searchByTitle, (newSearchByTitle, oldSearchByTitle)=>{
     // karaokes.value = []
     if(searchByTitle.value == true){
       // alert(searchByTitle.value)
-      tableHeaders.value=["", "Title", "Artist", "" ]
+      tableHeaders.value=["", "Title","Artist", "Type", "" ]
       getTitles()
     }
     else{
-      tableHeaders.value=["Title", "Artist", "" ]
+      tableHeaders.value=["Title","Artist", "Type", "" ]
       getFolders()
     }
 
@@ -148,7 +148,10 @@ watch(searchArtist, (newValue, oldValue) =>{
 
 // #region FUNCTIONS
 function loadPlayer(filename) {
-    //!! CODE TO DESTROY PLAYER
+
+  if(currentKaraoke.value['data'].media_type == 'KAR'){
+  //!! CODE TO DESTROY PLAYER
+  //!! CODE TO DESTROY PLAYER
   const btn = document.getElementById('play-karaoke')
 
   try {
@@ -158,97 +161,114 @@ function loadPlayer(filename) {
     clearControls.innerHTML ='';
    
   } catch (error) {
-    console.log(error)
+    console.log(error, " This is error from loadPlayer function line 161")
   }
   try {
+    // this code Destroys karaoke player
     btn.addEventListener('click',()=>{
     player.destroy()
     // console.log('erased')
 })
   } catch (error) {
-    console.log(error)
+    console.log(error, " This is error from loadPlayer function line 170")
   }
-    //!! CODE TO DESTROY PLAYER
+      //CREATE PLAYER 
+    const player = new CDGPlayer('#cdg_wrapper');
+    const controls = new CDGControls('#cdg_controls', player, {
+        position: 'top',
+      });
+// #! ***************************************
+      //CHECK STATUS OF PLAYER
+      const statusChanged = player.props.on('status', (val) => {
+        // console.log('Status: ', val);
+        // console.log(player.props)
+        if (val === 'File Loaded') {
+          player.start();
+        }
+      });
 
-    //CREATE PLAYER 
-  const player = new CDGPlayer('#cdg_wrapper');
-  const controls = new CDGControls('#cdg_controls', player, {
-  position: 'top',
-});
+      //CHECK LOADING OF PLAYER
+      const onLoadingChange = player.props.on('loading', (val, prev) => {
+        // console.log(val, prev)
+          if (val !== prev) {
+
+          }
+      });
+      // CHECK STATUS OF PLAYER
+      const onStatusChange = player.props.on('status', (val, prev) =>{
+        // console.log("st val: "+val, "ST prev: "+prev)
+        if(val == 'Loading File...'){
+          // console.log('afirmativo carnal')
+          try {
+            // player.destroy()
+          } catch (error) {
+            console.log(error)
+          }
+        }else{
+          // console.log('negativo carnal')
+        }
+      })
+      // TIMEOUT TO SHOW ALL PROPS OF PLAYER
+      // DEBUG PURPOSES
+      setTimeout(() => {
+          // console.log(player)
+          // console.log(player.props.timePlayed)
+          // console.log(player.tag.APIC.data.data)
+          let img = document.getElementById('img-cover')
+        
+          let mig = document.createElement('svg')
+          mig.width = '100'
+          mig.height = '100'
+          img.appendChild(mig)
+        },10000
+        
+        )
+          let interval = setInterval(() => {
+            isPlaying.value = player.props.isPlaying
+          if (player.props.isPlaying){
+            // console.log(player.props)
+            // need seconds to compare when track is over
+            // conversion of time to seconds
+            let min = Number(player.props.trackLength.split(':')[0]) * 60 
+            let sec =  Number(player.props.trackLength.split(':')[1])
+            let seconds = min + sec-3
+            let min_played = Number(player.props.timePlayed.split(':')[0]) * 60 
+            let sec_played =  Number(player.props.timePlayed.split(':')[1])
+            let seconds_played = min_played + sec_played
+            // change the value of time played and total time of track 
+            trackLength.value = seconds
+            timePlayed.value = seconds_played
 
 
-//CHECK STATUS OF PLAYER
-const statusChanged = player.props.on('status', (val) => {
-  // console.log('Status: ', val);
-  // console.log(player.props)
-  if (val === 'File Loaded') {
-    player.start();
-  }
-});
+          }
+        }, 1000);
+        player.load(filename);
+        // console.log('this are the props')
+        // console.log(player.props)
+// #! ***************************************
 
-//CHECK LOADING OF PLAYER
-const onLoadingChange = player.props.on('loading', (val, prev) => {
-  // console.log(val, prev)
-    if (val !== prev) {
 
-    }
-});
-// CHECK STATUS OF PLAYER
-const onStatusChange = player.props.on('status', (val, prev) =>{
-  // console.log("st val: "+val, "ST prev: "+prev)
-  if(val == 'Loading File...'){
-    // console.log('afirmativo carnal')
-    try {
-      // player.destroy()
-    } catch (error) {
-      console.log(error)
-    }
+
   }else{
-    // console.log('negativo carnal')
+    //  const player = new CDGPlayer('#cdg_wrapper');
+    // const controls = new CDGControls('#cdg_controls', player, {
+    //     position: 'top',
+    //   });
   }
-})
-// TIMEOUT TO SHOW ALL PROPS OF PLAYER
-// DEBUG PURPOSES
-setTimeout(() => {
-    // console.log(player)
-    // console.log(player.props.timePlayed)
-    // console.log(player.tag.APIC.data.data)
-    let img = document.getElementById('img-cover')
-  
-    let mig = document.createElement('svg')
-    mig.width = '100'
-    mig.height = '100'
-    img.appendChild(mig)
-  },10000
-  
-  )
-    let interval = setInterval(() => {
-      isPlaying.value = player.props.isPlaying
-    if (player.props.isPlaying){
-      // console.log(player.props)
-      // need seconds to compare when track is over
-      // conversion of time to seconds
-      let min = Number(player.props.trackLength.split(':')[0]) * 60 
-      let sec =  Number(player.props.trackLength.split(':')[1])
-      let seconds = min + sec-3
-      let min_played = Number(player.props.timePlayed.split(':')[0]) * 60 
-      let sec_played =  Number(player.props.timePlayed.split(':')[1])
-      let seconds_played = min_played + sec_played
-      // change the value of time played and total time of track 
-      trackLength.value = seconds
-      timePlayed.value = seconds_played
+ 
 
 
-    }
-  }, 1000);
-  player.load(filename);
-  // console.log('this are the props')
-  // console.log(player.props)
+
 }
 
 // #! GET KARAOKES TRACK BY CURRENT KARAOKE VALUE actual file as a arrayBuffer
 
 async function getKaraoke() {
+   console.log("currentKaraoke.value =  " + currentKaraoke.value["data"].track)
+  //  if track is a karaoke we download as a buffer
+  // to load it on CDGPLAYER
+  if(currentKaraoke.value["data"].media_type=="KAR"){
+  // console.log("THIS IS URL ",`http://localhost:8000/media/${currentKaraoke.value["data"].track}`, " THIS IS URL")
   try {
       const response = await fetch("http://localhost:8000/media/"+currentKaraoke.value["data"].track);
       // console.log(currentKaraoke, "si este es")
@@ -256,6 +276,16 @@ async function getKaraoke() {
       loadPlayer(karaoke)
   } catch (error) {
     console.log("Could not get media from server: ", error)
+  }
+  }
+  else if(currentKaraoke.value["data"].media_type=="AUD"){
+    // Get the audio file, load it on the player and play
+    console.log("currentKaraoke.value =  " + currentKaraoke.value["data"].track)
+    const audio_player = document.getElementById('audio-player');
+    console.log(audio_player)
+    audio_player.src = `http://localhost:8000/media/${currentKaraoke.value["data"].track}` 
+    audio_player.load()
+    audio_player.play()
   }
 };
 
@@ -271,6 +301,7 @@ function deleteElement(index){
 // PLAY KARAOKE
 function clickPlay(e, event){
   const btnPlay = document.getElementById('play-karaoke')
+  // This event destroys the karaoke player
   btnPlay.click(e,event);
   console.log(event)
 
@@ -450,8 +481,10 @@ function prevKaraoke() {
 
 // PLAY NEXT KARAOKE
 function nextKaraoke () {
-  let next = currentKaraoke.value["index"] +1
-  console.log("next: "+next)
+  // alert(currentKaraoke.value['data'].track)
+     
+  let next = currentKaraoke.value["index"]  +1
+    console.log("next: "+next)
   
   if(reproductionList.value.length-1 > 0 && next < reproductionList.value.length){
     
@@ -556,6 +589,7 @@ function updateSearch(e){
 
 <template>
 <div class="main-player">
+  <!--#region CDGPLAYER -->
   <div className="greetings cdg-container" id="player-container">
       <!--#region CDGPLAYER -->
       <div class="cdg-player-container">
@@ -567,7 +601,14 @@ function updateSearch(e){
       </div>
   </div>
     <!--#endregion CDGPLAYER -->
-  
+    <!--#region AUDIOPLAYER -->
+  <div class="audio-player">
+    <div class="player">
+      <audio id="audio-player" src="" controls></audio>
+    </div>
+  </div>
+    <!--#endregion AUDIOPLAYER -->
+
   <div class="search-container">
       <!--#region search and keyboard-->
       <div class="search">
@@ -614,14 +655,15 @@ function updateSearch(e){
               <tr>
                 <th>Title</th>
                 <th>Artist</th>
+                <th>Type</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(karaoke, index) in reproductionList" :key="index">
                 <td>{{karaoke.title}}</td>
-                <td>{{karaoke.artist}} 
-                </td>
+                <td>{{karaoke.artist}}</td>
+                <td>{{karaoke.media_type}}</td>
                 <td v-if="currentKaraoke.data.title == karaoke.title">  
                   <img width="50" height="25" src="../assets/equalizer_white.gif" alt="shows playing equalizer">
                 </td> 
