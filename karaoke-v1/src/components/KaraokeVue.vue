@@ -52,6 +52,7 @@ onMounted(()=>{
   // ******************************
   // let playbtn = document.getElementById('play-karaoke')
   let divPlayer = document.getElementById('cdg_wrapper').getElementsByTagName("canvas")
+  let vidPlayer = document.getElementById('video-player')
   let screen = document.getElementById('full-screen')
   try {
       let tmp = JSON.parse(getCookie('reproductionlist'))
@@ -71,13 +72,24 @@ onMounted(()=>{
 
   //! FULL SCREEN
   screen.addEventListener('click', () =>{
-    if (divPlayer.requestFullscreen) {
-      divPlayer[0].requestFullscreen();
-    } else if (divPlayer[0].webkitRequestFullscreen) { /* Safari */
-    divPlayer[0].webkitRequestFullscreen();
-    } else if (screen.msRequestFullscreen) { /* IE11 */
-    divPlayer[0].msRequestFullscreen();
+    if(currentKaraoke.value['data'].media_type=="VID"){
+      if (vidPlayer.requestFullscreen) {
+        vidPlayer.requestFullscreen();
+      } else if (divPlayer.webkitRequestFullscreen) { /* Safari */
+      vidPlayer.webkitRequestFullscreen();
+      } else if (screen.msRequestFullscreen) { /* IE11 */
+      vidPlayer.msRequestFullscreen();
+      }
+    }else{
+       if (divPlayer.requestFullscreen) {
+        divPlayer[0].requestFullscreen();
+      } else if (divPlayer[0].webkitRequestFullscreen) { /* Safari */
+      divPlayer[0].webkitRequestFullscreen();
+      } else if (screen.msRequestFullscreen) { /* IE11 */
+      divPlayer[0].msRequestFullscreen();
+      }
     }
+
 
   })
 
