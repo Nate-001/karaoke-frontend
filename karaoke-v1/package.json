@@ -1,5 +1,6 @@
 {
   "name": "karaoke-v1",
+  "homepage": "https://kar.alfcomputacion.com/",
   "version": "0.0.0",
   "private": true,
   "scripts": {
