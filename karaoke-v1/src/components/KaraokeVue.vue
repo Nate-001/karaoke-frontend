@@ -556,7 +556,7 @@ function pausePlay(){
 
     )
     
-  }else{
+  }else if (currentKaraoke.value["data"].media_type=="AUD"){
     const audio_player = document.getElementById('audio-player');
 
     if(!audio_player.paused){
@@ -566,6 +566,15 @@ function pausePlay(){
     audio_player.play()
     toggle_pause.innerHTML = "Pause"
 
+  }else{
+    console.log("ELSE VIDEO PLAYER TRYING TO  PAUSE")
+    const video_player = document.getElementById('video-player');
+    if(!video_player.paused){
+      toggle_pause.innerHTML = "Play"
+      return  video_player.pause()
+    }
+    video_player.play()
+    toggle_pause.innerHTML = "Pause"
   }
 }
 //#endregion Karaoke PREVIOUS NEXT PAUSE PLAY
