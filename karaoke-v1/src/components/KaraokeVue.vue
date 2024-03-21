@@ -157,10 +157,12 @@ function loadPlayer(filename) {
   try{
     // sets audio player with null src to stop it
     const audio_player = document.getElementById('audio-player');
+    const video_player = document.getElementById('video-player');
     const cdg_controls = document.getElementById('cdg_controls');
     console.log(audio_player)
     audio_player.src = "" 
     audio_player.style.display = "none"
+    video_player.style.display = "none"
     cdg_controls.style.display = "block"
   }catch(error){
 
@@ -298,15 +300,35 @@ async function getKaraoke() {
     // hideClass.value = false
     console.log("currentKaraoke.value =  " + currentKaraoke.value["data"].track)
     const audio_player = document.getElementById('audio-player');
+    const video_player = document.getElementById('video-player');
     const cdg_controls = document.getElementById('cdg_controls');
     console.log(audio_player)
     audio_player.style.display = "block"
+    video_player.style.display = "none"
     cdg_controls.style.display = "none"
-
+    video_player.src = "none"
     audio_player.src = `http://localhost:8000/media/${currentKaraoke.value["data"].track}` 
     audio_player.load()
     audio_player.play()
     audio_player.addEventListener('ended', nextKaraoke)
+  }
+  else if(currentKaraoke.value["data"].media_type=="VID"){
+    // Get the audio file, load it on the player and play
+    // hideClass.value = false
+    console.log("currentKaraoke.value =  " + currentKaraoke.value["data"].track)
+    const video_player = document.getElementById('video-player');
+    const audio_player = document.getElementById('audio-player');
+    const cdg_controls = document.getElementById('cdg_controls');
+    console.log(audio_player)
+    audio_player.style.display = "none"
+    cdg_controls.style.display = "none"
+    video_player.style.display = "block"
+    audio_player.src= "none"
+    video_player.src = `http://localhost:8000/media/${currentKaraoke.value["data"].track}` 
+    video_player.load()
+    video_player.play()
+    video_player.addEventListener('ended', nextKaraoke)
+   
   }
 };
 
@@ -640,7 +662,7 @@ function updateSearch(e){
       <div class="audio-player">
         <div class="player m-1">
           <audio class="form-control bg-black text-white" id="audio-player" src="" controls controlsList="nodownload"></audio>
-          <video ref="videoRef" src="" id="video-container" width="100%" controls controlsList="nodownload">here is videwo</video>
+          <video class="text-center" ref="videoRef" src="" id="video-player" controls  controlsList="nodownload"></video>
         </div>
       </div>
     <!--#endregion AUDIOPLAYER -->

@@ -46,26 +46,5 @@ const addToList = (id) =>{
     </div>
 
   </span>
-    <!-- <div class="all-songs">
-      <h2 class="text-center">Artist and Albums</h2>
-      <table calss="d-grid">
-      <thead>
-        <tr class="t-headers">
-          <th v-for="(header, index) in headers" :key="index" class="d-flex">{{header}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(karaoke, index) in karaokes" :key="index">
-         
-          <td class="text-center" v-if="karaoke.img">
-            <img width="35" height="25" :src="url+karaoke.img" alt="album">
-          </td>
-          <td>{{karaoke.title}}</td>
-          <td>{{karaoke.artist}}</td>
-          <td className="d-grid"><button @click="addToList(index)" className="btn btn-outline-success mt-1">Add</button></td>
-        </tr>
-       
-      </tbody>
-    </table>
-    </div> -->
+
 </template>

@@ -138,6 +138,12 @@ h6{color:aqua;}
   /* margin-top: .1rem;
   padding: .1rem; */
 }
+#video-player{
+  margin: auto;
+  width: 90%;
+  height: 40%;
+
+}
 /* CDG CONTOLS */
 .cdg-player{
   /* background-color: red; */
