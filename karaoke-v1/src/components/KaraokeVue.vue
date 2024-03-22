@@ -8,7 +8,7 @@ import CardsKaraoke from './CardsKaraoke.vue';
 import TrackTable from './TrackTable.vue';
 
 
-const url = ref('http://localhost:8000/')
+const url = ref('https://djapi.alfcomputacion.com/')
 const mediaBaseUrl = ref(`${url.value}media/`)
 const currentKaraoke = ref([])
 const currentFolder = ref('')
@@ -299,7 +299,7 @@ async function getKaraoke() {
   if(currentKaraoke.value["data"].media_type=="KAR"){
   // console.log("THIS IS URL ",`http://localhost:8000/media/${currentKaraoke.value["data"].track}`, " THIS IS URL")
   try {
-      const response = await fetch("http://localhost:8000/media/"+currentKaraoke.value["data"].track);
+      const response = await fetch(mediaBaseUrl.value+currentKaraoke.value["data"].track);
       // console.log(currentKaraoke, "si este es")
       const karaoke = await response.arrayBuffer()
       loadPlayer(karaoke)
@@ -319,7 +319,7 @@ async function getKaraoke() {
     video_player.style.display = "none"
     cdg_controls.style.display = "none"
     video_player.src = "none"
-    audio_player.src = `http://localhost:8000/media/${currentKaraoke.value["data"].track}` 
+    audio_player.src = mediaBaseUrl.value+currentKaraoke.value["data"].track 
     audio_player.load()
     audio_player.play()
     audio_player.addEventListener('ended', nextKaraoke)
@@ -336,7 +336,7 @@ async function getKaraoke() {
     cdg_controls.style.display = "none"
     video_player.style.display = "block"
     audio_player.src= "none"
-    video_player.src = `http://localhost:8000/media/${currentKaraoke.value["data"].track}` 
+    video_player.src = mediaBaseUrl.value+currentKaraoke.value["data"].track 
     video_player.load()
     video_player.play()
     video_player.addEventListener('ended', nextKaraoke)
@@ -412,8 +412,7 @@ function getCookie(cname){
 // #endregion GET COOKIE
 
 async function getImage(imageUrl) {
-let baseUrl = "http://localhost:8000/media/"
-const response = await fetch(baseUrl+imageUrl);
+const response = await fetch(url.value+mediaBaseUrl.value);
 const img = await response.blob()
  return img
 // console.log(files)
@@ -508,7 +507,7 @@ function previousPage(){
 async function folderSelected(folder){
   // console.log(folder)
   // return
-  const response = await fetch(`http://localhost:8000/api/show_tracks/?id=${folder}`)
+  const response = await fetch(`${url.value}api/show_tracks/?id=${folder}`)
   const files = await response.json()
   karaokes.value = files.data
   console.log(karaokes.value.title)

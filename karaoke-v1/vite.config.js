@@ -13,7 +13,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  // base: 'https://kar.alfcomputacion.com/',
+  // base: 'http://localhost/',
   // server:{
   //   port: 8080,
   // }
