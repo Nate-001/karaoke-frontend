@@ -2,7 +2,9 @@
 // import getFolders from '../index'
 // import '../index'
 import { onMounted, ref, reactive, watch } from 'vue';
-import { CDGPlayer, CDGControls } from '/node_modules/cdgplayer/dist/cdgplayer.js';
+import { CDGPlayer, CDGControls } from '../assets/dist/cdgplayer.js';
+
+
 import OnScreenKeyboard from './OnScreenKeyboard.vue'
 import CardsKaraoke from './CardsKaraoke.vue';
 import TrackTable from './TrackTable.vue';
