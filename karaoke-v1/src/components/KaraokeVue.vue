@@ -597,7 +597,9 @@ function pausePlay(){
 // #endregion FUNCTIONS
 
 function updateSearch(e){
-  console.log(e)
+  console.log(e.target.value)
+
+
 }
 // #region x
 
@@ -705,7 +707,53 @@ function updateSearch(e){
 
 
   <div class="search-container">
-      <!--#region search and keyboard-->
+       <!-- #region PAGINATION -->
+  <!-- !!!!!!!  PAGINATION  !!!!!!!! -->
+         <p class="text-center text-white">
+          Current page: 
+          <strong>{{ pagination.current }}
+          </strong> of <strong>{{ pagination.num_pages }}</strong> 
+          Total records: <strong>{{ pagination.total_records }}</strong>
+        </p>
+    <div class="pagination m-auto" style="max-width: 30rem;">
+    
+      <span v-if="pagination.has_previous">
+      <button class="btn btn-primary me-1"  @click="selectedPage(1)"> 
+          &laquo;First
+        </button>
+        <span >
+          <button class="btn btn-primary me-1" @click="selectedPage(pagination.previous_page_number)"> 
+            Previous
+          </button>
+          
+        </span>
+      </span>
+      <span v-if="pagination.previous_page_number != 1">
+        <button @click="selectedPage(pagination.previous_page_number)" 
+        class="btn btn-primary me-2"><b>{{pagination.previous_page_number}}</b>
+        </button> 
+      </span>
+      <span>
+        <button 
+        class="btn btn-outline-primary me-2"><b>{{pagination.current}}</b>
+        </button> 
+      </span>
+
+      <span v-if="pagination.has_next">
+          <button @click="selectedPage(pagination.next_page_number)" 
+          class="btn btn-primary form-control me-1">{{pagination.next_page_number}}</button> 
+      </span>
+          <span v-if="pagination.current != pagination.num_pages">
+              <button class="btn btn-primary me-1" 
+              @click="selectedPage(pagination.next_page_number)">Next</button>
+              <button class="btn btn-primary me-1" 
+              @click="selectedPage(pagination.num_pages)">Last&raquo;</button>
+          </span>
+  </div>
+  <!-- !!!!!!  END PAGINATION !!!!!!!!! -->
+  <!-- #endregion PAGINATION -->
+      
+  <!--#region search and keyboard-->
       <div class="search">
         <div class="search-string">
           <span class="text-warning">
@@ -714,7 +762,6 @@ function updateSearch(e){
             <label class="" for="artist-check">Title</label> 
             <p class="text-white">{{ searchArtist }}</p>
             </span>
-          
         </div>
         <!-- ON SCREEN KEYBOARD -->
         <OnScreenKeyboard 
@@ -722,10 +769,6 @@ function updateSearch(e){
           @sendBackSpace="(value) => searchArtist = value"
           />  
       </div><!--#endregion search and keyboard-->
-
-
-
-
   </div>
 
   <div class="play-list-container">
@@ -787,7 +830,17 @@ function updateSearch(e){
 
 
     <div class="all-songs-container">
-       
+    <!-- #region search-mobile -->
+      <div class="search-mobile">
+        <div class="search-string">
+          <span class="text-warning">
+            <label for="artist-check">Artist</label> 
+            <input class="p-2" type="checkbox" name="artist" id="artist-check" @change="searchByTitle = !searchByTitle">      
+            <label class="p-1" for="artist-check">Title </label> 
+            <input class="text-primary" type="text" @keyup="(event) => searchArtist=event.target.value"/>
+            </span>
+        </div>
+      </div><!--#endregion search-mobile-->
 <!-- ---------------------------------- -->
   <!--#region ALL SONGS by ARTIST-->
         <template v-if="!searchByTitle">
@@ -826,51 +879,7 @@ function updateSearch(e){
       <img style="margin: auto;" width="100" height="50" src="../assets/aqua_logo.png" alt="">
     </div>
   <!--#endregion CARD FOLDERS -->
-   <!-- #region PAGINATION -->
-  <!-- !!!!!!!  PAGINATION  !!!!!!!! -->
-         <p class="text-center text-white">
-          Current page: 
-          <strong>{{ pagination.current }}
-          </strong> of <strong>{{ pagination.num_pages }}</strong> 
-          Total records: <strong>{{ pagination.total_records }}</strong>
-        </p>
-    <div class="pagination m-auto" style="max-width: 30rem;">
-    
-      <span v-if="pagination.has_previous">
-      <button class="btn btn-primary me-1"  @click="selectedPage(1)"> 
-          &laquo;First
-        </button>
-        <span >
-          <button class="btn btn-primary me-1" @click="selectedPage(pagination.previous_page_number)"> 
-            Previous
-          </button>
-          
-        </span>
-      </span>
-      <span v-if="pagination.previous_page_number != 1">
-        <button @click="selectedPage(pagination.previous_page_number)" 
-        class="btn btn-primary me-2"><b>{{pagination.previous_page_number}}</b>
-        </button> 
-      </span>
-      <span>
-        <button 
-        class="btn btn-outline-primary me-2"><b>{{pagination.current}}</b>
-        </button> 
-      </span>
 
-      <span v-if="pagination.has_next">
-          <button @click="selectedPage(pagination.next_page_number)" 
-          class="btn btn-primary form-control me-1">{{pagination.next_page_number}}</button> 
-      </span>
-          <span v-if="pagination.current != pagination.num_pages">
-              <button class="btn btn-primary me-1" 
-              @click="selectedPage(pagination.next_page_number)">Next</button>
-              <button class="btn btn-primary me-1" 
-              @click="selectedPage(pagination.num_pages)">Last&raquo;</button>
-          </span>
-  </div>
-  <!-- !!!!!!  END PAGINATION !!!!!!!!! -->
-  <!-- #endregion PAGINATION -->
     </div> <!-- end all-songs-container -->
  </div> <!-- end main-player -->
 

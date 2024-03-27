@@ -3,9 +3,9 @@
     max-width: 50rem;
     max-height: 10rem;
     gap: 1rem;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     overflow-x: hidden;
-    margin:0 auto;
+    margin:.5rem auto;
 }
 .cards-only{
     display: flex;
@@ -28,6 +28,7 @@
     height: 5rem;
 }
 .card{
+
     /* overflow: hidden; */
     
     width: 10.3rem;
