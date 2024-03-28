@@ -173,6 +173,7 @@ function loadPlayer(filename) {
     const audio_player = document.getElementById('audio-player');
     const video_player = document.getElementById('video-player');
     const cdg_controls = document.getElementById('cdg_controls');
+
     console.log(audio_player)
     audio_player.src = "" 
     audio_player.style.display = "none"
@@ -298,6 +299,9 @@ async function getKaraoke() {
     const audio_player = document.getElementById('audio-player');
     const video_player = document.getElementById('video-player');
     const cdg_controls = document.getElementById('cdg_controls');
+    
+    const full_screen = document.getElementById('full-screen');
+    full_screen.disabled = false
    console.log("currentKaraoke.value =  " + currentKaraoke.value["data"].track)
   //  if track is a karaoke we download as a buffer
   // to load it on CDGPLAYER
@@ -319,6 +323,7 @@ async function getKaraoke() {
     // Get the audio file, load it on the player and play
     // hideClass.value = false
     console.log("currentKaraoke.value =  " + currentKaraoke.value["data"].track)
+    full_screen.disabled = true
 
     console.log(audio_player)
     audio_player.style.display = "block"
