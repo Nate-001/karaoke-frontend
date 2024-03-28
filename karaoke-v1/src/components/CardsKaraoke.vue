@@ -7,8 +7,13 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['sendId'])
-
-const sendId = (id)=>{
+function changeImg(img) {
+  const bgImg = document.getElementById('card-bg-blured')
+  bgImg.style.backgroundImage = `url("${img}")`;
+  console.log(img)
+}
+const sendId = (id, img)=>{
+    changeImg(img)
     emit('sendId', id)
 }
 </script>
@@ -16,12 +21,12 @@ const sendId = (id)=>{
 <template>
     <!--#region CARD FOLDERS -->
     <div class="card-folders">
- 
+    
       <!-- <button class="btn btn-outline-primary btn-rounded" @click="moveToLeft()">&lt;</button> -->
       <template v-if="Object.keys(folderList).length != 0">
 
         <div class="cards-only">
-          <div v-for="(folder, artist) in folderList" :key="folder[0].id" class="for"  @click="sendId(folder[0].id)">
+          <div v-for="(folder, artist) in folderList" :key="folder[0].id" class="for"  @click="sendId(id=folder[0].id, img=url+folder[0].img )">
                 <div :id="'card-'+folder[0].id" class="card move-card"  @click="console.log(folder[0].artist, folder[0].id)">
                   <div class="flip-card">
                     <div class="flip-card-inner">

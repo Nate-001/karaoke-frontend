@@ -459,6 +459,8 @@ console.log(files)
 
 // karaokes.value = files
 karaokes.value = files.data 
+console.log("this is files.data[0] ")
+console.log(files.data)
 // Object.groupBy(files.data, ({artist}) => artist)
 pagination.value = files.page
 pageData.value.page = files.page.current
@@ -468,7 +470,7 @@ if (pageData.value.page == 0){
 }
 
 console.log("folderList TITLE")
-console.log(titleList.value)
+console.log(folderList.value)
 console.log("folderList TITLE")
 
 };
@@ -478,6 +480,8 @@ console.log("folderList TITLE")
 //#region PAGINATION FUNCTIONS
 function selectedPage(page){
   console.log(page, "este es el page")
+  
+
   pageData.value.page = page
   if(searchByTitle.value == true){
     return getTitles()
@@ -511,10 +515,14 @@ function previousPage(){
 async function folderSelected(folder){
   // console.log(folder)
   // return
+
   const response = await fetch(`${url.value}api/show_tracks/?id=${folder}`)
   const files = await response.json()
   karaokes.value = files.data
-  console.log(karaokes.value.title)
+  console.log(karaokes.value)
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!#this is the key to get the 
+  console.log("this is the ^")
+
   }
 
 //#region Karaoke PREVIOUS NEXT PAUSE PLAY
@@ -683,6 +691,7 @@ function updateSearch(e){
 
 <template>
 <div class="main-player">
+  
   <div className="greetings cdg-container" id="player-container">
     <!--#region AUDIOPLAYER -->
       <div class="audio-player">
@@ -752,7 +761,7 @@ function updateSearch(e){
   </div>
   <!-- !!!!!!  END PAGINATION !!!!!!!!! -->
   <!-- #endregion PAGINATION -->
-      
+      <div class="bg-blured"></div>
   <!--#region search and keyboard-->
       <div class="search">
         <div class="search-string">
@@ -830,6 +839,7 @@ function updateSearch(e){
 
 
     <div class="all-songs-container">
+      <div class="card-bg-blured" id="card-bg-blured"></div>
     <!-- #region search-mobile -->
       <div class="search-mobile">
         <div class="search-string">
